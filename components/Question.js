@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { StyleSheet, Text, View, Platform, TouchableOpacity } from 'react-native'
-import { white, yellow, lightGray, green, red, gray } from '../utils/colors'
+import { white, yellow, green, red, gray, lightGreen } from '../utils/colors'
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen'
 import FlipCard from 'react-native-flip-card'
 
@@ -19,7 +19,7 @@ class Question extends Component {
                     flipHorizontal={true}
                     flipVertical={false}
                     clickable={true}
-                    style={styles.deck}
+                    // style={styles.card}
                 >
                     <View style={[styles.face, {flex: 1}]}>
                         <Text style={styles.text}>Does Facebook use react?</Text>
@@ -59,9 +59,12 @@ const styles = StyleSheet.create({
         marginTop: 30,
         padding: 20,
     },
-    deck: {
+    face: {
         backgroundColor: yellow,
-        borderRadius: Platform.OS === 'ios' ? 4 : 2,
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        borderRadius: Platform.OS === 'ios' ? 10 : 10,
         width: wp('80%'),
         padding: 20,
         marginTop: 10,
@@ -74,16 +77,26 @@ const styles = StyleSheet.create({
         height: 3,
         },
     },
-    face: {
-        flexDirection: 'column',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-    },
     back: {
+        backgroundColor: lightGreen,
         flexDirection: 'column',
         justifyContent: 'space-between',
         alignItems: 'center',
+        borderRadius: Platform.OS === 'ios' ? 10 : 10,
+        width: wp('80%'),
+        padding: 20,
+        marginTop: 10,
+        marginBottom: 40,
+        shadowRadius: 3,
+        shadowOpacity: 0.8,
+        shadowColor: 'rgba(0,0,0,0.24)',
+        shadowOffset: {
+        width: 0,
+        height: 3,
+        },
     },
+    
+    
     text: {
         color: gray,
         fontSize: hp('3.5%'),
