@@ -7,7 +7,7 @@ class Decks extends Component {
     render () {
         return(
             <ScrollView >
-                <View style={styles.container}>
+                <View style={[styles.container, {flex: 1}]}>
                         <View style={styles.deck}>
                         <Text style={styles.deckTitle}>React Native App</Text>
                         <Text style={styles.cards}>3 Cards</Text>
@@ -38,10 +38,10 @@ export default Decks
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
+        flexDirection: 'column',
+        justifyContent: 'space-between',
         alignItems: 'center',
-        backgroundColor: white,
-        marginTop: 20,
+        marginTop: 30,
         padding: 20,
     },
     deck: {

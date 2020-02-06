@@ -10,13 +10,12 @@ class DeckDetail extends Component {
     }
     render () {
         return(
-            <View style={styles.container}>
+            <View style={[styles.container, {flex: 1}]}>
                 <View style={styles.deck}>
                     <Text style={styles.deckTitle}>React Native App</Text>
                     <Text style={styles.cards}>3 Cards</Text>
                 </View>
                 <View style={styles.btnContainer}>
-                    
                     <TouchableOpacity style={[styles.addBtn, {backgroundColor: green}]} onPress={this.handlePress}>
                         <Text style={styles.btnText}>Add Card</Text>
                     </TouchableOpacity>
@@ -36,10 +35,10 @@ export default DeckDetail
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
+        flexDirection: 'column',
+        justifyContent: 'space-between',
         alignItems: 'center',
-        backgroundColor: white,
-        marginTop: 20,
+        marginTop: 30,
         padding: 20,
     },
     deck: {
@@ -47,7 +46,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-evenly',
         alignItems: 'center',
         backgroundColor: orange,
-        borderRadius: 10,
+        borderRadius: Platform.OS === 'ios' ? 16 : 10,
         width: wp('80%%'),
         height: hp('30%'),
         padding: 20,
