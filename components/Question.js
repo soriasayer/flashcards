@@ -54,10 +54,8 @@ export default Question
 const styles = StyleSheet.create({
     container: {
         flexDirection: 'column',
-        justifyContent: 'space-between',
         alignItems: 'center',
-        marginTop: 30,
-        padding: 20,
+        padding: 10,
     },
     face: {
         backgroundColor: yellow,
@@ -95,8 +93,6 @@ const styles = StyleSheet.create({
         height: 3,
         },
     },
-    
-    
     text: {
         color: gray,
         fontSize: hp('3.5%'),
@@ -113,6 +109,7 @@ const styles = StyleSheet.create({
         alignItems: 'stretch',
         width: wp('80%'),
         height: 110,
+        marginBottom: 8,
     },
     addBtn: {
         padding: 10,

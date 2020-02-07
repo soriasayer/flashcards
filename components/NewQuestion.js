@@ -13,9 +13,9 @@ class NewQuestion extends Component {
             <KeyboardAvoidingView style={[styles.container, {flex: 1}]} behavior="padding">
                 <View style={styles.inputContainer}>
                     <Text style={styles.text}>Write a question:</Text>
-                    <TextInput style={styles.input} placeholder='Write your question' />
+                    <TextInput style={styles.input} placeholder='Enter your question' />
                     <Text style={[styles.text, {marginTop: 40}]}>Write an answer:</Text>
-                    <TextInput style={styles.input} placeholder='Write your answer' />
+                    <TextInput style={styles.input} placeholder='Enter your answer' />
                 </View>
                 <TouchableOpacity style={styles.submitBtn} onPress={this.handlePress}>
                     <Text style={styles.btnText}>Submit</Text>

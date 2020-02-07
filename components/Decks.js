@@ -41,8 +41,7 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'space-between',
         alignItems: 'center',
-        marginTop: 30,
-        padding: 20,
+        padding: 10,
     },
     deck: {
         flexDirection: 'column',

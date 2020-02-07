@@ -36,10 +36,9 @@ export default DeckDetail
 const styles = StyleSheet.create({
     container: {
         flexDirection: 'column',
-        justifyContent: 'space-between',
+        justifyContent: 'space-around',
         alignItems: 'center',
-        marginTop: 30,
-        padding: 20,
+        padding: 10,
     },
     deck: {
         flexDirection: 'column',
@@ -47,8 +46,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: orange,
         borderRadius: Platform.OS === 'ios' ? 16 : 10,
-        width: wp('80%%'),
-        height: hp('30%'),
+        width: wp('80%'),
+        height: hp('40%'),
         padding: 20,
         marginLeft: 10,
         marginRight: 10,
