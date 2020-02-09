@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, Platform, TouchableOpacity } from 'react-native
 import { white, yellow, green, red, gray, lightGreen } from '../utils/colors'
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen'
 import FlipCard from 'react-native-flip-card'
+import { MaterialCommunityIcons} from '@expo/vector-icons'
 
 class Question extends Component {
 
@@ -37,11 +38,11 @@ class Question extends Component {
                     </View>
                 </FlipCard>
                 <View style={styles.btnContainer}>
-                    <TouchableOpacity style={[styles.addBtn, {backgroundColor: green}]} onPress={this.handlePress}>
-                        <Text style={styles.btnText}>Correct</Text>
+                    <TouchableOpacity style={[styles.addBtn, {backgroundColor: red}]} onPress={this.handlePress}>
+                    <MaterialCommunityIcons name='close' size={30} style={{color: white}}/>
                     </TouchableOpacity>
-                    <TouchableOpacity style={[styles.addBtn, {backgroundColor: red}]}  onPress={this.handlePress}>
-                        <Text style={styles.btnText}>Incorrect</Text>
+                    <TouchableOpacity style={[styles.addBtn, {backgroundColor: green}]}  onPress={this.handlePress}>
+                    <MaterialCommunityIcons name='check' size={30} style={{color: white}}/>
                     </TouchableOpacity>
                 </View>
             </View>
@@ -104,23 +105,21 @@ const styles = StyleSheet.create({
         color: green,
     },
     btnContainer: {
-        flexDirection: 'column',
-        justifyContent: 'space-around',
-        alignItems: 'stretch',
-        width: wp('80%'),
+        flexDirection: 'row',
+        justifyContent: 'space-evenly',
+        alignItems: 'center',
+        width: wp('50%'),
         height: 110,
         marginBottom: 8,
     },
     addBtn: {
-        padding: 10,
-        height: 45,
-        borderRadius:  Platform.OS === 'ios' ? 4 : 2,
+        flexDirection: 'column',
+        justifyContent: 'center',
         alignItems: 'center',
+        padding: 10,
+        height: 60,
+        width: 60,
+        borderRadius:  100,
     },
-    btnText: {
-        fontWeight: 'bold',
-        color: white,
-        fontSize: 23,
-        textAlign: 'center',
-    },
+    
 })

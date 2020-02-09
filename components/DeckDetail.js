@@ -9,6 +9,7 @@ class DeckDetail extends Component {
         console.log('It works on Android as well!')
     }
     render () {
+       
         return(
             <View style={[styles.container, {flex: 1}]}>
                 <View style={styles.deck}>
@@ -16,10 +17,10 @@ class DeckDetail extends Component {
                     <Text style={styles.cards}>3 Cards</Text>
                 </View>
                 <View style={styles.btnContainer}>
-                    <TouchableOpacity style={[styles.addBtn, {backgroundColor: green}]} onPress={this.handlePress}>
+                    <TouchableOpacity style={[styles.addBtn, {backgroundColor: green}]} onPress={() => this.props.navigation.navigate('AddQuestion')}>
                         <Text style={styles.btnText}>Add Card</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={[styles.addBtn, {backgroundColor: gray}]}  onPress={this.handlePress}>
+                    <TouchableOpacity style={[styles.addBtn, {backgroundColor: gray}]}  onPress={() => this.props.navigation.navigate('Question')}>
                         <Text style={styles.btnText}>Start Quiz</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={[styles.addBtn, {backgroundColor: red}]}  onPress={this.handlePress}>
@@ -45,7 +46,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-evenly',
         alignItems: 'center',
         backgroundColor: orange,
-        borderRadius: Platform.OS === 'ios' ? 16 : 10,
+        borderRadius: 5,
         width: wp('80%'),
         height: hp('40%'),
         padding: 20,
@@ -76,7 +77,6 @@ const styles = StyleSheet.create({
         alignItems: "center",
         width: wp('80%'),
         height: 170,
-        marginTop: 125,
     },
     addBtn: {
         padding: 10,

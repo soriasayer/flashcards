@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, Platform, TouchableOpacity, TextInput, Keyboard
 import { white, yellow, green, gray, lightGray } from '../utils/colors'
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen'
 
-class NewQuestion extends Component {
+class AddQuestion extends Component {
 
     handlePress = () => {
         console.log('It works on Android as well!')
@@ -25,7 +25,7 @@ class NewQuestion extends Component {
     }
 }
 
-export default NewQuestion
+export default AddQuestion
 
 const styles = StyleSheet.create({
     container: {

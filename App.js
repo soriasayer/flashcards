@@ -1,20 +1,22 @@
 import React from 'react';
-import { Text, View, Platform, StatusBar, StyleSheet } from 'react-native'
+import { Text, View, Platform, StatusBar, StyleSheet, Animated } from 'react-native'
 import Decks from './components/Decks'
 import DeckDetail from './components/DeckDetail'
 import Question from './components/Question'
-import NewQuestion from './components/NewQuestion'
+import AddQuestion from './components/AddQuestion'
 import NewDeck from './components/NewDeck';
+import Result from './components/Result'
 import { NavigationContainer } from '@react-navigation/native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs'
+import { createStackNavigator } from '@react-navigation/stack'
 import { white, orange, gray } from './utils/colors'
 import { MaterialIcons, Entypo } from '@expo/vector-icons'
 import Constants from 'expo-constants'
 
-function UdaciStatusBar ({ backgroundColor, ...props }) {
+function AppStatusBar ({ backgroundColor, ...props }) {
   return(
-    <View style={ [styles.borderBar ,{backgroundColor, height: Constants.statusBarHeight}] }>
+    <View style={{backgroundColor, height: Constants.statusBarHeight}}>
       <StatusBar translucent backgroundColor={backgroundColor} {...props} />
     </View>
   )
@@ -29,7 +31,7 @@ function MyTabs() {
       tabBarOptions={{
         activeTintColor: orange,
         style: {
-          height: Platform.OS === 'android' ? 58 : 80,
+          height: Platform.OS === 'android' ? 56 : 80,
           backgroundColor: white,
           shadowColor: 'rgba(0, 0, 0, 0.24)',
           shadowOffset: {
@@ -73,22 +75,90 @@ function MyTabs() {
   );
 }
 
+const forFade = ({ current, next }) => {
+  const opacity = Animated.add(
+    current.progress,
+    next ? next.progress : 0
+  ).interpolate({
+    inputRange: [0, 1, 2],
+    outputRange: [0, 1, 0],
+  });
 
+  return {
+    leftButtonStyle: { opacity },
+    rightButtonStyle: { opacity },
+    titleStyle: { opacity },
+    backgroundStyle: { opacity },
+  };
+};
+
+const Stack = createStackNavigator();
+
+function MyStack() {
+  return (
+    <Stack.Navigator
+      initialRouteName="Home"
+      headerMode="screen"
+      
+      screenOptions={{
+        headerTintColor: white,
+        headerStyle: { 
+          backgroundColor: orange, 
+          height: 56,
+        },
+        headerTitleStyle: {
+          fontWeight: '600',
+          marginBottom: Platform.OS === 'android' ? 20 : 0,
+        },
+        headerLeftContainerStyle: {
+          marginBottom: Platform.OS === 'android' ? 20 : 0,
+        }
+      }}
+    >
+    <Stack.Screen
+        name="Home"
+        component={MyTabs}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="DeckDetail"
+        component={DeckDetail}
+        options={{
+          title: 'Deck Detail',
+          headerStyleInterpolator: forFade,
+        }}
+      />
+      <Stack.Screen
+        name="Question"
+        component={Question}
+        options={{
+          title: 'Question',
+          headerStyleInterpolator: forFade,
+        }}
+      />
+      <Stack.Screen
+        name="AddQuestion"
+        component={AddQuestion}
+        options={{
+          title: 'Add Question',
+          headerStyleInterpolator: forFade,
+        }}
+      />
+    </Stack.Navigator>
+  );
+}
 
 export default function App() {
   return (
     <View style={{flex: 1}} accessible>
-    <UdaciStatusBar backgroundColor={orange} barStyle="light-content" />
+    <AppStatusBar backgroundColor={orange} barStyle="light-content" />
     <NavigationContainer>
-      <MyTabs />
+      <Result />
     </NavigationContainer>
     </View>
   );
 }
 
-const styles = StyleSheet.create({
-  borderBar: {
-    borderBottomWidth: Platform.OS === 'ios' ? 2 : 0,
-    borderColor: white,
-  },
-})
+
