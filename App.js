@@ -13,6 +13,8 @@ import { createStackNavigator } from '@react-navigation/stack'
 import { white, orange, gray } from './utils/colors'
 import { MaterialIcons, Entypo } from '@expo/vector-icons'
 import Constants from 'expo-constants'
+import Resultlist from './components/ResultList'
+import ResultList from './components/ResultList';
 
 function AppStatusBar ({ backgroundColor, ...props }) {
   return(
@@ -146,6 +148,14 @@ function MyStack() {
           headerStyleInterpolator: forFade,
         }}
       />
+      <Stack.Screen
+        name="Result"
+        component={Result}
+        options={{
+          title: 'Result',
+          headerStyleInterpolator: forFade,
+        }}
+      />
     </Stack.Navigator>
   );
 }
@@ -155,7 +165,7 @@ export default function App() {
     <View style={{flex: 1}} accessible>
     <AppStatusBar backgroundColor={orange} barStyle="light-content" />
     <NavigationContainer>
-      <Result />
+      <MyStack />
     </NavigationContainer>
     </View>
   );

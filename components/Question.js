@@ -20,7 +20,6 @@ class Question extends Component {
                     flipHorizontal={true}
                     flipVertical={false}
                     clickable={true}
-                    // style={styles.card}
                 >
                     <View style={[styles.face, {flex: 1}]}>
                         <Text style={styles.text}>Does Facebook use react?</Text>
@@ -38,10 +37,10 @@ class Question extends Component {
                     </View>
                 </FlipCard>
                 <View style={styles.btnContainer}>
-                    <TouchableOpacity style={[styles.addBtn, {backgroundColor: red}]} onPress={this.handlePress}>
+                    <TouchableOpacity style={[styles.addBtn, {backgroundColor: red}]} onPress={() => this.props.navigation.navigate('Result')}>
                     <MaterialCommunityIcons name='close' size={30} style={{color: white}}/>
                     </TouchableOpacity>
-                    <TouchableOpacity style={[styles.addBtn, {backgroundColor: green}]}  onPress={this.handlePress}>
+                    <TouchableOpacity style={[styles.addBtn, {backgroundColor: green}]}  onPress={() => this.props.navigation.navigate('Result')}>
                     <MaterialCommunityIcons name='check' size={30} style={{color: white}}/>
                     </TouchableOpacity>
                 </View>
