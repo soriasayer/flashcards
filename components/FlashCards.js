@@ -3,65 +3,17 @@ import { StyleSheet, Text, View, Platform, FlatList, TouchableOpacity } from 're
 import { white, orange, lightOrange } from '../utils/colors'
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen'
 
-const data = [
-    {
-      id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-      title: 'React Native App',
-      card: '10',
-    },
-    {
-      id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-      title: 'React.js App',
-      card: '6',
-    },
-    {
-      id: '58694a0f-3da1-471f-bd96-14b71e29d72',
-      title: 'JavaScript',
-      card: '2',
-    },
-    {
-      id: '58694a0f-3da1-471f-bd96-14571e29d73',
-      title: 'JavaScript',
-      card: '7',
-    },
-    {
-      id: '58694a0f-3da1-471f-bd96-14371e29d74',
-      title: 'JavaScript',
-      card: '9',
-    },
-    {
-      id: '58694a0f-3da1-471f-bd96-14wefdfe29d74',
-      title: 'JavaScript',
-      card: '9',
-    },
-    {
-      id: '58694a0f-3da1-471f-bd96-1hdfghde29d74',
-      title: 'JavaScript',
-      card: '9',
-    },
-    {
-      id: '58694a0f-3da1-471f-bd96sgfgs1e29d74',
-      title: 'JavaScript',
-      card: '9',
-    },
-  ];
-
-  export function getData() {
-      return data
-  }
+function FlashCards ({title, navigation }) {
   
-export function FlashCards ({ id, title, card, navigation }) {
-
     return(
         <View style={[styles.container, {flex: 1}]}>
             <TouchableOpacity 
-             key={id} 
              style={styles.deckContainer}
              onPress={() => navigation.navigate('DeckDetail')}
             >
             <View style={styles.deck} >
               <View style={styles.deckShadow} >
-                <Text style={styles.cards}>{card}</Text>
+                <Text style={styles.cards}>2</Text>
               </View>
             </View>
             <Text style={styles.deckTitle}>{title}</Text>
@@ -71,7 +23,7 @@ export function FlashCards ({ id, title, card, navigation }) {
     
 }
 
-
+export default FlashCards
 
 const styles = StyleSheet.create({
     container: {

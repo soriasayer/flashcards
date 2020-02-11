@@ -1,19 +1,32 @@
 import React, { Component } from 'react'
 import { StyleSheet, Text, View, Platform, TouchableOpacity, TextInput, KeyboardAvoidingView } from 'react-native'
-import { white, yellow, green, gray, lightGray } from '../utils/colors'
+import { white, gray, lightGray } from '../utils/colors'
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen'
+import { connect } from 'react-redux'
+import { addDeckTitle } from '../actions/deck'
 
-class NewDeck extends Component {
+class AddDeck extends Component {
+    state = {
+        text: ''
+    }
 
+       
     handlePress = () => {
-        console.log('It works on Android as well!')
+        const { text } = this.state
+        const { dispatch } = this.props
+        dispatch(addDeckTitle(text))
     }
     render () {
+        const { text } = this.state
         return(
             <KeyboardAvoidingView style={[styles.container, {flex: 1}]} behavior="padding">
             <View style={styles.inputContainer}>
                 <Text style={styles.text}>What is the title of your new deck?</Text>
-                <TextInput style={styles.input} placeholder='Enter the deck title' />
+                <TextInput style={styles.input}
+                 placeholder='Enter the deck title'
+                 value={text}
+                 onChangeText={(text) => this.setState({text})}
+                />
             </View>
                 <TouchableOpacity style={styles.submitBtn} onPress={this.handlePress}>
                     <Text style={styles.btnText}>Submit</Text>
@@ -23,7 +36,9 @@ class NewDeck extends Component {
     }
 }
 
-export default NewDeck
+
+
+export default connect()(AddDeck)
 
 const styles = StyleSheet.create({
     container: {

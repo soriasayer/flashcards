@@ -1,10 +1,13 @@
 import React from 'react';
 import { Text, View, Platform, StatusBar, StyleSheet, Animated } from 'react-native'
+import { createStore } from 'redux'
+import { Provider } from 'react-redux'
+import reducer from './reducers'
 import Decks from './components/Decks'
 import DeckDetail from './components/DeckDetail'
 import Question from './components/Question'
 import AddQuestion from './components/AddQuestion'
-import NewDeck from './components/NewDeck';
+import AddDeck from './components/AddDeck';
 import Result from './components/Result'
 import { NavigationContainer } from '@react-navigation/native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
@@ -64,8 +67,8 @@ function MyTabs() {
         }}
       />
       <Tab.Screen
-        name='NewDeck'
-        component={NewDeck}
+        name='AddDeck'
+        component={AddDeck}
         options={{
           tabBarLabel: 'Add Deck',
           tabBarIcon: ({ color }) => (
@@ -162,12 +165,14 @@ function MyStack() {
 
 export default function App() {
   return (
-    <View style={{flex: 1}} accessible>
-    <AppStatusBar backgroundColor={orange} barStyle="light-content" />
-    <NavigationContainer>
-      <MyStack />
-    </NavigationContainer>
-    </View>
+    <Provider store={createStore(reducer)} >
+      <View style={{flex: 1}} accessible>
+        <AppStatusBar backgroundColor={orange} barStyle="light-content" />
+        <NavigationContainer>
+          <MyStack />
+        </NavigationContainer>
+      </View>
+    </Provider>
   );
 }
 
