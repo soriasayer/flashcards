@@ -4,32 +4,38 @@ import { white, yellow, green, red, gray, lightGreen } from '../utils/colors'
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen'
 import FlipCard from 'react-native-flip-card'
 import { MaterialCommunityIcons} from '@expo/vector-icons'
+import { connect } from 'react-redux'
+import { currentCard } from '../actions/deck'
 
 class Question extends Component {
-
+    
     handlePress = () => {
-        console.log('It works on Android as well!')
+        const { dispatch } = this.props
+         
+        dispatch(currentCard())
+        
     }
 
     
     render () {
+        const { questions, counter } = this.props
         return(
             <View style={[styles.container, {flex: 1}]}>
-                <Text style={{fontSize: 24}}>2/2</Text>
+                <Text style={{fontSize: 24}}>{`${counter}/${questions.length}`}</Text>
                 <FlipCard 
                     flipHorizontal={true}
                     flipVertical={false}
                     clickable={true}
                 >
                     <View style={[styles.face, {flex: 1}]}>
-                        <Text style={styles.text}>Does Facebook use react?</Text>
+                        <Text style={styles.text}>{questions.question}</Text>
                         <TouchableOpacity onPress={this.handlePress}> 
                             <Text style={styles.answerBtn}>Answer</Text>
                         </TouchableOpacity>
                     </View>
                     <View style={[styles.back, {flex: 1}]}>
                         <Text style={styles.text}>
-                        Facebook uses React for small parts of its main page. There are some apps built fully with React, but it's not common at FB.
+                        {questions.answer}
                         </Text>
                         <TouchableOpacity onPress={this.handlePress}> 
                             <Text style={styles.answerBtn}>question</Text>
@@ -37,11 +43,11 @@ class Question extends Component {
                     </View>
                 </FlipCard>
                 <View style={styles.btnContainer}>
-                    <TouchableOpacity style={[styles.addBtn, {backgroundColor: red}]} onPress={() => this.props.navigation.navigate('Result')}>
-                    <MaterialCommunityIcons name='close' size={30} style={{color: white}}/>
+                    <TouchableOpacity style={[styles.addBtn, {backgroundColor: red}]} onPress={this.handlePress}>
+                        <MaterialCommunityIcons name='close' size={30} style={{color: white}}/>
                     </TouchableOpacity>
                     <TouchableOpacity style={[styles.addBtn, {backgroundColor: green}]}  onPress={() => this.props.navigation.navigate('Result')}>
-                    <MaterialCommunityIcons name='check' size={30} style={{color: white}}/>
+                        <MaterialCommunityIcons name='check' size={30} style={{color: white}}/>
                     </TouchableOpacity>
                 </View>
             </View>
@@ -49,7 +55,23 @@ class Question extends Component {
     }
 }
 
-export default Question
+function mapStateToProps({decks, counter}) {
+    const questionArr = (num) => {
+         let question 
+        Object.keys(decks).forEach(dek => {
+            
+         question = decks[dek].questions[num]
+        })
+        return question
+    } 
+    
+    return {
+        questions: questionArr(counter),
+        counter
+    }
+}
+
+export default connect(mapStateToProps)(Question)
 
 const styles = StyleSheet.create({
     container: {

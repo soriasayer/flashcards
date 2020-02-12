@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux'
-import decks from './deckReducer'
+import {decks, counter} from './deckReducer'
 
 export default combineReducers({
     decks,
+    counter,
 })

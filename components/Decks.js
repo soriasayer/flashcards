@@ -23,7 +23,6 @@ class Decks extends Component {
 }
 
 function mapStateToProps({decks}) {
-    console.log(decks)
     const data = Object.keys(decks).map(deck => decks[deck])
     
     return {

@@ -1,7 +1,6 @@
-import { ADD_DECK } from '../actions/deck'
-import { ADD_QUESTION } from '../actions/deck'
+import { ADD_DECK, ADD_QUESTION, CURRENT_CARD } from '../actions/deck'
 
-export default function decks(state = {}, action){
+export  function decks(state = {}, action){
     switch(action.type) {
         case ADD_DECK :
             return {
@@ -24,10 +23,20 @@ export default function decks(state = {}, action){
                         }
                     ]
                 }
-                
             }
        
          default: 
         return state
     }
 }
+
+export function counter(state = 0, action){
+    switch(action.type) {
+        case CURRENT_CARD : 
+            return state + 1
+        default: 
+        return state
+    }
+
+}
+     

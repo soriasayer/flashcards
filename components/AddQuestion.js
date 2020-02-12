@@ -4,6 +4,7 @@ import { white, yellow, green, gray, lightGray } from '../utils/colors'
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen'
 import { connect } from 'react-redux'
 import { addQuestion } from '../actions/deck'
+import { CommonActions } from '@react-navigation/native'
 
 
 class AddQuestion extends Component {
@@ -14,10 +15,11 @@ class AddQuestion extends Component {
 
     handlePress = () => {
         const { question, answer } = this.state
-        const { dispatch } = this.props
+        const { dispatch, navigation } = this.props
         const { deckTitle } = this.props.route.params
         
         dispatch(addQuestion(deckTitle, question, answer))
+        navigation.dispatch(CommonActions.goBack())
        
     }
     render () {
