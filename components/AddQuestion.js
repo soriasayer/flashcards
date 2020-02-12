@@ -2,20 +2,42 @@ import React, { Component } from 'react'
 import { StyleSheet, Text, View, Platform, TouchableOpacity, TextInput, KeyboardAvoidingView } from 'react-native'
 import { white, yellow, green, gray, lightGray } from '../utils/colors'
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen'
+import { connect } from 'react-redux'
+import { addQuestion } from '../actions/deck'
+
 
 class AddQuestion extends Component {
+    state = {
+        question: '',
+        answer: '',
+    }
 
     handlePress = () => {
-        console.log('It works on Android as well!')
+        const { question, answer } = this.state
+        const { dispatch } = this.props
+        const { deckTitle } = this.props.route.params
+        
+        dispatch(addQuestion(deckTitle, question, answer))
+       
     }
     render () {
+        const { question, answer } = this.state
+        
         return(
             <KeyboardAvoidingView style={[styles.container, {flex: 1}]} behavior="padding">
                 <View style={styles.inputContainer}>
                     <Text style={styles.text}>Write a question:</Text>
-                    <TextInput style={styles.input} placeholder='Enter your question' />
+                    <TextInput style={styles.input} 
+                    placeholder='Enter your question' 
+                    value={question}
+                    onChangeText={(question) => this.setState({question})}
+                />
                     <Text style={[styles.text, {marginTop: 40}]}>Write an answer:</Text>
-                    <TextInput style={styles.input} placeholder='Enter your answer' />
+                    <TextInput style={styles.input}
+                     placeholder='Enter your answer' 
+                     value={answer}
+                     onChangeText={(answer) => this.setState({answer})}
+                    />
                 </View>
                 <TouchableOpacity style={styles.submitBtn} onPress={this.handlePress}>
                     <Text style={styles.btnText}>Submit</Text>
@@ -25,7 +47,7 @@ class AddQuestion extends Component {
     }
 }
 
-export default AddQuestion
+export default connect()(AddQuestion)
 
 const styles = StyleSheet.create({
     container: {

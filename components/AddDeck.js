@@ -13,10 +13,13 @@ class AddDeck extends Component {
        
     handlePress = () => {
         const { text } = this.state
-        const { dispatch } = this.props
+        const { dispatch, navigation } = this.props
         dispatch(addDeckTitle(text))
+
+        navigation.navigate('Decks')
     }
     render () {
+        
         const { text } = this.state
         return(
             <KeyboardAvoidingView style={[styles.container, {flex: 1}]} behavior="padding">

@@ -3,17 +3,20 @@ import { StyleSheet, Text, View, Platform, FlatList, TouchableOpacity } from 're
 import { white, orange, lightOrange } from '../utils/colors'
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen'
 
-function FlashCards ({title, navigation }) {
+function FlashCards ({title, questions, navigation }) {
   
     return(
         <View style={[styles.container, {flex: 1}]}>
             <TouchableOpacity 
              style={styles.deckContainer}
-             onPress={() => navigation.navigate('DeckDetail')}
+             onPress={() => navigation.navigate('DeckDetail', { 
+               title: title,
+               questions: questions,
+              })}
             >
             <View style={styles.deck} >
               <View style={styles.deckShadow} >
-                <Text style={styles.cards}>2</Text>
+                <Text style={styles.cards}>{questions.length}</Text>
               </View>
             </View>
             <Text style={styles.deckTitle}>{title}</Text>

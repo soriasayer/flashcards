@@ -9,12 +9,12 @@ class Decks extends Component {
     render () {
         
        const {data} = this.props
-
+        
         return(
             <SafeAreaView >
                 <FlatList
                 data={data}
-                renderItem={({ item }) => <FlashCards title={item.title} navigation={this.props.navigation} />}
+                renderItem={({ item }) => <FlashCards title={item.title} questions={item.questions} navigation={this.props.navigation} />}
                 keyExtractor={item => item.title}
                 />
             </SafeAreaView>
@@ -23,7 +23,9 @@ class Decks extends Component {
 }
 
 function mapStateToProps({decks}) {
+    console.log(decks)
     const data = Object.keys(decks).map(deck => decks[deck])
+    
     return {
         data
     }

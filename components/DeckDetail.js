@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { StyleSheet, Text, View, Platform, TouchableOpacity } from 'react-native'
 import { white, orange, lightGray, green, red, gray } from '../utils/colors'
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen'
+import { connect } from 'react-redux'
 
 class DeckDetail extends Component {
 
@@ -10,14 +11,19 @@ class DeckDetail extends Component {
     }
     render () {
        
+        const { title, questions } = this.props.route.params
         return(
             <View style={[styles.container, {flex: 1}]}>
                 <View style={styles.deck}>
-                    <Text style={styles.deckTitle}>React Native App</Text>
-                    <Text style={styles.cards}>3 Cards</Text>
+                    <Text style={styles.deckTitle}>{title}</Text>
+                    <Text style={styles.cards}>{`${questions.length} cards`}</Text>
                 </View>
                 <View style={styles.btnContainer}>
-                    <TouchableOpacity style={[styles.addBtn, {backgroundColor: green}]} onPress={() => this.props.navigation.navigate('AddQuestion')}>
+                    <TouchableOpacity 
+                    style={[styles.addBtn, {backgroundColor: green}]} 
+                    onPress={() => this.props.navigation.navigate('AddQuestion', {
+                        deckTitle: title
+                    })}>
                         <Text style={styles.btnText}>Add Card</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={[styles.addBtn, {backgroundColor: gray}]}  onPress={() => this.props.navigation.navigate('Question')}>
@@ -31,8 +37,11 @@ class DeckDetail extends Component {
         )
     }
 }
+// function mapStateToProps({de}) {
+    
+// }
 
-export default DeckDetail
+export default connect()(DeckDetail)
 
 const styles = StyleSheet.create({
     container: {
@@ -69,7 +78,7 @@ const styles = StyleSheet.create({
     cards: {
         fontWeight: 'bold',
         color: lightGray,
-        fontSize: hp('2%'),
+        fontSize: 20,
     },
     btnContainer: {
         flexDirection: 'column',
