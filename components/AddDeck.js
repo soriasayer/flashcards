@@ -17,7 +17,9 @@ class AddDeck extends Component {
         dispatch(addDeckTitle(text))
 
         navigation.navigate('Decks')
+        this.setState({text: ''})
     }
+    
     render () {
         
         const { text } = this.state
