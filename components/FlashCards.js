@@ -10,8 +10,7 @@ function FlashCards ({title, questions, navigation }) {
             <TouchableOpacity 
              style={styles.deckContainer}
              onPress={() => navigation.navigate('DeckDetail', { 
-               title: title,
-               questions: questions,
+               deck: title,
               })}
             >
             <View style={styles.deck} >

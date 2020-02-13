@@ -11,12 +11,12 @@ class DeckDetail extends Component {
     }
     render () {
        
-        const { title, questions } = this.props.route.params
+        const { title, questions } = this.props
         return(
             <View style={[styles.container, {flex: 1}]}>
                 <View style={styles.deck}>
                     <Text style={styles.deckTitle}>{title}</Text>
-                    <Text style={styles.cards}>{`${questions.length} cards`}</Text>
+                    <Text style={styles.cards}>{`${questions} cards`}</Text>
                 </View>
                 <View style={styles.btnContainer}>
                     <TouchableOpacity 
@@ -26,7 +26,8 @@ class DeckDetail extends Component {
                     })}>
                         <Text style={styles.btnText}>Add Card</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={[styles.addBtn, {backgroundColor: gray}]}  onPress={() => this.props.navigation.navigate('Question')}>
+                    <TouchableOpacity style={[styles.addBtn, {backgroundColor: gray}]}  
+                    onPress={() => this.props.navigation.navigate('Question', {deck: title})}>
                         <Text style={styles.btnText}>Start Quiz</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={[styles.addBtn, {backgroundColor: red}]}  onPress={this.handlePress}>
@@ -37,11 +38,6 @@ class DeckDetail extends Component {
         )
     }
 }
-// function mapStateToProps({de}) {
-    
-// }
-
-export default connect()(DeckDetail)
 
 const styles = StyleSheet.create({
     container: {
@@ -105,3 +101,14 @@ const styles = StyleSheet.create({
     },
 
 })
+
+function mapStateToProps({decks}, {route}) {
+    const {deck} = route.params
+    
+    return {
+        title: decks[deck].title,
+        questions: decks[deck].questions.length,
+    }
+}
+
+export default connect(mapStateToProps)(DeckDetail)

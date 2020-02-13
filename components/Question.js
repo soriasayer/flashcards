@@ -13,29 +13,28 @@ class Question extends Component {
         const { dispatch } = this.props
          
         dispatch(currentCard())
-        
     }
 
-    
     render () {
-        const { questions, counter } = this.props
+        const { questions, currentQuestion, counter, quiz } = this.props
+        console.log(currentQuestion.question === undefined ? alert('abc') : currentQuestion)
         return(
             <View style={[styles.container, {flex: 1}]}>
-                <Text style={{fontSize: 24}}>{`${counter}/${questions.length}`}</Text>
+                <Text style={{fontSize: 24}}>{`${counter+1}/${questions.length}`}</Text>
                 <FlipCard 
                     flipHorizontal={true}
                     flipVertical={false}
                     clickable={true}
                 >
                     <View style={[styles.face, {flex: 1}]}>
-                        <Text style={styles.text}>{questions.question}</Text>
+                        <Text style={styles.text}>{currentQuestion.question}</Text>
                         <TouchableOpacity onPress={this.handlePress}> 
                             <Text style={styles.answerBtn}>Answer</Text>
                         </TouchableOpacity>
                     </View>
                     <View style={[styles.back, {flex: 1}]}>
                         <Text style={styles.text}>
-                        {questions.answer}
+                        {currentQuestion.answer}
                         </Text>
                         <TouchableOpacity onPress={this.handlePress}> 
                             <Text style={styles.answerBtn}>question</Text>
@@ -43,7 +42,9 @@ class Question extends Component {
                     </View>
                 </FlipCard>
                 <View style={styles.btnContainer}>
-                    <TouchableOpacity style={[styles.addBtn, {backgroundColor: red}]} onPress={this.handlePress}>
+                    <TouchableOpacity 
+                    style={[styles.addBtn, {backgroundColor: red}]} 
+                    onPress={this.handlePress}>
                         <MaterialCommunityIcons name='close' size={30} style={{color: white}}/>
                     </TouchableOpacity>
                     <TouchableOpacity style={[styles.addBtn, {backgroundColor: green}]}  onPress={() => this.props.navigation.navigate('Result')}>
@@ -54,24 +55,6 @@ class Question extends Component {
         )
     }
 }
-
-function mapStateToProps({decks, counter}) {
-    const questionArr = (num) => {
-         let question 
-        Object.keys(decks).forEach(dek => {
-            
-         question = decks[dek].questions[num]
-        })
-        return question
-    } 
-    
-    return {
-        questions: questionArr(counter),
-        counter
-    }
-}
-
-export default connect(mapStateToProps)(Question)
 
 const styles = StyleSheet.create({
     container: {
@@ -144,3 +127,16 @@ const styles = StyleSheet.create({
     },
     
 })
+
+function mapStateToProps({decks, counter}, {route}) {
+    const { deck } = route.params
+    
+    return {
+        questions: decks[deck].questions,
+        currentQuestion: decks[deck].questions[counter],
+        counter,
+        
+    }
+}
+
+export default connect(mapStateToProps)(Question)
