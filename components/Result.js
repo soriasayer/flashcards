@@ -5,17 +5,29 @@ import { white, yellow, green, red, gray, lightGreen, lightGray } from '../utils
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen'
 import { MaterialCommunityIcons} from '@expo/vector-icons'
 import ResultList from './ResultList'
-
-
+import { connect } from 'react-redux'
+import { restartQuestion } from '../actions/deck'
 
 class Result extends Component {
+  restartQuiz = () => {
+    const { dispatch, navigation } = this.props
+    dispatch(restartQuestion())
+    navigation.navigate('Question')
+  }
+
+  backToDeck = () => {
+    const { dispatch, navigation } = this.props
+    dispatch(restartQuestion())
+    navigation.navigate('Decks')
+  }
+
   render() {
       return (
         <View style={[styles.container, {flex: 1}]}>
           <Text style={styles.title}>Result</Text>
           <ProgressCircle
             style={ { height: 120, marginBottom: 20} }
-            progress={ 0.7 }
+            progress={ 0.5 }
             progressColor={green}
             backgroundColor={red}
             strokeWidth={15}
@@ -23,10 +35,10 @@ class Result extends Component {
           />
           <ResultList />
           <View style={styles.btnContainer}>
-            <TouchableOpacity style={[styles.addBtn, {backgroundColor: green}]} onPress={() => this.props.navigation.navigate('Question')}>
+            <TouchableOpacity style={[styles.addBtn, {backgroundColor: green}]} onPress={this.restartQuiz}>
                 <Text style={styles.btnText}>Restart Quiz</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={[styles.addBtn, {backgroundColor: red}]}  onPress={() => this.props.navigation.navigate('Decks')}>
+            <TouchableOpacity style={[styles.addBtn, {backgroundColor: red}]}  onPress={this.backgroundColor}>
                 <Text style={styles.btnText}>Back to Deck</Text>
             </TouchableOpacity>
           </View>
@@ -34,8 +46,6 @@ class Result extends Component {
     )
   }
 }
-
-export default Result
 
 const styles = StyleSheet.create({
   container: {
@@ -73,3 +83,5 @@ const styles = StyleSheet.create({
       textAlign: 'center',
   },
 })
+
+export default connect()(Result)

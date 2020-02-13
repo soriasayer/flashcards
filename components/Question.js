@@ -16,8 +16,8 @@ class Question extends Component {
     }
 
     render () {
-        const { questions, currentQuestion, counter, quiz } = this.props
-        console.log(currentQuestion.question === undefined ? alert('abc') : currentQuestion)
+        const { questions, currentQuestion, counter, navigation } = this.props
+        
         return(
             <View style={[styles.container, {flex: 1}]}>
                 <Text style={{fontSize: 24}}>{`${counter+1}/${questions.length}`}</Text>
@@ -27,16 +27,16 @@ class Question extends Component {
                     clickable={true}
                 >
                     <View style={[styles.face, {flex: 1}]}>
-                        <Text style={styles.text}>{currentQuestion.question}</Text>
-                        <TouchableOpacity onPress={this.handlePress}> 
+                        <Text style={styles.text}>{currentQuestion && currentQuestion.question}</Text>
+                        <TouchableOpacity > 
                             <Text style={styles.answerBtn}>Answer</Text>
                         </TouchableOpacity>
                     </View>
                     <View style={[styles.back, {flex: 1}]}>
                         <Text style={styles.text}>
-                        {currentQuestion.answer}
+                        {currentQuestion && currentQuestion.answer}
                         </Text>
-                        <TouchableOpacity onPress={this.handlePress}> 
+                        <TouchableOpacity > 
                             <Text style={styles.answerBtn}>question</Text>
                         </TouchableOpacity>
                     </View>
@@ -44,10 +44,10 @@ class Question extends Component {
                 <View style={styles.btnContainer}>
                     <TouchableOpacity 
                     style={[styles.addBtn, {backgroundColor: red}]} 
-                    onPress={this.handlePress}>
+                    onPress={counter === questions.length ? navigation.navigate('Result') : this.handlePress}>
                         <MaterialCommunityIcons name='close' size={30} style={{color: white}}/>
                     </TouchableOpacity>
-                    <TouchableOpacity style={[styles.addBtn, {backgroundColor: green}]}  onPress={() => this.props.navigation.navigate('Result')}>
+                    <TouchableOpacity style={[styles.addBtn, {backgroundColor: green}]}  onPress={counter === questions.length ? navigation.navigate('Result') : this.handlePress}>
                         <MaterialCommunityIcons name='check' size={30} style={{color: white}}/>
                     </TouchableOpacity>
                 </View>

@@ -1,4 +1,4 @@
-import { ADD_DECK, ADD_QUESTION, CURRENT_CARD } from '../actions/deck'
+import { ADD_DECK, ADD_QUESTION, CURRENT_CARD, RESTART_QUIZ } from '../actions/deck'
 
 export  function decks(state = {}, action){
     switch(action.type) {
@@ -34,6 +34,8 @@ export function counter(state = 0, action){
     switch(action.type) {
         case CURRENT_CARD : 
             return state + 1
+        case RESTART_QUIZ : 
+            return 0
         default: 
         return state
     }
