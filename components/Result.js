@@ -6,22 +6,27 @@ import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-nativ
 import { MaterialCommunityIcons} from '@expo/vector-icons'
 import ResultList from './ResultList'
 import { connect } from 'react-redux'
-import { restartQuestion } from '../actions/deck'
+import { restartQuestion, cleanResult } from '../actions/deck'
 
 class Result extends Component {
   restartQuiz = () => {
     const { dispatch, navigation } = this.props
     dispatch(restartQuestion())
+    dispatch(cleanResult())
+
     navigation.navigate('Question')
   }
 
   backToDeck = () => {
     const { dispatch, navigation } = this.props
     dispatch(restartQuestion())
+    dispatch(cleanResult())
+
     navigation.navigate('Decks')
   }
 
   render() {
+    const { resualt } = this.props
       return (
         <View style={[styles.container, {flex: 1}]}>
           <Text style={styles.title}>Result</Text>
@@ -33,12 +38,12 @@ class Result extends Component {
             strokeWidth={15}
             cornerRadius={1}
           />
-          <ResultList />
+          <ResultList resualts={resualt} />
           <View style={styles.btnContainer}>
             <TouchableOpacity style={[styles.addBtn, {backgroundColor: green}]} onPress={this.restartQuiz}>
                 <Text style={styles.btnText}>Restart Quiz</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={[styles.addBtn, {backgroundColor: red}]}  onPress={this.backgroundColor}>
+            <TouchableOpacity style={[styles.addBtn, {backgroundColor: red}]}  onPress={this.backToDeck}>
                 <Text style={styles.btnText}>Back to Deck</Text>
             </TouchableOpacity>
           </View>
@@ -84,4 +89,10 @@ const styles = StyleSheet.create({
   },
 })
 
-export default connect()(Result)
+function mapStateToProps({resualt}) {
+  return {
+    resualt
+  }
+}
+
+export default connect(mapStateToProps)(Result)

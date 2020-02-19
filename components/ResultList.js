@@ -8,36 +8,26 @@ import { MaterialCommunityIcons} from '@expo/vector-icons'
 
 class ResultList extends Component {
   render() {
+      const { resualts } = this.props
+      console.log(resualts)
         return (
           <ScrollView>
             <View style={styles.tableContainer} >
-                <View style={styles.table}>
-                    <View style={styles.tableNumber} >
-                    <Text style={{fontSize: 16, fontWeight: '600'}}>1</Text>
+                {resualts.map((resualt, index) => (
+                    <View key={index} style={styles.table}>
+                        <View style={styles.tableNumber} >
+                            <Text style={{fontSize: 16, fontWeight: '600'}}>{index + 1}</Text>
+                        </View>
+                        <View style={styles.tableText}>
+                            <Text style={{fontSize: 15,}} >
+                                {resualt.question}
+                            </Text>
+                        </View>
+                        <View style={styles.iconContainer}>
+                            <MaterialCommunityIcons name='close' size={40} style={{color: red}}/>
+                        </View>
                     </View>
-                    <View style={styles.tableText}>
-                    <Text style={{fontSize: 15,}} >
-                        Facebook uses React for small parts of its main page. There are some ...
-                    </Text>
-                    </View>
-                    <View style={styles.iconContainer}>
-                        <MaterialCommunityIcons name='close' size={40} style={{color: red}}/>
-                    </View>
-                    
-                </View>
-                <View style={styles.table} >
-                    <View style={styles.tableNumber} >
-                        <Text style={{fontSize: 16, fontWeight: '600'}}>2</Text>
-                    </View>
-                    <View style={styles.tableText}>
-                        <Text style={{fontSize: 15,}} >
-                        Facebook uses React for small parts of its main page. There are some ...
-                        </Text>
-                    </View>
-                    <View style={styles.iconContainer}>
-                        <MaterialCommunityIcons name='check' size={40} style={{color: green}}/>
-                    </View>
-                </View>
+                ))}
             </View>
           </ScrollView>     
       )
@@ -73,7 +63,8 @@ const styles = StyleSheet.create({
     height: 25,
     width: 25,
     backgroundColor: lightGray,
-    margin: 8,
+    marginRight: 8,
+    marginTop: 8,
     borderRadius: 100,
     borderWidth: 1,
     borderColor: gray,

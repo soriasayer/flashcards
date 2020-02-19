@@ -5,19 +5,21 @@ import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-nativ
 import FlipCard from 'react-native-flip-card'
 import { MaterialCommunityIcons} from '@expo/vector-icons'
 import { connect } from 'react-redux'
-import { currentCard } from '../actions/deck'
+import { currentCard, showResult } from '../actions/deck'
 
 class Question extends Component {
     
     handlePress = () => {
-        const { dispatch } = this.props
+        const { dispatch, currentQuestion } = this.props
          
         dispatch(currentCard())
+        dispatch(showResult(currentQuestion && currentQuestion.question))
+
     }
 
     render () {
-        const { questions, currentQuestion, counter, navigation } = this.props
-        
+        const { questions, currentQuestion, counter, navigation, deck } = this.props
+
         return(
             <View style={[styles.container, {flex: 1}]}>
                 <Text style={{fontSize: 24}}>{`${counter+1}/${questions.length}`}</Text>
@@ -44,10 +46,16 @@ class Question extends Component {
                 <View style={styles.btnContainer}>
                     <TouchableOpacity 
                     style={[styles.addBtn, {backgroundColor: red}]} 
-                    onPress={counter === questions.length ? navigation.navigate('Result') : this.handlePress}>
+                    onPress={counter === questions.length 
+                        ? navigation.navigate('Result', {deck}) 
+                        : this.handlePress}>
                         <MaterialCommunityIcons name='close' size={30} style={{color: white}}/>
                     </TouchableOpacity>
-                    <TouchableOpacity style={[styles.addBtn, {backgroundColor: green}]}  onPress={counter === questions.length ? navigation.navigate('Result') : this.handlePress}>
+                    <TouchableOpacity 
+                     style={[styles.addBtn, {backgroundColor: green}]}  
+                     onPress={counter === questions.length 
+                        ? navigation.navigate('Result', {deck}) 
+                        : this.handlePress}>
                         <MaterialCommunityIcons name='check' size={30} style={{color: white}}/>
                     </TouchableOpacity>
                 </View>
@@ -135,6 +143,7 @@ function mapStateToProps({decks, counter}, {route}) {
         questions: decks[deck].questions,
         currentQuestion: decks[deck].questions[counter],
         counter,
+        deck,
         
     }
 }

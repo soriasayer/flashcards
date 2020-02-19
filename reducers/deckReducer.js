@@ -1,4 +1,4 @@
-import { ADD_DECK, ADD_QUESTION, CURRENT_CARD, RESTART_QUIZ } from '../actions/deck'
+import { ADD_DECK, ADD_QUESTION, CURRENT_CARD, RESTART_QUIZ, QUESTION_RESUALT, CLEAR_RESUALT } from '../actions/deck'
 
 export  function decks(state = {}, action){
     switch(action.type) {
@@ -40,5 +40,21 @@ export function counter(state = 0, action){
         return state
     }
 
+}
+
+export function resualt(state = [], action) {
+    switch(action.type) {
+        case QUESTION_RESUALT:
+            return [
+                ...state,
+                {
+                    question: action.question
+                }
+            ]
+        case CLEAR_RESUALT : 
+            return []
+        default:
+            return state
+    }
 }
      

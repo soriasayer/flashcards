@@ -7,30 +7,30 @@ import { addDeckTitle } from '../actions/deck'
 
 class AddDeck extends Component {
     state = {
-        text: ''
+        title: ''
     }
 
        
     handlePress = () => {
-        const { text } = this.state
+        const { title } = this.state
         const { dispatch, navigation } = this.props
-        dispatch(addDeckTitle(text))
+        dispatch(addDeckTitle(title))
 
         navigation.navigate('Decks')
-        this.setState({text: ''})
+        this.setState({title: ''})
     }
-    
+
     render () {
         
-        const { text } = this.state
+        const { title } = this.state
         return(
             <KeyboardAvoidingView style={[styles.container, {flex: 1}]} behavior="padding">
             <View style={styles.inputContainer}>
                 <Text style={styles.text}>What is the title of your new deck?</Text>
                 <TextInput style={styles.input}
                  placeholder='Enter the deck title'
-                 value={text}
-                 onChangeText={(text) => this.setState({text})}
+                 value={title}
+                 onChangeText={(title) => this.setState({title})}
                 />
             </View>
                 <TouchableOpacity style={styles.submitBtn} onPress={this.handlePress}>
