@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { StyleSheet, Text, View, Platform, TouchableOpacity } from 'react-native'
+import { StyleSheet, Text, View, Platform, TouchableOpacity, Alert } from 'react-native'
 import { white, orange, lightGray, green, red, gray } from '../utils/colors'
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen'
 import { connect } from 'react-redux'
@@ -10,31 +10,64 @@ class DeckDetail extends Component {
 
     handlePress = () => {
         const { dispatch, title } = this.props
+        
+        Alert.alert(
+            'Delete',
+            'Are you sure you wanna delete this deck?',
+            [
+                {
+                text: 'Cancel',
+                style: 'cancel',
+                },
+                {text: 'OK', onPress: () => dispatch(removeDeck(title))},
+            ],
+            {cancelable: false},
+        )
+          
+    }
 
-        dispatch(removeDeck(title))
+    isDisabled = () => {
+        const { deck } = this.props
+        if(deck === null) {
+            return true
+        } else {
+            return false
+        }
     }
     render () {
-       
-        const { title, questions } = this.props
+        const { deck } = this.props
+
         return(
             <View style={[styles.container, {flex: 1}]}>
-                <View style={styles.deck}>
-                    <Text style={styles.deckTitle}>{title}</Text>
-                    <Text style={styles.cards}>{`${questions} cards`}</Text>
-                </View>
+            {deck === null 
+                ? <View style={[styles.deck, {backgroundColor: lightGray}]}>
+                    <Text style={{fontSize: 20, color: red}}>Oops! you removed the deck.</Text>
+                  </View>
+                : <View style={styles.deck}>
+                    <Text style={styles.deckTitle}>{deck.title}</Text>
+                    <Text style={styles.cards}>{`${deck.questions.length} cards`}</Text>
+                 </View>}
                 <View style={styles.btnContainer}>
                     <TouchableOpacity 
-                    style={[styles.addBtn, {backgroundColor: green}]} 
-                    onPress={() => this.props.navigation.navigate('AddQuestion', {
-                        deckTitle: title
-                    })}>
+                     style={[styles.addBtn, this.isDisabled() ? {backgroundColor: lightGray} : {backgroundColor: green}]}  
+                     onPress={() => this.props.navigation.navigate('AddQuestion', {
+                        deckTitle: deck.title
+                     })}
+                     disabled={this.isDisabled()} 
+                    >
                         <Text style={styles.btnText}>Add Card</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={[styles.addBtn, {backgroundColor: gray}]}  
-                    onPress={() => this.props.navigation.navigate('Question', {deck: title})}>
+                    <TouchableOpacity
+                     style={[styles.addBtn, this.isDisabled() ? {backgroundColor: lightGray} : {backgroundColor: gray}]}  
+                     onPress={() => this.props.navigation.navigate('Question', {deck: deck.title})}
+                     disabled={this.isDisabled()}   
+                     >
                         <Text style={styles.btnText}>Start Quiz</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={[styles.addBtn, {backgroundColor: red}]}  onPress={this.handlePress}>
+                    <TouchableOpacity 
+                     style={[styles.addBtn, this.isDisabled() ? {backgroundColor: lightGray} : {backgroundColor: red}]}  
+                     onPress={this.handlePress}
+                     disabled={this.isDisabled()} >
                         <Text style={styles.btnText}>Delete Deck</Text>
                     </TouchableOpacity>
                 </View>
@@ -108,10 +141,9 @@ const styles = StyleSheet.create({
 
 function mapStateToProps({decks}, {route}) {
     const { deck } = route.params
-    
     return {
-        title: decks[deck] && decks[deck].title,
-        questions: decks[deck] ? decks[deck].questions.length : null
+        deck: decks[deck] ? decks[deck] : null,
+        title: decks[deck] && decks[deck].title
     }
 }
 
