@@ -4,8 +4,8 @@ export const ADD_DECK = 'ADD_DECK'
 export const ADD_QUESTION = 'ADD_QUESTION'
 export const CURRENT_CARD = 'CURRENT_CARD'
 export const RESTART_QUIZ = 'RESTART_QUIZ'
-export const QUESTION_RESUALT = 'QUESTION_RESUALT'
-export const CLEAR_RESUALT = 'CLEAR_RESUALT'
+export const QUESTION_RERSULT = 'QUESTION_RERSULT'
+export const CLEAR_RERSULT = 'CLEAR_RERSULT'
 
 export const addDeckTitle = (title) => {
     return{
@@ -35,15 +35,17 @@ export const restartQuestion = () => {
     }
 }
 
-export const showResult = (question) => {
+export const showResult = (question, isTtrue, answer) => {
     return {
-        type: QUESTION_RESUALT,
-        question
+        type: QUESTION_RERSULT,
+        question,
+        isTtrue,
+        answer,
     }
 }
 
 export const cleanResult = () => {
     return {
-        type: CLEAR_RESUALT
+        type: CLEAR_RERSULT
     }
 }

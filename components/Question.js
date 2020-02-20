@@ -9,11 +9,22 @@ import { currentCard, showResult } from '../actions/deck'
 
 class Question extends Component {
     
-    handlePress = () => {
+    pressCheck = () => {
         const { dispatch, currentQuestion } = this.props
+        const question = currentQuestion && currentQuestion.question
+        const answer = currentQuestion && currentQuestion.answer
          
         dispatch(currentCard())
-        dispatch(showResult(currentQuestion && currentQuestion.question))
+        dispatch(showResult(question, true, answer))
+
+    }
+    pressClose = () => {
+        const { dispatch, currentQuestion } = this.props
+        const question = currentQuestion && currentQuestion.question
+        const answer = currentQuestion && currentQuestion.answer
+         
+        dispatch(currentCard())
+        dispatch(showResult(question, false, answer))
 
     }
 
@@ -47,15 +58,15 @@ class Question extends Component {
                     <TouchableOpacity 
                     style={[styles.addBtn, {backgroundColor: red}]} 
                     onPress={counter === questions.length 
-                        ? navigation.navigate('Result', {deck}) 
-                        : this.handlePress}>
+                        ? navigation.navigate('Result') 
+                        : this.pressClose}>
                         <MaterialCommunityIcons name='close' size={30} style={{color: white}}/>
                     </TouchableOpacity>
                     <TouchableOpacity 
                      style={[styles.addBtn, {backgroundColor: green}]}  
                      onPress={counter === questions.length 
                         ? navigation.navigate('Result', {deck}) 
-                        : this.handlePress}>
+                        : this.pressCheck}>
                         <MaterialCommunityIcons name='check' size={30} style={{color: white}}/>
                     </TouchableOpacity>
                 </View>
@@ -143,7 +154,6 @@ function mapStateToProps({decks, counter}, {route}) {
         questions: decks[deck].questions,
         currentQuestion: decks[deck].questions[counter],
         counter,
-        deck,
         
     }
 }

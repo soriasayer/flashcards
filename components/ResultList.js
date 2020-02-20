@@ -1,31 +1,36 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet, ScrollView } from 'react-native'
-import { white, green, red, gray, lightGreen, lightGray } from '../utils/colors'
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Modal, Alert, Platform } from 'react-native'
+import { white, green, red, gray, lightGreen, lightGray, orange } from '../utils/colors'
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen'
 import { MaterialCommunityIcons} from '@expo/vector-icons'
 
-
-
 class ResultList extends Component {
+  
   render() {
-      const { resualts } = this.props
-      console.log(resualts)
+      const { results } = this.props
+      
         return (
           <ScrollView>
             <View style={styles.tableContainer} >
-                {resualts.map((resualt, index) => (
+                {results.map((result, index) => (
                     <View key={index} style={styles.table}>
                         <View style={styles.tableNumber} >
                             <Text style={{fontSize: 16, fontWeight: '600'}}>{index + 1}</Text>
                         </View>
                         <View style={styles.tableText}>
-                            <Text style={{fontSize: 15,}} >
-                                {resualt.question}
+                            <Text style={{fontSize: 20,}} >
+                                {result.question}
                             </Text>
                         </View>
-                        <View style={styles.iconContainer}>
-                            <MaterialCommunityIcons name='close' size={40} style={{color: red}}/>
-                        </View>
+                        {result.isTtrue 
+                          ? <TouchableOpacity style={styles.iconContainer} 
+                            onPress={() => Alert.alert('Answer', result.answer)} >
+                              <MaterialCommunityIcons name='check' size={40} style={{color: green}}/>
+                            </TouchableOpacity> 
+                          : <TouchableOpacity style={styles.iconContainer} 
+                            onPress={() => Alert.alert('Answer', result.answer)} >
+                              <MaterialCommunityIcons name='close' size={40} style={{color: red}}/>
+                            </TouchableOpacity>}
                     </View>
                 ))}
             </View>
@@ -78,6 +83,5 @@ const styles = StyleSheet.create({
       height: 30,
       width: 30,
       marginRight: 20,
-  }
-
+  },
 })

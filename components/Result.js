@@ -26,19 +26,22 @@ class Result extends Component {
   }
 
   render() {
-    const { resualt } = this.props
+    const { result } = this.props
+    const correctPrecentage = result.filter(correct => correct.isTtrue)
+    const precentage = (correctPrecentage.length/result.length) * 1
+    
       return (
         <View style={[styles.container, {flex: 1}]}>
           <Text style={styles.title}>Result</Text>
           <ProgressCircle
             style={ { height: 120, marginBottom: 20} }
-            progress={ 0.5 }
+            progress={ precentage }
             progressColor={green}
             backgroundColor={red}
             strokeWidth={15}
             cornerRadius={1}
           />
-          <ResultList resualts={resualt} />
+          <ResultList results={result} />
           <View style={styles.btnContainer}>
             <TouchableOpacity style={[styles.addBtn, {backgroundColor: green}]} onPress={this.restartQuiz}>
                 <Text style={styles.btnText}>Restart Quiz</Text>
@@ -89,9 +92,9 @@ const styles = StyleSheet.create({
   },
 })
 
-function mapStateToProps({resualt}) {
+function mapStateToProps({result}) {
   return {
-    resualt
+    result
   }
 }
 

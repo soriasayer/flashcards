@@ -155,8 +155,7 @@ function MyStack() {
         name="Result"
         component={Result}
         options={{
-          title: 'Result',
-          headerStyleInterpolator: forFade,
+          headerShown: false,
         }}
       />
     </Stack.Navigator>
