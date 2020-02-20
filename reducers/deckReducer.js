@@ -1,4 +1,11 @@
-import { ADD_DECK, ADD_QUESTION, CURRENT_CARD, RESTART_QUIZ, QUESTION_RERSULT, CLEAR_RERSULT } from '../actions/deck'
+import { 
+    ADD_DECK, ADD_QUESTION,
+    CURRENT_CARD, RESTART_QUIZ,
+    QUESTION_RERSULT,
+    CLEAR_RERSULT,
+    DELETE_DECK,
+    currentCard,
+ } from '../actions/deck'
 
 export  function decks(state = {}, action){
     switch(action.type) {
@@ -23,6 +30,13 @@ export  function decks(state = {}, action){
                         }
                     ]
                 }
+            }
+        case DELETE_DECK :
+            const deckList = Object.keys(state).map(deck => state[deck]).filter(currentDeck => currentDeck.title !== action.title)
+            const newDeck = deckList.map(deck => ({[deck.title] : deck}))
+            const filteredDeck = Object.assign({}, ...newDeck)
+            return {
+                ...filteredDeck
             }
        
          default: 

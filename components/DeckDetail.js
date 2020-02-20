@@ -3,11 +3,15 @@ import { StyleSheet, Text, View, Platform, TouchableOpacity } from 'react-native
 import { white, orange, lightGray, green, red, gray } from '../utils/colors'
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen'
 import { connect } from 'react-redux'
+import { removeDeck } from '../actions/deck'
+import { getDailyReminderValue } from '../utils/helpers'
 
 class DeckDetail extends Component {
 
     handlePress = () => {
-        console.log('It works on Android as well!')
+        const { dispatch, title } = this.props
+
+        dispatch(removeDeck(title))
     }
     render () {
        
@@ -103,11 +107,11 @@ const styles = StyleSheet.create({
 })
 
 function mapStateToProps({decks}, {route}) {
-    const {deck} = route.params
+    const { deck } = route.params
     
     return {
-        title: decks[deck].title,
-        questions: decks[deck].questions.length,
+        title: decks[deck] && decks[deck].title,
+        questions: decks[deck] ? decks[deck].questions.length : null
     }
 }
 

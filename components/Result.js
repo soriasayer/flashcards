@@ -27,8 +27,8 @@ class Result extends Component {
 
   render() {
     const { result } = this.props
-    const correctPrecentage = result.filter(correct => correct.isTtrue)
-    const precentage = (correctPrecentage.length/result.length) * 1
+    const totalCorrect = result.filter(correct => correct.isTtrue)
+    const precentage = (totalCorrect.length/result.length) * 1
     
       return (
         <View style={[styles.container, {flex: 1}]}>

@@ -6,10 +6,18 @@ export const CURRENT_CARD = 'CURRENT_CARD'
 export const RESTART_QUIZ = 'RESTART_QUIZ'
 export const QUESTION_RERSULT = 'QUESTION_RERSULT'
 export const CLEAR_RERSULT = 'CLEAR_RERSULT'
+export const DELETE_DECK = 'DELETE_DECK'
 
 export const addDeckTitle = (title) => {
     return{
         type: ADD_DECK,
+        title,
+    }
+}
+
+export const removeDeck = (title) => {
+    return {
+        type: DELETE_DECK,
         title,
     }
 }
