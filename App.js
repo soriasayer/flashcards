@@ -1,8 +1,8 @@
 import React from 'react';
-import { Text, View, Platform, StatusBar, StyleSheet, Animated } from 'react-native'
+import { Text, View, Platform, StatusBar, StyleSheet, Animated, AsyncStorage } from 'react-native'
 import { createStore } from 'redux'
 import { Provider } from 'react-redux'
-import reducer from './reducers'
+import rootReducer from './reducers'
 import Decks from './components/Decks'
 import DeckDetail from './components/DeckDetail'
 import Question from './components/Question'
@@ -17,7 +17,9 @@ import { white, orange, gray } from './utils/colors'
 import { MaterialIcons, Entypo } from '@expo/vector-icons'
 import Constants from 'expo-constants'
 import Resultlist from './components/ResultList'
-import ResultList from './components/ResultList';
+import ResultList from './components/ResultList'
+import { persistStore, persistReducer } from 'redux-persist'
+import { PersistGate } from 'redux-persist/es/integration/react'
 
 function AppStatusBar ({ backgroundColor, ...props }) {
   return(
@@ -162,15 +164,27 @@ function MyStack() {
   );
 }
 
+const persistConfig = {
+  key: 'root',
+  storage: AsyncStorage,
+  whitelist: ['decks', 'counter', 'result']
+}
+
+const persistedReducer = persistReducer(persistConfig, rootReducer)
+const store = createStore(persistedReducer)
+const persistedStore = persistStore(store)
+
 export default function App() {
   return (
-    <Provider store={createStore(reducer)} >
-      <View style={{flex: 1}} accessible>
-        <AppStatusBar backgroundColor={orange} barStyle="light-content" />
-        <NavigationContainer>
-          <MyStack />
-        </NavigationContainer>
-      </View>
+    <Provider store={store} >
+      <PersistGate persistor={persistedStore} >
+          <View style={{flex: 1}} accessible>
+            <AppStatusBar backgroundColor={orange} barStyle="light-content" />
+            <NavigationContainer>
+              <MyStack />
+            </NavigationContainer>
+          </View>
+      </PersistGate>
     </Provider>
   );
 }

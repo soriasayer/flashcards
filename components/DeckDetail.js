@@ -34,6 +34,7 @@ class DeckDetail extends Component {
             return false
         }
     }
+    
     render () {
         const { deck } = this.props
 
