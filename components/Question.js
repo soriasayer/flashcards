@@ -16,7 +16,6 @@ class Question extends Component {
          
         dispatch(currentCard())
         dispatch(showResult(question, true, answer))
-
     }
     pressClose = () => {
         const { dispatch, currentQuestion } = this.props
@@ -25,7 +24,6 @@ class Question extends Component {
          
         dispatch(currentCard())
         dispatch(showResult(question, false, answer))
-
     }
 
     render () {

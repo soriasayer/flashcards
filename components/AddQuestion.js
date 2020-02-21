@@ -26,7 +26,7 @@ class AddQuestion extends Component {
         const { question, answer } = this.state
         
         return(
-            <KeyboardAvoidingView style={[styles.container, {flex: 1}]} behavior="padding">
+            <KeyboardAvoidingView style={[styles.container, {flex: 1}]} behavior="padding" keyboardVerticalOffset={Platform.OS === 'ios' ? 90 : 0 }>
                 <View style={styles.inputContainer}>
                     <Text style={styles.text}>Write a question:</Text>
                     <TextInput style={styles.input} 
@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'space-around',
         alignItems: 'center',
-        marginTop: 30,
+        marginTop: 10,
         padding: 20,
     },
     inputContainer: {

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { StyleSheet, Text, View, Platform, TouchableOpacity, TextInput, KeyboardAvoidingView } from 'react-native'
+import { StyleSheet, Text, View, Platform, TouchableOpacity, TextInput, KeyboardAvoidingView, ScrollView } from 'react-native'
 import { white, gray, lightGray } from '../utils/colors'
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen'
 import { connect } from 'react-redux'
@@ -23,16 +23,17 @@ class AddDeck extends Component {
     render () {
         
         const { title } = this.state
+        
         return(
-            <KeyboardAvoidingView style={[styles.container, {flex: 1}]} behavior="padding">
-            <View style={styles.inputContainer}>
-                <Text style={styles.text}>What is the title of your new deck?</Text>
-                <TextInput style={styles.input}
-                 placeholder='Enter the deck title'
-                 value={title}
-                 onChangeText={(title) => this.setState({title})}
-                />
-            </View>
+            <KeyboardAvoidingView style={[styles.container, {flex: 1}]} behavior="padding" keyboardVerticalOffset={80}>
+                <View style={styles.inputContainer}>
+                    <Text style={styles.text}>What is the title of your new deck?</Text>
+                    <TextInput style={styles.input}
+                    placeholder='Enter the deck title'
+                    value={title}
+                    onChangeText={(title) => this.setState({title})}
+                    />
+                </View>
                 <TouchableOpacity style={styles.submitBtn} onPress={this.handlePress}>
                     <Text style={styles.btnText}>Submit</Text>
                 </TouchableOpacity>

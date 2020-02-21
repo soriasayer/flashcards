@@ -19,7 +19,7 @@ class ResultList extends Component {
                         </View>
                         <View style={styles.tableText}>
                             <Text style={{fontSize: 20,}} >
-                                {result.question}
+                               { `${(result.question).substring(0, 30)}...`}
                             </Text>
                         </View>
                         {result.isTtrue 

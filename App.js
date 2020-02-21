@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Text, View, Platform, StatusBar, StyleSheet, Animated, AsyncStorage } from 'react-native'
 import { createStore } from 'redux'
 import { Provider } from 'react-redux'
@@ -20,6 +20,7 @@ import Resultlist from './components/ResultList'
 import ResultList from './components/ResultList'
 import { persistStore, persistReducer } from 'redux-persist'
 import { PersistGate } from 'redux-persist/es/integration/react'
+import { setLocalNotification } from './utils/helpers'
 
 function AppStatusBar ({ backgroundColor, ...props }) {
   return(
@@ -174,19 +175,25 @@ const persistedReducer = persistReducer(persistConfig, rootReducer)
 const store = createStore(persistedReducer)
 const persistedStore = persistStore(store)
 
-export default function App() {
-  return (
-    <Provider store={store} >
-      <PersistGate persistor={persistedStore} >
-          <View style={{flex: 1}} accessible>
-            <AppStatusBar backgroundColor={orange} barStyle="light-content" />
-            <NavigationContainer>
-              <MyStack />
-            </NavigationContainer>
-          </View>
-      </PersistGate>
-    </Provider>
-  );
+export default class App extends Component {
+  componentDidMount () {
+    setLocalNotification()
+  }
+
+  render() {
+    return (
+      <Provider store={store} >
+        <PersistGate persistor={persistedStore} >
+            <View style={{flex: 1}} accessible>
+              <AppStatusBar backgroundColor={orange} barStyle="light-content" />
+              <NavigationContainer>
+                <MyStack />
+              </NavigationContainer>
+            </View>
+        </PersistGate>
+      </Provider>
+    );
+  }
 }
 
 
