@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { StyleSheet, Text, View, Platform, FlatList, TouchableOpacity } from 'react-native'
-import { white, orange, lightOrange } from '../utils/colors'
+import { white, indigo, lightindigo } from '../utils/colors'
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen'
 
 function FlashCards ({title, questions, navigation }) {
@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
     deck: {
       width: 90,
       height: 60,
-      backgroundColor: lightOrange,
+      backgroundColor: lightindigo,
       borderRadius: 5,
     },
     deckShadow: {
@@ -64,14 +64,14 @@ const styles = StyleSheet.create({
       alignItems: 'center',
       width: 90,
       height: 60,
-      backgroundColor: orange,
+      backgroundColor: indigo,
       borderRadius: 5,
       left: 10,
       bottom: 10,
     },
     deckTitle: {
         fontWeight: 'bold',
-        color: orange,
+        color: indigo,
         fontSize: 18,
         alignSelf: 'flex-start',
         marginLeft: 20,

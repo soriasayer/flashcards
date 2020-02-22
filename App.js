@@ -13,7 +13,7 @@ import { NavigationContainer } from '@react-navigation/native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs'
 import { createStackNavigator } from '@react-navigation/stack'
-import { white, orange, gray } from './utils/colors'
+import { white, indigo, gray } from './utils/colors'
 import { MaterialIcons, Entypo } from '@expo/vector-icons'
 import Constants from 'expo-constants'
 import Resultlist from './components/ResultList'
@@ -37,7 +37,7 @@ function MyTabs() {
     <Tab.Navigator
       initialRouteName='Decks'
       tabBarOptions={{
-        activeTintColor: orange,
+        activeTintColor: indigo,
         style: {
           height: Platform.OS === 'android' ? 56 : 80,
           backgroundColor: white,
@@ -54,7 +54,7 @@ function MyTabs() {
           fontSize: Platform.OS === 'android' ? 17 : 10,
         },
         indicatorStyle: {
-          backgroundColor: orange,
+          backgroundColor: indigo,
           height: 2,
         },
       }}
@@ -111,7 +111,7 @@ function MyStack() {
       screenOptions={{
         headerTintColor: white,
         headerStyle: { 
-          backgroundColor: orange, 
+          backgroundColor: indigo, 
           height: 56,
         },
         headerTitleStyle: {
@@ -185,7 +185,7 @@ export default class App extends Component {
       <Provider store={store} >
         <PersistGate persistor={persistedStore} >
             <View style={{flex: 1}} accessible>
-              <AppStatusBar backgroundColor={orange} barStyle="light-content" />
+              <AppStatusBar backgroundColor={'#536DFE'} barStyle="light-content" />
               <NavigationContainer>
                 <MyStack />
               </NavigationContainer>

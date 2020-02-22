@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Modal, Alert, Platform } from 'react-native'
-import { white, green, red, gray, lightGreen, lightGray, orange } from '../utils/colors'
+import { white, green, red, gray, lightGreen, lightGray, indigo } from '../utils/colors'
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen'
 import { MaterialCommunityIcons} from '@expo/vector-icons'
 

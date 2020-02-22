@@ -1,30 +1,11 @@
 import React, { Component } from 'react'
 import { StyleSheet, Text, View, Platform, TouchableOpacity, Alert } from 'react-native'
-import { white, orange, lightGray, green, red, gray } from '../utils/colors'
+import { white, indigo, lightGray, green, red, gray } from '../utils/colors'
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen'
 import { connect } from 'react-redux'
-import { removeDeck } from '../actions/deck'
 import { getDailyReminderValue } from '../utils/helpers'
 
 class DeckDetail extends Component {
-
-    handlePress = () => {
-        const { dispatch, title } = this.props
-        
-        Alert.alert(
-            'Delete',
-            'Are you sure you wanna delete this deck?',
-            [
-                {
-                text: 'Cancel',
-                style: 'cancel',
-                },
-                {text: 'OK', onPress: () => dispatch(removeDeck(title))},
-            ],
-            {cancelable: false},
-        )
-          
-    }
 
     isDisabled = () => {
         const { deck } = this.props
@@ -65,12 +46,6 @@ class DeckDetail extends Component {
                      >
                         <Text style={styles.btnText}>Start Quiz</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity 
-                     style={[styles.addBtn, this.isDisabled() ? {backgroundColor: lightGray} : {backgroundColor: red}]}  
-                     onPress={this.handlePress}
-                     disabled={this.isDisabled()} >
-                        <Text style={styles.btnText}>Delete Deck</Text>
-                    </TouchableOpacity>
                 </View>
             </View>
         )
@@ -88,7 +63,7 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'space-evenly',
         alignItems: 'center',
-        backgroundColor: orange,
+        backgroundColor: indigo,
         borderRadius: 5,
         width: wp('80%'),
         height: hp('40%'),
