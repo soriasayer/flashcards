@@ -22,7 +22,6 @@ function FlashCards ({title, questions, navigation }) {
             </TouchableOpacity>
         </View>
     )
-    
 }
 
 export default FlashCards

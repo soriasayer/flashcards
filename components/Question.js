@@ -8,7 +8,7 @@ import { connect } from 'react-redux'
 import { currentCard, showResult } from '../actions/deck'
 
 class Question extends Component {
-    
+    state = {flipCard: false}
     pressCheck = () => {
         const { dispatch, currentQuestion } = this.props
         const question = currentQuestion && currentQuestion.question
@@ -36,10 +36,11 @@ class Question extends Component {
                     flipHorizontal={true}
                     flipVertical={false}
                     clickable={true}
+                    flip={this.state.flipCard}
                 >
                     <View style={[styles.face, {flex: 1}]}>
                         <Text style={styles.text}>{currentQuestion && currentQuestion.question}</Text>
-                        <TouchableOpacity > 
+                        <TouchableOpacity onPress={() => this.setState({flipCard: true})}> 
                             <Text style={styles.answerBtn}>Answer</Text>
                         </TouchableOpacity>
                     </View>
@@ -47,7 +48,7 @@ class Question extends Component {
                         <Text style={styles.text}>
                         {currentQuestion && currentQuestion.answer}
                         </Text>
-                        <TouchableOpacity > 
+                        <TouchableOpacity onPress={() => this.setState({flipCard: false})}> 
                             <Text style={styles.answerBtn}>question</Text>
                         </TouchableOpacity>
                     </View>
