@@ -7,6 +7,8 @@ export const RESTART_QUIZ = 'RESTART_QUIZ'
 export const QUESTION_RERSULT = 'QUESTION_RERSULT'
 export const CLEAR_RERSULT = 'CLEAR_RERSULT'
 export const DELETE_DECK = 'DELETE_DECK'
+export const EDIT_DECK = 'EDIT_DECK'
+export const VISIBLE_MODAL = 'VISIBLE_MODAL'
 
 export const addDeckTitle = (title) => {
     return{
@@ -55,5 +57,20 @@ export const showResult = (question, isTtrue, answer) => {
 export const cleanResult = () => {
     return {
         type: CLEAR_RERSULT
+    }
+}
+
+export const visibleModal = (isVisible) => {
+    return {
+        type: VISIBLE_MODAL,
+        isVisible
+    }
+}
+
+export const editDeck = (oldTitle, newTitle) => {
+    return {
+        type: EDIT_DECK,
+        oldTitle,
+        newTitle,
     }
 }

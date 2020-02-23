@@ -7,9 +7,19 @@ import { SwipeListView, SwipeRow } from 'react-native-swipe-list-view'
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen'
 import { lightGray, white, indigo, red } from '../utils/colors'
 import { FontAwesome, MaterialIcons } from '@expo/vector-icons'
-import { removeDeck } from '../actions/deck'
+import { removeDeck, visibleModal } from '../actions/deck'
 
 class Decks extends Component {
+    state = {
+        isInEditMode: ''
+    }
+
+    onEdit = (title) => {
+        const { dispatch } = this.props
+        this.setState({isInEditMode: title})
+        dispatch(visibleModal(true))
+    }
+
     handlePress = (title) => {
         const { dispatch } = this.props
         Alert.alert(
@@ -23,36 +33,43 @@ class Decks extends Component {
                 {text: 'OK', onPress: () => dispatch(removeDeck(title))},
             ],
             {cancelable: false},
-        )
-          
+        )   
     }
    
     render () {
-        
+       const { isInEditMode, visibleModal } = this.state 
        const {data} = this.props
         
         return(
             <SwipeListView
             
             useFlatList={true}
+            closeOnRowBeginSwipe={true}
                 data={data}
                 renderItem={({ item }) => (
                     <FlashCards 
                      title={item.title} 
                      questions={item.questions} 
-                     navigation={this.props.navigation} />
+                     navigation={this.props.navigation}
+                     isInEditMode={isInEditMode}
+                     visibleModal={visibleModal}
+                    />
                     )}
                 keyExtractor={item => item.title}
                 renderHiddenItem={ ({item}) => (
                     <View style={styles.container}>
-                    <View style={styles.backContainer}>
-                    <TouchableOpacity onPress={() => this.handlePress(item.title)} style={[styles.buttons, {backgroundColor: red}]}>
-                    <MaterialIcons name='delete' size={30} style={styles.icons}/>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={[styles.buttons, {backgroundColor: indigo}]}>
-                    <FontAwesome name='edit' size={30} style={styles.icons}/>
-                    </TouchableOpacity>
-                    </View>
+                        <View style={styles.backContainer}>
+                        <TouchableOpacity 
+                         onPress={() => this.handlePress(item.title)} 
+                         style={[styles.buttons, {backgroundColor: red}]}>
+                            <MaterialIcons name='delete' size={30} style={styles.icons}/>
+                        </TouchableOpacity>
+                        <TouchableOpacity 
+                         onPress={() => this.onEdit(item.title)}
+                         style={[styles.buttons, {backgroundColor: indigo}]}>
+                            <FontAwesome name='edit' size={30} style={styles.icons}/>
+                        </TouchableOpacity>
+                        </View>
                     </View>
                 )}
                 leftOpenValue={150} 
@@ -62,18 +79,18 @@ class Decks extends Component {
     }
 }
 
-const styles = StyleSheet.create({
+const styles = StyleSheet.create( {
     container: {
         flexDirection: 'row',
-        alignItems: 'flex-end',
+        alignItems: Platform.OS === 'ios' ? 'flex-end' : 'flex-start',
         padding: 5,
     },
     backContainer: {
         flexDirection: 'row',
-        justifyContent: 'flex-end',
-        alignItems: 'flex-end',
+        justifyContent: Platform.OS === 'ios' ? 'flex-end' : 'flex-start',
+        alignItems: Platform.OS === 'ios' ? 'flex-end' : 'flex-start',
         backgroundColor: lightGray,
-        width: wp('100%'),
+        width: wp( '100%' ),
         height: 100,
         padding: 20,
         marginLeft: 10,
@@ -82,29 +99,28 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.8,
         shadowColor: 'rgba(0,0,0,0.24)',
         shadowOffset: {
-        width: 0,
-        height: 3,
+            width: 0,
+            height: 3,
         },
     },
     buttons: {
         alignSelf: "center",
         justifyContent: 'center',
-        width: 60,
+        width: 70,
         height: 100,
     },
     icons: {
         alignSelf: 'center',
         color: white,
     }
-})
+} )
 
-function mapStateToProps({decks}) {
-    const data = Object.keys(decks).map(deck => decks[deck])
-    
+function mapStateToProps({decks, visible} ) {
+    const data = Object.keys( decks ).map( deck => decks[ deck ] )
+
     return {
         data
     }
 }
 
-export default connect(mapStateToProps)(Decks)
-
+export default connect( mapStateToProps )( Decks )

@@ -185,7 +185,7 @@ export default class App extends Component {
       <Provider store={store} >
         <PersistGate persistor={persistedStore} >
             <View style={{flex: 1}} accessible>
-              <AppStatusBar backgroundColor={'#536DFE'} barStyle="light-content" />
+              <AppStatusBar backgroundColor={'#66BB6A'} barStyle="light-content" />
               <NavigationContainer>
                 <MyStack />
               </NavigationContainer>

@@ -73,7 +73,7 @@ class Question extends Component {
     }
 }
 
-const styles = StyleSheet.create({
+const styles = StyleSheet.create( {
     container: {
         flexDirection: 'column',
         alignItems: 'center',
@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
         borderRadius: Platform.OS === 'ios' ? 10 : 10,
-        width: wp('80%'),
+        width: wp( '80%' ),
         padding: 20,
         marginTop: 10,
         marginBottom: 40,
@@ -93,8 +93,8 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.8,
         shadowColor: 'rgba(0,0,0,0.24)',
         shadowOffset: {
-        width: 0,
-        height: 3,
+            width: 0,
+            height: 3,
         },
     },
     back: {
@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
         borderRadius: Platform.OS === 'ios' ? 10 : 10,
-        width: wp('80%'),
+        width: wp( '80%' ),
         padding: 20,
         marginTop: 10,
         marginBottom: 40,
@@ -111,13 +111,13 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.8,
         shadowColor: 'rgba(0,0,0,0.24)',
         shadowOffset: {
-        width: 0,
-        height: 3,
+            width: 0,
+            height: 3,
         },
     },
     text: {
         color: gray,
-        fontSize: hp('3.5%'),
+        fontSize: hp( '3.5%' ),
     },
     answerBtn: {
         textTransform: 'uppercase',
@@ -129,7 +129,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-evenly',
         alignItems: 'center',
-        width: wp('50%'),
+        width: wp( '50%' ),
         height: 110,
         marginBottom: 8,
     },
@@ -140,20 +140,27 @@ const styles = StyleSheet.create({
         padding: 10,
         height: 60,
         width: 60,
-        borderRadius:  100,
+        borderRadius: 100,
     },
-    
-})
 
-function mapStateToProps({decks, counter}, {route}) {
-    const { deck } = route.params
-    
+} )
+
+function mapStateToProps( {
+    decks,
+    counter
+}, {
+    route
+} ) {
+    const {
+        deck
+    } = route.params
+
     return {
-        questions: decks[deck].questions,
-        currentQuestion: decks[deck].questions[counter],
+        questions: decks[ deck ].questions,
+        currentQuestion: decks[ deck ].questions[ counter ],
         counter,
-        
+
     }
 }
 
-export default connect(mapStateToProps)(Question)
+export default connect( mapStateToProps )( Question )

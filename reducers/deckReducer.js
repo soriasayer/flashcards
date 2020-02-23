@@ -1,10 +1,12 @@
 import { 
     ADD_DECK, ADD_QUESTION,
-    CURRENT_CARD, RESTART_QUIZ,
+    CURRENT_CARD,
+     RESTART_QUIZ,
     QUESTION_RERSULT,
     CLEAR_RERSULT,
     DELETE_DECK,
-    currentCard,
+    EDIT_DECK,
+    VISIBLE_MODAL,
  } from '../actions/deck'
 
 export  function decks(state = {}, action){
@@ -38,9 +40,28 @@ export  function decks(state = {}, action){
             return {
                 ...filteredDeck
             }
+            case EDIT_DECK :
+                console.log(action.newTitle, action.oldTitle)
+                if(action.newTitle !== action.oldTitle) {
+                    const deckdsObj = Object.keys(state).map(deck => state[deck]).filter(currentDeck => currentDeck.title !== action.oldTitle)
+                    const editableDeck = deckdsObj.map(deck => ({[deck.title] : deck}))
+                    const newDeckObj = Object.assign({}, ...editableDeck)
+                    console.log('1',action.newTitle, action.oldTitle)
+                    return {
+                        ...newDeckObj,
+                        [action.newTitle]: {
+                            title: action.newTitle,
+                            questions: state[action.oldTitle].questions
+                        }
+                    }
+                } else {
+                    console.log('2',action.newTitle, action.oldTitle)
+                    return {...state}
+                }
+                
        
-         default: 
-        return state
+        default: 
+            return state
     }
 }
 
@@ -70,6 +91,15 @@ export function result(state = [], action) {
         case CLEAR_RERSULT : 
             return []
         default:
+            return state
+    }
+}
+
+export function visible(state = false, action) {
+    switch(action.type) {
+        case VISIBLE_MODAL : 
+            return action.isVisible
+        default: 
             return state
     }
 }
