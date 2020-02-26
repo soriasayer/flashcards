@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { FlatList, View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native'
+import { FlatList, View, Text, StyleSheet, TouchableHighlight, Alert } from 'react-native'
 import FlashCards from './FlashCards'
 import { getData } from './FlashCards'
 import { connect } from 'react-redux'
@@ -7,20 +7,23 @@ import { SwipeListView, SwipeRow } from 'react-native-swipe-list-view'
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen'
 import { lightGray, white, indigo, red } from '../utils/colors'
 import { FontAwesome, MaterialIcons } from '@expo/vector-icons'
-import { removeDeck, visibleModal } from '../actions/deck'
+import { removeDeck, visibleModal, inEditMode } from '../actions/deck'
 
 class Decks extends Component {
     state = {
-        isInEditMode: ''
-    }
+        textInput: '',
+        editedTitle: 0
+      }
 
-    onEdit = (title) => {
-        const { dispatch } = this.props
-        this.setState({isInEditMode: title})
-        dispatch(visibleModal(true))
-    }
+      setTextInput = (title) => {
+          this.setState({textInput: title})
+      }
 
-    handlePress = (title) => {
+      setEditedItem = (id) => {
+          this.setState({editedTitle: id})
+      }
+
+    handlePress = (id) => {
         const { dispatch } = this.props
         Alert.alert(
             'Delete',
@@ -30,45 +33,49 @@ class Decks extends Component {
                 text: 'Cancel',
                 style: 'cancel',
                 },
-                {text: 'OK', onPress: () => dispatch(removeDeck(title))},
+                {text: 'OK', onPress: () => dispatch(removeDeck(id))},
             ],
             {cancelable: false},
         )   
     }
    
     render () {
-       const { isInEditMode, visibleModal } = this.state 
-       const {data} = this.props
-        
+       const {data, dispatch} = this.props
+       const { editedTitle, textInput } = this.state
+       
         return(
             <SwipeListView
-            
             useFlatList={true}
             closeOnRowBeginSwipe={true}
                 data={data}
                 renderItem={({ item }) => (
                     <FlashCards 
+                     id={item.id}
                      title={item.title} 
                      questions={item.questions} 
                      navigation={this.props.navigation}
-                     isInEditMode={isInEditMode}
-                     visibleModal={visibleModal}
+                     editedTitle={editedTitle}
+                     textInput={textInput}
                     />
                     )}
-                keyExtractor={item => item.title}
+                keyExtractor={item => item.id}
                 renderHiddenItem={ ({item}) => (
                     <View style={styles.container}>
                         <View style={styles.backContainer}>
-                        <TouchableOpacity 
-                         onPress={() => this.handlePress(item.title)} 
+                        <TouchableHighlight 
+                         onPress={() => this.handlePress(item.id)} 
                          style={[styles.buttons, {backgroundColor: red}]}>
                             <MaterialIcons name='delete' size={30} style={styles.icons}/>
-                        </TouchableOpacity>
-                        <TouchableOpacity 
-                         onPress={() => this.onEdit(item.title)}
-                         style={[styles.buttons, {backgroundColor: indigo}]}>
+                        </TouchableHighlight>
+                        <TouchableHighlight 
+                         onPress={() => {
+                            this.setTextInput(item.title)
+                            this.setEditedItem(item.id)
+                            dispatch(visibleModal(true))}}
+                         style={[styles.buttons, {backgroundColor: indigo}]}
+                         underlayColor={'#f1f1f1'}>
                             <FontAwesome name='edit' size={30} style={styles.icons}/>
-                        </TouchableOpacity>
+                        </TouchableHighlight>
                         </View>
                     </View>
                 )}
@@ -115,11 +122,10 @@ const styles = StyleSheet.create( {
     }
 } )
 
-function mapStateToProps({decks, visible} ) {
+function mapStateToProps({decks}) {
     const data = Object.keys( decks ).map( deck => decks[ deck ] )
-
     return {
-        data
+        data,  
     }
 }
 

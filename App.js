@@ -181,11 +181,12 @@ export default class App extends Component {
   }
 
   render() {
+
     return (
       <Provider store={store} >
         <PersistGate persistor={persistedStore} >
             <View style={{flex: 1}} accessible>
-              <AppStatusBar backgroundColor={'#66BB6A'} barStyle="light-content" />
+              <AppStatusBar backgroundColor={'#5bba99'} barStyle="light-content" />
               <NavigationContainer>
                 <MyStack />
               </NavigationContainer>

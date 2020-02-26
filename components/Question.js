@@ -145,21 +145,13 @@ const styles = StyleSheet.create( {
 
 } )
 
-function mapStateToProps( {
-    decks,
-    counter
-}, {
-    route
-} ) {
-    const {
-        deck
-    } = route.params
+function mapStateToProps( {decks, counter}, {route} ) {
+    const {deck} = route.params
 
     return {
         questions: decks[ deck ].questions,
         currentQuestion: decks[ deck ].questions[ counter ],
         counter,
-
     }
 }
 

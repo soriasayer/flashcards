@@ -1,7 +1,8 @@
 import { 
-    ADD_DECK, ADD_QUESTION,
+    ADD_DECK,
+    ADD_QUESTION,
     CURRENT_CARD,
-     RESTART_QUIZ,
+    RESTART_QUIZ,
     QUESTION_RERSULT,
     CLEAR_RERSULT,
     DELETE_DECK,
@@ -14,7 +15,8 @@ export  function decks(state = {}, action){
         case ADD_DECK :
             return {
                 ...state,
-                [action.title]: {
+                [action.did]: {
+                    id: action.did,
                     title: action.title,
                     questions: []
                 }
@@ -22,10 +24,11 @@ export  function decks(state = {}, action){
         case ADD_QUESTION : 
             return {
                 ...state,
-                [action.deckTitle]: {
-                    title: action.deckTitle,
+                [action.did]: {
+                    id: action.did,
+                    title: state[action.did].title,
                     questions: [
-                        ...state[action.deckTitle].questions,
+                        ...state[action.did].questions,
                         {
                             question: action.question,
                             answer: action.answer
@@ -34,32 +37,25 @@ export  function decks(state = {}, action){
                 }
             }
         case DELETE_DECK :
-            const deckList = Object.keys(state).map(deck => state[deck]).filter(currentDeck => currentDeck.title !== action.title)
-            const newDeck = deckList.map(deck => ({[deck.title] : deck}))
+            const deckList = Object.keys(state).map(deck => state[deck]).filter(currentDeck => currentDeck.id !== action.did)
+            const newDeck = deckList.map(deck => ({[deck.id] : deck}))
             const filteredDeck = Object.assign({}, ...newDeck)
             return {
                 ...filteredDeck
             }
-            case EDIT_DECK :
-                console.log(action.newTitle, action.oldTitle)
-                if(action.newTitle !== action.oldTitle) {
-                    const deckdsObj = Object.keys(state).map(deck => state[deck]).filter(currentDeck => currentDeck.title !== action.oldTitle)
-                    const editableDeck = deckdsObj.map(deck => ({[deck.title] : deck}))
-                    const newDeckObj = Object.assign({}, ...editableDeck)
-                    console.log('1',action.newTitle, action.oldTitle)
-                    return {
-                        ...newDeckObj,
-                        [action.newTitle]: {
-                            title: action.newTitle,
-                            questions: state[action.oldTitle].questions
-                        }
+        case EDIT_DECK :
+            if(action.title !== '') {
+                return {
+                    ...state,
+                    [action.did]: {
+                        id: action.did,
+                        title: action.title,
+                        questions: state[action.did].questions
                     }
-                } else {
-                    console.log('2',action.newTitle, action.oldTitle)
-                    return {...state}
-                }
-                
-       
+                } 
+            } else {
+                return state
+            } 
         default: 
             return state
     }

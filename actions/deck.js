@@ -8,26 +8,30 @@ export const QUESTION_RERSULT = 'QUESTION_RERSULT'
 export const CLEAR_RERSULT = 'CLEAR_RERSULT'
 export const DELETE_DECK = 'DELETE_DECK'
 export const EDIT_DECK = 'EDIT_DECK'
+export const INPUT_TITLE = 'INPUT_TITLE'
+export const INPUT_ID = 'INPUT_ID'
 export const VISIBLE_MODAL = 'VISIBLE_MODAL'
 
-export const addDeckTitle = (title) => {
+export const addDeckTitle = (did, title) => {
     return{
         type: ADD_DECK,
+        did,
         title,
     }
 }
 
-export const removeDeck = (title) => {
+export const removeDeck = (did) => {
     return {
         type: DELETE_DECK,
-        title,
+        did,
     }
 }
 
-export const addQuestion = ( deckTitle, question, answer ) => {
+export const addQuestion = ( did, question, answer ) => {
+    alert(did)
     return{
         type: ADD_QUESTION,
-        deckTitle,
+        did,
         question, 
         answer,
     }
@@ -67,10 +71,11 @@ export const visibleModal = (isVisible) => {
     }
 }
 
-export const editDeck = (oldTitle, newTitle) => {
+export const editDeck = (did, title) => {
     return {
         type: EDIT_DECK,
-        oldTitle,
-        newTitle,
+        did,
+        title,
     }
 }
+

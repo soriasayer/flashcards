@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { StyleSheet, Text, View, Platform, FlatList, TouchableOpacity, TextInput } from 'react-native'
+import { StyleSheet, Text, View, Platform, FlatList, TouchableHighlight, TextInput } from 'react-native'
 import { white, indigo, lightindigo, lightGray } from '../utils/colors'
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen'
 import { editDeck, visibleModal } from '../actions/deck'
@@ -8,67 +8,69 @@ import { connect } from 'react-redux'
 import Modal from "react-native-modal"
 
 class FlashCards extends Component {
-  state = {
-    text: this.props.title,
-  }
+  state = {newTitle: ''}
 
   handleOnPress = () => {
-    const { dispatch, title } = this.props
-    const {text} = this.state 
-    
-    dispatch(editDeck(title, text))
+    const { dispatch, editedTitle } = this.props
+    const { newTitle } = this.state
+
     dispatch(visibleModal(false))
+    dispatch(editDeck(editedTitle, newTitle))
+
+    this.setState({newTitle: ''})
   }
 
   _renderModalContent = () => {
-    const {text} = this.state
-    
+    const { textInput } = this.props
     return(
       <View style={styles.modalContent}>
         <TextInput
         autoFocus={true}
-        style={styles.input}
-        value={text}
-        onChangeText={(text) => this.setState({text})}/>
-        <TouchableOpacity style={styles.button} onPress={this.handleOnPress} >
+        maxLength={200}
+        defaultValue={textInput}
+        onChangeText={(text) => this.setState({newTitle: text})} 
+        style={styles.input}/>
+        <TouchableHighlight 
+         style={styles.button} 
+         onPress={this.handleOnPress} 
+         underlayColor={'#f1f1f1'}>
           <MaterialCommunityIcons name='check' size={20} style={{color: white}}/>
-        </TouchableOpacity>
+        </TouchableHighlight>
       </View>
     )
   }
     
   render() {
-    
-    const {title, questions, navigation, isInEditMode, visible } = this.props
+    const {id, title, questions, navigation, visible, dispatch  } = this.props
+  
     return(
-        <View style={[styles.container, {flex: 1}]}>
-            <View style={styles.deckContainer}>
-            <TouchableOpacity 
-             style={styles.deck} 
-             onPress={() => navigation.navigate('DeckDetail', { 
-              deck: title,
-             })}>
-              <View style={styles.deckShadow} >
-                <Text style={styles.cards}>{questions.length}</Text>
-              </View>
-            </TouchableOpacity>
-            {isInEditMode === title
-              ? <View style={styles.modalContainer}>
-                  <Modal 
-                    isVisible={visible}
-                    backdropOpacity={0.6}
-                    animationIn={'zoomInDown'}
-                    animationOut={'zoomOutUp'}
-                    animationInTiming={1000}
-                    animationOutTiming={1000}
-                    backdropTransitionInTiming={1000}
-                    backdropTransitionOutTiming={1000}>
-                    {this._renderModalContent()}
-                  </Modal>
-                </View> 
-              : <Text style={styles.deckTitle}>{title}</Text>}
-            </View>
-        </View>
+      <View style={[styles.container, {flex: 1}]}>
+        <Modal 
+         onSwipeComplete={() => dispatch(visibleModal(false))}
+         swipeDirection="left"
+         isVisible={visible}
+         backdropOpacity={0.6}
+         animationIn={'zoomInDown'}
+         animationOut={'zoomOutUp'}
+         animationInTiming={1000}
+         animationOutTiming={1000}
+         backdropTransitionInTiming={1000}
+         backdropTransitionOutTiming={1000}>
+         {this._renderModalContent()}
+        </Modal>
+        <View style={styles.deckContainer}>
+        <TouchableHighlight 
+          style={styles.deck} 
+          onPress={() => navigation.navigate('DeckDetail', { 
+          deck: id,
+          })}>
+          <View style={styles.deckShadow} >
+            <Text style={styles.cards}>{questions.length}</Text>
+          </View>
+          </TouchableHighlight>
+            <Text style={styles.deckTitle}>{title}</Text>
+          </View>
+      </View>
     )}
 }
 
@@ -149,21 +151,21 @@ const styles = StyleSheet.create( {
     borderColor: 'rgba(0, 0, 0, 0.1)',
   },
   input: {
-    width: 150,
+    width: '85%',
     height: 40,
     backgroundColor: white,
     borderColor: lightGray,
     borderWidth: 1,
     borderRadius: 2,
     fontSize: 20,
-    textAlign: 'center',
+    padding: 10,
   },
 
 })
 
-function mapStateToProps({visible} ) {
+function mapStateToProps({ visible, textInput, editedTitle } ) {
   return {
-      visible
+    visible,
   }
 }
 

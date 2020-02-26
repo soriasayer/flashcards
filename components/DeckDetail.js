@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { StyleSheet, Text, View, Platform, TouchableOpacity, Alert } from 'react-native'
+import { StyleSheet, Text, View, Platform, TouchableOpacity } from 'react-native'
 import { white, indigo, lightGray, green, red, gray } from '../utils/colors'
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen'
 import { connect } from 'react-redux'
@@ -18,7 +18,6 @@ class DeckDetail extends Component {
     
     render () {
         const { deck } = this.props
-
         return(
             <View style={[styles.container, {flex: 1}]}>
             {deck === null 
@@ -33,7 +32,7 @@ class DeckDetail extends Component {
                     <TouchableOpacity 
                      style={[styles.addBtn, this.isDisabled() ? {backgroundColor: lightGray} : {backgroundColor: green}]}  
                      onPress={() => this.props.navigation.navigate('AddQuestion', {
-                        deckTitle: deck.title
+                        deckId: deck.id
                      })}
                      disabled={this.isDisabled()} 
                     >
@@ -41,9 +40,8 @@ class DeckDetail extends Component {
                     </TouchableOpacity>
                     <TouchableOpacity
                      style={[styles.addBtn, this.isDisabled() ? {backgroundColor: lightGray} : {backgroundColor: gray}]}  
-                     onPress={() => this.props.navigation.navigate('Question', {deck: deck.title})}
-                     disabled={this.isDisabled()}   
-                     >
+                     onPress={() => this.props.navigation.navigate('Question', {deck: deck.id})}
+                     disabled={this.isDisabled()}>
                         <Text style={styles.btnText}>Start Quiz</Text>
                     </TouchableOpacity>
                 </View>
