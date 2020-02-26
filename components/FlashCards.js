@@ -1,9 +1,9 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import { StyleSheet, Text, View, Platform, FlatList, TouchableHighlight, TextInput } from 'react-native'
-import { white, indigo, lightindigo, lightGray } from '../utils/colors'
+import { white, teal, lightteal, lightGray } from '../utils/colors'
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen'
 import { editDeck, visibleModal } from '../actions/deck'
-import { MaterialCommunityIcons} from '@expo/vector-icons'
+import { MaterialCommunityIcons, MaterialIcons} from '@expo/vector-icons'
 import { connect } from 'react-redux'
 import Modal from "react-native-modal"
 
@@ -33,45 +33,59 @@ class FlashCards extends Component {
         <TouchableHighlight 
          style={styles.button} 
          onPress={this.handleOnPress} 
-         underlayColor={'#f1f1f1'}>
+         underlayColor={teal}>
           <MaterialCommunityIcons name='check' size={20} style={{color: white}}/>
         </TouchableHighlight>
       </View>
     )
+  }
+
+  renderCard = () => {
+    if(this.props.questions.length > 1) {
+      return 'Cards'
+    } else if(this.props.questions.length === 0) {
+      return 'No cards'
+    } else {
+      return 'Card'
+    }
   }
     
   render() {
     const {id, title, questions, navigation, visible, dispatch  } = this.props
   
     return(
-      <View style={[styles.container, {flex: 1}]}>
+      <Fragment>
         <Modal 
-         onSwipeComplete={() => dispatch(visibleModal(false))}
-         swipeDirection="left"
-         isVisible={visible}
-         backdropOpacity={0.6}
-         animationIn={'zoomInDown'}
-         animationOut={'zoomOutUp'}
-         animationInTiming={1000}
-         animationOutTiming={1000}
-         backdropTransitionInTiming={1000}
-         backdropTransitionOutTiming={1000}>
-         {this._renderModalContent()}
+          onSwipeComplete={() => dispatch(visibleModal(false))}
+          swipeDirection="left"
+          isVisible={visible}
+          backdropOpacity={0.6}
+          animationIn={'zoomInDown'}
+          animationOut={'zoomOutUp'}
+          animationInTiming={1000}
+          animationOutTiming={1000}
+          backdropTransitionInTiming={1000}
+          backdropTransitionOutTiming={1000}>
+          {this._renderModalContent()}
         </Modal>
-        <View style={styles.deckContainer}>
         <TouchableHighlight 
-          style={styles.deck} 
+          style={[styles.container, {flex: 1}]}
           onPress={() => navigation.navigate('DeckDetail', { 
           deck: id,
           })}>
-          <View style={styles.deckShadow} >
-            <Text style={styles.cards}>{questions.length}</Text>
-          </View>
-          </TouchableHighlight>
+          
+          <View style={styles.deckContainer}>
+            <MaterialIcons name='folder' size={60} style={{color: teal}}/>
+            <View style={{alignSelf: 'flex-start'}}>
             <Text style={styles.deckTitle}>{title}</Text>
+            <Text style={styles.cards}>{`${questions.length} ${this.renderCard()}`}</Text>
+            </View>
+            
           </View>
-      </View>
-    )}
+        </TouchableHighlight>
+      </Fragment>
+    )
+  }
 }
 
 
@@ -86,11 +100,12 @@ const styles = StyleSheet.create( {
     justifyContent: 'flex-start',
     alignItems: 'center',
     backgroundColor: white,
-    width: wp( '100%' ),
-    height: 100,
+    width: wp( '95%' ),
+    height: 90,
     padding: 20,
     marginLeft: 10,
     marginRight: 10,
+    borderRadius: 3,
     shadowRadius: 3,
     shadowOpacity: 0.8,
     shadowColor: 'rgba(0,0,0,0.24)',
@@ -99,34 +114,18 @@ const styles = StyleSheet.create( {
       height: 3,
     },
   },
-  deck: {
-    width: 90,
-    height: 60,
-    backgroundColor: lightindigo,
-    borderRadius: 5,
-  },
-  deckShadow: {
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: 90,
-    height: 60,
-    backgroundColor: indigo,
-    borderRadius: 5,
-    left: 10,
-    bottom: 10,
-  },
   deckTitle: {
     fontWeight: 'bold',
-    color: indigo,
+    color: teal,
     fontSize: 18,
-    alignSelf: 'flex-start',
     marginLeft: 20,
+    marginBottom: 5,
   },
   cards: {
     fontWeight: 'bold',
-    color: white,
-    fontSize: 20,
+    color: lightGray,
+    fontSize: 14,
+    marginLeft: 20,
   },
   modalContainer: {
     flex: 1,
@@ -134,7 +133,7 @@ const styles = StyleSheet.create( {
     alignItems: 'center',
   },
   button: {
-    backgroundColor: indigo,
+    backgroundColor: teal,
     padding: 12,
     margin: 16,
     justifyContent: 'center',

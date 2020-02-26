@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { StyleSheet, Text, View, Platform, TouchableOpacity } from 'react-native'
-import { white, indigo, lightGray, green, red, gray } from '../utils/colors'
+import { white, teal, lightGray, green, red, gray } from '../utils/colors'
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen'
 import { connect } from 'react-redux'
 import { getDailyReminderValue } from '../utils/helpers'
@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'space-evenly',
         alignItems: 'center',
-        backgroundColor: indigo,
+        backgroundColor: teal,
         borderRadius: 5,
         width: wp('80%'),
         height: hp('40%'),

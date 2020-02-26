@@ -145,14 +145,14 @@ const styles = StyleSheet.create( {
 
 } )
 
-function mapStateToProps( {decks, counter}, {route} ) {
+function mapStateToProps({decks, counter}, {route}) {
     const {deck} = route.params
 
     return {
-        questions: decks[ deck ].questions,
-        currentQuestion: decks[ deck ].questions[ counter ],
+        questions: decks[deck].questions,
+        currentQuestion: decks[deck].questions[counter],
         counter,
     }
 }
 
-export default connect( mapStateToProps )( Question )
+export default connect(mapStateToProps)( Question )

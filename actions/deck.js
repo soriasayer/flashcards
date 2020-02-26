@@ -8,8 +8,6 @@ export const QUESTION_RERSULT = 'QUESTION_RERSULT'
 export const CLEAR_RERSULT = 'CLEAR_RERSULT'
 export const DELETE_DECK = 'DELETE_DECK'
 export const EDIT_DECK = 'EDIT_DECK'
-export const INPUT_TITLE = 'INPUT_TITLE'
-export const INPUT_ID = 'INPUT_ID'
 export const VISIBLE_MODAL = 'VISIBLE_MODAL'
 
 export const addDeckTitle = (did, title) => {

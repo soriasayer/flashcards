@@ -14,8 +14,8 @@ class AddQuestion extends Component {
 
     handlePress = () => {
         const { question, answer } = this.state
-        const { dispatch, navigation } = this.props
-        const { deckId } = this.props.route.params
+        const { dispatch, navigation, route } = this.props
+        const { deckId } = route.params
         
         dispatch(addQuestion(deckId, question, answer))
         navigation.dispatch(CommonActions.goBack()) 
