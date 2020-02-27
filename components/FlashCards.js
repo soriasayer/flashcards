@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, Platform, FlatList, TouchableHighlight, TextInp
 import { white, teal, lightteal, lightGray } from '../utils/colors'
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen'
 import { editDeck, visibleModal } from '../actions/deck'
-import { MaterialCommunityIcons, MaterialIcons} from '@expo/vector-icons'
+import { MaterialCommunityIcons, Ionicons} from '@expo/vector-icons'
 import { connect } from 'react-redux'
 import Modal from "react-native-modal"
 
@@ -75,12 +75,14 @@ class FlashCards extends Component {
           })}>
           
           <View style={styles.deckContainer}>
-            <MaterialIcons name='folder' size={60} style={{color: teal}}/>
-            <View style={{alignSelf: 'flex-start'}}>
-            <Text style={styles.deckTitle}>{title}</Text>
-            <Text style={styles.cards}>{`${questions.length} ${this.renderCard()}`}</Text>
+            <View style={styles.folderContainer}>
+              <Ionicons name={Platform.OS === "ios" 
+              ? 'ios-folder' : 'md-folder'} size={60} style={{color: teal}}/>
             </View>
-            
+            <View style={{alignSelf: 'flex-start'}}>
+              <Text style={styles.deckTitle}>{title}</Text>
+              <Text style={styles.cards}>{`${questions.length} ${this.renderCard()}`}</Text>
+            </View>
           </View>
         </TouchableHighlight>
       </Fragment>
@@ -88,12 +90,12 @@ class FlashCards extends Component {
   }
 }
 
-
 const styles = StyleSheet.create( {
   container: {
     flexDirection: 'column',
     alignItems: 'center',
     padding: 5,
+    paddingTop: 10,
   },
   deckContainer: {
     flexDirection: 'row',
@@ -114,18 +116,22 @@ const styles = StyleSheet.create( {
       height: 3,
     },
   },
+  folderContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 80,
+    width: 85,
+  },
   deckTitle: {
     fontWeight: 'bold',
     color: teal,
     fontSize: 18,
-    marginLeft: 20,
     marginBottom: 5,
   },
   cards: {
     fontWeight: 'bold',
     color: lightGray,
     fontSize: 14,
-    marginLeft: 20,
   },
   modalContainer: {
     flex: 1,
