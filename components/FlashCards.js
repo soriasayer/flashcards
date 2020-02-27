@@ -51,8 +51,8 @@ class FlashCards extends Component {
   }
     
   render() {
-    const {id, title, questions, navigation, visible, dispatch  } = this.props
-  
+    const {id, title, questions, navigation, visible, dispatch, decks } = this.props
+  console.log('the only console', decks[id])
     return(
       <Fragment>
         <Modal 
@@ -70,10 +70,9 @@ class FlashCards extends Component {
         </Modal>
         <TouchableHighlight 
           style={[styles.container, {flex: 1}]}
-          onPress={() => navigation.navigate('DeckDetail', { 
-          deck: id,
-          })}>
-          
+          onPress={() => {questions.length === 0 
+            ? navigation.navigate('DeckDetail', {deck: id,}) 
+            : navigation.navigate('Question', {deck: decks[id] ? decks[id].id : null})}}>
           <View style={styles.deckContainer}>
             <View style={styles.folderContainer}>
               <Ionicons name={Platform.OS === "ios" 
@@ -168,8 +167,9 @@ const styles = StyleSheet.create( {
 
 })
 
-function mapStateToProps({ visible, textInput, editedTitle } ) {
+function mapStateToProps({ visible, decks } ) {
   return {
+    decks,
     visible,
   }
 }

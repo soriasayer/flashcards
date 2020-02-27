@@ -6,7 +6,7 @@ import { connect } from 'react-redux'
 import { SwipeListView, SwipeRow } from 'react-native-swipe-list-view'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen'
 import { lightGray, white, teal, red } from '../utils/colors'
-import { FontAwesome, MaterialIcons } from '@expo/vector-icons'
+import { FontAwesome, MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons'
 import { removeDeck, visibleModal, inEditMode } from '../actions/deck'
 
 class Decks extends Component {
@@ -40,7 +40,7 @@ class Decks extends Component {
     }
    
     render () {
-       const {data, dispatch} = this.props
+       const {data, dispatch, navigation} = this.props
        const { editedTitle, textInput } = this.state
        
         return(
@@ -62,24 +62,36 @@ class Decks extends Component {
                 renderHiddenItem={ ({item}) => (
                     <View style={styles.container}>
                         <View style={styles.backContainer}>
+                        <View style={styles.btnContainer}>
                         <TouchableHighlight 
-                         onPress={() => this.handlePress(item.id)} 
-                         style={[styles.buttons, {backgroundColor: red}]}>
-                            <MaterialIcons name='delete' size={30} style={styles.icons}/>
-                        </TouchableHighlight>
-                        <TouchableHighlight 
-                         onPress={() => {
-                            this.setTextInput(item.title)
-                            this.setEditedItem(item.id)
-                            dispatch(visibleModal(true))}}
-                            style={[styles.buttons, styles.buttonEdit]}
-                         underlayColor={teal}>
-                            <FontAwesome name='edit' size={30} style={styles.icons}/>
-                        </TouchableHighlight>
+                            onPress={() => this.handlePress(item.id)} 
+                            style={[styles.buttons, {backgroundColor: red}]}>
+                                <MaterialIcons name='delete' size={30} style={styles.icons}/>
+                            </TouchableHighlight>
+                            <TouchableHighlight 
+                            onPress={() => {
+                                this.setTextInput(item.title)
+                                this.setEditedItem(item.id)
+                                dispatch(visibleModal(true))}}
+                                style={[styles.buttons, styles.buttonEdit]}
+                            underlayColor={teal}>
+                                <FontAwesome name='edit' size={30} style={styles.icons}/>
+                            </TouchableHighlight>
+                        </View>
+                        <View style={styles.listBtnContainer}>
+                        <TouchableHighlight
+                         style={[styles.buttons, styles.buttonList]}
+                         onPress={() => navigation.navigate('DeckDetail', { 
+                            deck: item.id,
+                            })}> 
+                                <MaterialCommunityIcons name='view-list' size={30} style={styles.icons}/>
+                            </TouchableHighlight>
+                        </View>
+                            
                         </View>
                     </View>
                 )}
-                leftOpenValue={150} 
+                leftOpenValue={75} 
                 rightOpenValue={-150}
             />
         )
@@ -95,9 +107,8 @@ const styles = StyleSheet.create( {
     paddingTop: 10,
     },
     backContainer: {
-        flexDirection: 'row',
-        justifyContent: 'flex-end',
-        alignItems: 'flex-end',
+        flexDirection: 'row-reverse',
+        justifyContent: 'space-between',
         backgroundColor: lightGray,
         width: wp('95%'),
         height: 90,
@@ -112,16 +123,35 @@ const styles = StyleSheet.create( {
         height: 3,
         },
     },
+    btnContainer: {
+        flexDirection: 'row',
+        justifyContent: 'flex-end',
+        alignItems: 'flex-end',
+        width: wp('48%'),
+        height: 90,
+    },
+    listBtnContainer: {
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+        alignItems: 'flex-start',
+        width: wp('46%'),
+        height: 90,
+    },
     buttons: {
-        alignSelf: 'center',
+        alignItems: 'center',
         justifyContent: 'center',
-        width: 70,
+        width: 75,
         height: 90,
     },
     buttonEdit: {
         backgroundColor: teal,
         borderTopRightRadius: 3,
         borderBottomRightRadius: 3
+    },
+    buttonList: {
+        backgroundColor: teal,
+        borderTopLeftRadius: 3,
+        borderBottomLeftRadius: 3
     },
     icons: {
         alignSelf: 'center',
