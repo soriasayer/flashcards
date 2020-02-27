@@ -4572,6 +4572,11 @@ react-native-svg@9.13.3:
     css-select "^2.0.2"
     css-tree "^1.0.0-alpha.37"
 
+react-native-swipe-list-view@^2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/react-native-swipe-list-view/-/react-native-swipe-list-view-2.2.0.tgz#73bae586b71e9db60bb9833bf68cf5c777aa4dd3"
+  integrity sha512-MvQfcLSycM1PMf0unxK6+aoP+OOZ3XvmByCKddx8kkn5O/450uYN2ZWYCzH/j98bRrIzbh9qR8LqYlOcAIdu/g==
+
 react-native-tab-view@^2.13.0:
   version "2.13.0"
   resolved "https://registry.yarnpkg.com/react-native-tab-view/-/react-native-tab-view-2.13.0.tgz#23037aa43b0f8f682ddc20415a4baaaf6f82ae8f"

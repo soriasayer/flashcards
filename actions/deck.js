@@ -7,25 +7,29 @@ export const RESTART_QUIZ = 'RESTART_QUIZ'
 export const QUESTION_RERSULT = 'QUESTION_RERSULT'
 export const CLEAR_RERSULT = 'CLEAR_RERSULT'
 export const DELETE_DECK = 'DELETE_DECK'
+export const EDIT_DECK = 'EDIT_DECK'
+export const VISIBLE_MODAL = 'VISIBLE_MODAL'
 
-export const addDeckTitle = (title) => {
+export const addDeckTitle = (did, title) => {
     return{
         type: ADD_DECK,
+        did,
         title,
     }
 }
 
-export const removeDeck = (title) => {
+export const removeDeck = (did) => {
     return {
         type: DELETE_DECK,
-        title,
+        did,
     }
 }
 
-export const addQuestion = ( deckTitle, question, answer ) => {
+export const addQuestion = ( did, question, answer ) => {
+    alert(did)
     return{
         type: ADD_QUESTION,
-        deckTitle,
+        did,
         question, 
         answer,
     }
@@ -57,3 +61,19 @@ export const cleanResult = () => {
         type: CLEAR_RERSULT
     }
 }
+
+export const visibleModal = (isVisible) => {
+    return {
+        type: VISIBLE_MODAL,
+        isVisible
+    }
+}
+
+export const editDeck = (did, title) => {
+    return {
+        type: EDIT_DECK,
+        did,
+        title,
+    }
+}
+

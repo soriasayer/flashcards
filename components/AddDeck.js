@@ -4,6 +4,7 @@ import { white, gray, lightGray } from '../utils/colors'
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen'
 import { connect } from 'react-redux'
 import { addDeckTitle } from '../actions/deck'
+import { generateUID } from '../utils/helpers'
 
 class AddDeck extends Component {
     state = {
@@ -14,7 +15,7 @@ class AddDeck extends Component {
     handlePress = () => {
         const { title } = this.state
         const { dispatch, navigation } = this.props
-        dispatch(addDeckTitle(title))
+        dispatch(addDeckTitle(generateUID(), title))
 
         navigation.navigate('Decks')
         this.setState({title: ''})
@@ -67,13 +68,13 @@ const styles = StyleSheet.create({
     },
     input: {
         width: wp('90%'),
-        height: 50,
+        height: 60,
         backgroundColor: white,
         borderColor: gray,
         borderWidth: 1,
         borderRadius: Platform.OS === 'ios' ? 8 : 4,
         fontSize: 22,
-        textAlign: 'center',
+        padding: 15,
     },
     submitBtn: {
         backgroundColor: gray,

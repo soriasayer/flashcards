@@ -1,10 +1,13 @@
 import { 
-    ADD_DECK, ADD_QUESTION,
-    CURRENT_CARD, RESTART_QUIZ,
+    ADD_DECK,
+    ADD_QUESTION,
+    CURRENT_CARD,
+    RESTART_QUIZ,
     QUESTION_RERSULT,
     CLEAR_RERSULT,
     DELETE_DECK,
-    currentCard,
+    EDIT_DECK,
+    VISIBLE_MODAL,
  } from '../actions/deck'
 
 export  function decks(state = {}, action){
@@ -12,7 +15,8 @@ export  function decks(state = {}, action){
         case ADD_DECK :
             return {
                 ...state,
-                [action.title]: {
+                [action.did]: {
+                    id: action.did,
                     title: action.title,
                     questions: []
                 }
@@ -20,10 +24,11 @@ export  function decks(state = {}, action){
         case ADD_QUESTION : 
             return {
                 ...state,
-                [action.deckTitle]: {
-                    title: action.deckTitle,
+                [action.did]: {
+                    id: action.did,
+                    title: state[action.did].title,
                     questions: [
-                        ...state[action.deckTitle].questions,
+                        ...state[action.did].questions,
                         {
                             question: action.question,
                             answer: action.answer
@@ -32,15 +37,27 @@ export  function decks(state = {}, action){
                 }
             }
         case DELETE_DECK :
-            const deckList = Object.keys(state).map(deck => state[deck]).filter(currentDeck => currentDeck.title !== action.title)
-            const newDeck = deckList.map(deck => ({[deck.title] : deck}))
+            const deckList = Object.keys(state).map(deck => state[deck]).filter(currentDeck => currentDeck.id !== action.did)
+            const newDeck = deckList.map(deck => ({[deck.id] : deck}))
             const filteredDeck = Object.assign({}, ...newDeck)
             return {
                 ...filteredDeck
             }
-       
-         default: 
-        return state
+        case EDIT_DECK :
+            if(action.title !== '') {
+                return {
+                    ...state,
+                    [action.did]: {
+                        id: action.did,
+                        title: action.title,
+                        questions: state[action.did].questions
+                    }
+                } 
+            } else {
+                return state
+            } 
+        default: 
+            return state
     }
 }
 
@@ -70,6 +87,15 @@ export function result(state = [], action) {
         case CLEAR_RERSULT : 
             return []
         default:
+            return state
+    }
+}
+
+export function visible(state = false, action) {
+    switch(action.type) {
+        case VISIBLE_MODAL : 
+            return action.isVisible
+        default: 
             return state
     }
 }

@@ -6,7 +6,6 @@ import { connect } from 'react-redux'
 import { addQuestion } from '../actions/deck'
 import { CommonActions } from '@react-navigation/native'
 
-
 class AddQuestion extends Component {
     state = {
         question: '',
@@ -15,12 +14,11 @@ class AddQuestion extends Component {
 
     handlePress = () => {
         const { question, answer } = this.state
-        const { dispatch, navigation } = this.props
-        const { deckTitle } = this.props.route.params
+        const { dispatch, navigation, route } = this.props
+        const { deckId } = route.params
         
-        dispatch(addQuestion(deckTitle, question, answer))
-        navigation.dispatch(CommonActions.goBack())
-       
+        dispatch(addQuestion(deckId, question, answer))
+        navigation.dispatch(CommonActions.goBack()) 
     }
     render () {
         const { question, answer } = this.state
@@ -73,13 +71,13 @@ const styles = StyleSheet.create({
     },
     input: {
         width: wp('90%'),
-        height: 50,
+        height: 60,
         backgroundColor: white,
         borderColor: gray,
         borderWidth: 1,
         borderRadius: Platform.OS === 'ios' ? 8 : 4,
         fontSize: 22,
-        textAlign: 'center',
+        padding: 15,
     },
     submitBtn: {
         backgroundColor: gray,
