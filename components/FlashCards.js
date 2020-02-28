@@ -1,8 +1,8 @@
 import React, { Component, Fragment } from 'react'
-import { StyleSheet, Text, View, Platform, FlatList, TouchableHighlight, TextInput } from 'react-native'
+import { StyleSheet, Text, View, Platform, FlatList, TouchableOpacity, TextInput } from 'react-native'
 import { white, teal, lightteal, lightGray } from '../utils/colors'
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen'
-import { editDeck, visibleModal } from '../actions/deck'
+import { editDeck, visibleModal, setScreenTitle } from '../actions/deck'
 import { MaterialCommunityIcons, Ionicons} from '@expo/vector-icons'
 import { connect } from 'react-redux'
 import Modal from "react-native-modal"
@@ -30,12 +30,12 @@ class FlashCards extends Component {
         defaultValue={textInput}
         onChangeText={(text) => this.setState({newTitle: text})} 
         style={styles.input}/>
-        <TouchableHighlight 
+        <TouchableOpacity 
          style={styles.button} 
          onPress={this.handleOnPress} 
          underlayColor={teal}>
           <MaterialCommunityIcons name='check' size={20} style={{color: white}}/>
-        </TouchableHighlight>
+        </TouchableOpacity>
       </View>
     )
   }
@@ -52,7 +52,6 @@ class FlashCards extends Component {
     
   render() {
     const {id, title, questions, navigation, visible, dispatch, decks } = this.props
-  console.log('the only console', decks[id])
     return(
       <Fragment>
         <Modal 
@@ -68,9 +67,9 @@ class FlashCards extends Component {
           backdropTransitionOutTiming={1000}>
           {this._renderModalContent()}
         </Modal>
-        <TouchableHighlight 
+        <TouchableOpacity 
           style={[styles.container, {flex: 1}]}
-          onPress={() => {questions.length === 0 
+          onPress={() => {dispatch(setScreenTitle(title)); questions.length === 0 
             ? navigation.navigate('DeckDetail', {deck: id,}) 
             : navigation.navigate('Question', {deck: decks[id] ? decks[id].id : null})}}>
           <View style={styles.deckContainer}>
@@ -83,7 +82,7 @@ class FlashCards extends Component {
               <Text style={styles.cards}>{`${questions.length} ${this.renderCard()}`}</Text>
             </View>
           </View>
-        </TouchableHighlight>
+        </TouchableOpacity>
       </Fragment>
     )
   }

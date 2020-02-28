@@ -5,6 +5,7 @@ import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-nativ
 import { connect } from 'react-redux'
 import { addQuestion } from '../actions/deck'
 import { CommonActions } from '@react-navigation/native'
+import { generateUID } from '../utils/helpers'
 
 class AddQuestion extends Component {
     state = {

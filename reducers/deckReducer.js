@@ -8,6 +8,8 @@ import {
     DELETE_DECK,
     EDIT_DECK,
     VISIBLE_MODAL,
+    SCREEN_TITLE,
+    REMOVE_QUESTION,
  } from '../actions/deck'
 
 export  function decks(state = {}, action){
@@ -29,9 +31,9 @@ export  function decks(state = {}, action){
                     title: state[action.did].title,
                     questions: [
                         ...state[action.did].questions,
-                        {
+                       {
                             question: action.question,
-                            answer: action.answer
+                            answer: action.answer,
                         }
                     ]
                 }
@@ -55,6 +57,15 @@ export  function decks(state = {}, action){
                 } 
             } else {
                 return state
+            }
+        case REMOVE_QUESTION :
+            return {
+                ...state,
+                [action.did]: {
+                    id: action.did,
+                    title: state[action.did].title,
+                    questions: state[action.did].questions.filter((question, id) => id !== action.qid)
+                }
             } 
         default: 
             return state
@@ -97,6 +108,15 @@ export function visible(state = false, action) {
             return action.isVisible
         default: 
             return state
+    }
+}
+
+export function screenName(state = '', action) {
+    switch(action.type) {
+        case SCREEN_TITLE : 
+            return action.title
+        default: 
+        return state
     }
 }
      

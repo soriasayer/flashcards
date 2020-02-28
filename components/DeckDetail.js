@@ -1,51 +1,76 @@
-import React, { Component } from 'react'
-import { StyleSheet, Text, View, Platform, TouchableOpacity } from 'react-native'
-import { white, teal, lightGray, green, red, gray } from '../utils/colors'
+import React, { Component, Fragment } from 'react'
+import { StyleSheet, Text, View, Platform, TouchableOpacity, Alert } from 'react-native'
+import { white, teal, lightGray, red } from '../utils/colors'
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen'
 import { connect } from 'react-redux'
 import { getDailyReminderValue } from '../utils/helpers'
+import { SwipeListView } from 'react-native-swipe-list-view'
+import { Ionicons, FontAwesome, MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons'
+import { removeQuestion } from '../actions/deck'
 
 class DeckDetail extends Component {
 
-    isDisabled = () => {
-        const { deck } = this.props
-        if(deck === null) {
-            return true
-        } else {
-            return false
-        }
+    onDeletPress = (qid) => {
+        const { dispatch, id } = this.props
+        Alert.alert(
+            'Delete!',
+            'Are you sure you wanna delete this question?',
+            [
+                {
+                text: 'Cancel',
+                style: 'cancel',
+                },
+                {text: 'OK', onPress: () => dispatch(removeQuestion(id, qid))},
+            ],
+            {cancelable: false},
+        )
     }
     
     render () {
-        const { deck } = this.props
+        const { data, id } = this.props
+       
         return(
-            <View style={[styles.container, {flex: 1}]}>
-            {deck === null 
-                ? <View style={[styles.deck, {backgroundColor: lightGray}]}>
-                    <Text style={{fontSize: 20, color: red}}>Oops! you removed the deck.</Text>
-                  </View>
-                : <View style={styles.deck}>
-                    <Text style={styles.deckTitle}>{deck.title}</Text>
-                    <Text style={styles.cards}>{`${deck.questions.length} cards`}</Text>
-                 </View>}
-                <View style={styles.btnContainer}>
+            <Fragment>
+                <SwipeListView 
+                    closeOnScroll={true}
+                    data={data}
+                    renderItem={({ item, index }) => (
+                        <View style={[styles.container]}>
+                            <View style={styles.deckFont}>
+                                <Text style={{fontSize: 18}}>{item.question}</Text>
+                            </View>
+                        </View>
+                    )}
+                    keyExtractor={(item, index) => index}
+                    renderHiddenItem={ ({item, index}) => (
+                        <View style={styles.container}>
+                            <View style={styles.deckBack}>
+                                <TouchableOpacity 
+                                style={[styles.buttons, {backgroundColor: red}]}
+                                onPress={() => this.onDeletPress(index)}>
+                                    <MaterialIcons name='delete' size={30} style={styles.icons}/>
+                                </TouchableOpacity>
+                                <TouchableOpacity 
+                                    style={[styles.buttons, styles.buttonEdit]}>
+                                    <FontAwesome name='edit' size={30} style={styles.icons}/>
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+                    )}
+                    leftOpenValue={75} 
+                    rightOpenValue={-150}
+                />
+                <View style={styles.addBtnContainer}>
                     <TouchableOpacity 
-                     style={[styles.addBtn, this.isDisabled() ? {backgroundColor: lightGray} : {backgroundColor: green}]}  
+                     style={styles.addBtn}  
                      onPress={() => this.props.navigation.navigate('AddQuestion', {
-                        deckId: deck.id
-                     })}
-                     disabled={this.isDisabled()} 
-                    >
-                        <Text style={styles.btnText}>Add Card</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                     style={[styles.addBtn, this.isDisabled() ? {backgroundColor: lightGray} : {backgroundColor: gray}]}  
-                     onPress={() => this.props.navigation.navigate('Question', {deck: deck.id})}
-                     disabled={this.isDisabled()}>
-                        <Text style={styles.btnText}>Start Quiz</Text>
+                        deckId: id,
+                     })}>
+                        <Ionicons name={Platform.OS === "ios" 
+                        ? 'ios-add' : 'md-add'} size={50} style={styles.icons}/>
                     </TouchableOpacity>
                 </View>
-            </View>
+            </Fragment>
         )
     }
 }
@@ -53,22 +78,27 @@ class DeckDetail extends Component {
 const styles = StyleSheet.create({
     container: {
         flexDirection: 'column',
-        justifyContent: 'space-around',
+        justifyContent: 'space-between',
         alignItems: 'center',
-        padding: 10,
+        padding: 5,
     },
-    deck: {
-        flexDirection: 'column',
-        justifyContent: 'space-evenly',
-        alignItems: 'center',
-        backgroundColor: teal,
-        borderRadius: 5,
-        width: wp('80%'),
-        height: hp('40%'),
-        padding: 20,
-        marginLeft: 10,
-        marginRight: 10,
-        marginTop: 17,
+    deckFont: {
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+        alignItems: 'flex-start',
+        backgroundColor: white,
+        borderRadius: 3,
+        width: wp('95%'),
+        height: hp('10%'),
+        padding: 10,
+        borderTopWidth: 1,
+        borderBottomWidth: 1,
+        borderLeftWidth: 1,
+        borderRightWidth: 1,
+        borderBottomColor: lightGray,
+        borderTopColor: lightGray,
+        borderLeftColor: lightGray,
+        borderRightColor: lightGray,
         shadowRadius: 3,
         shadowOpacity: 0.8,
         shadowColor: 'rgba(0,0,0,0.24)',
@@ -77,47 +107,70 @@ const styles = StyleSheet.create({
         height: 3,
         },
     },
-    deckTitle: {
-        fontWeight: 'bold',
-        color: white,
-        fontSize: hp('3.5%'),
+    deckBack: {
+        flexDirection: 'row',
+        justifyContent: 'flex-end',
+        alignItems: 'flex-end',
+        backgroundColor: lightGray,
+        borderRadius: 3,
+        width: wp('95%'),
+        height: hp('10%'),
+        shadowRadius: 3,
+        shadowOpacity: 0.8,
+        shadowColor: 'rgba(0,0,0,0.24)',
+        shadowOffset: {
+        width: 0,
+        height: 3,
+        },
     },
-    cards: {
-        fontWeight: 'bold',
-        color: lightGray,
-        fontSize: 20,
+    buttons: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: 75,
+        height: hp('10%'),
     },
-    btnContainer: {
-        flexDirection: 'column',
-        justifyContent: 'space-between',
-        alignItems: "center",
-        width: wp('80%'),
-        height: 170,
+    buttonEdit: {
+        backgroundColor: teal,
+        borderTopRightRadius: 3,
+        borderBottomRightRadius: 3
+    },
+    addBtnContainer: {
+        flexDirection: 'row',
+        justifyContent: 'flex-end',
+        alignItems: 'flex-start',
+        width: wp('90%'),
+        height: 100,
+        position: 'relative',
     },
     addBtn: {
-        padding: 10,
-        paddingLeft: 30,
-        paddingRight: 30,
-        width: wp('80%'),
-        height: 45,
-        borderRadius:  Platform.OS === 'ios' ? 16 : 10,
+        width: 60,
+        height: 60,
+        borderRadius: 50,
+        backgroundColor: teal,
         justifyContent: 'center',
         alignItems: 'center',
+        position: 'absolute',
+        shadowRadius: 3,
+        shadowOpacity: 0.8,
+        shadowColor: 'rgba(0,0,0,0.24)',
+        shadowOffset: {
+        width: 0,
+        height: 5,
+        },
     },
-    btnText: {
+    icons: {
         fontWeight: 'bold',
+        alignSelf: 'center',
         color: white,
-        fontSize: 23,
-        textAlign: 'center',
+        padding: 5,
     },
-
 })
 
 function mapStateToProps({decks}, {route}) {
     const { deck } = route.params
     return {
-        deck: decks[deck] ? decks[deck] : null,
-        title: decks[deck] && decks[deck].title
+        data: decks[deck] ? decks[deck].questions : null,
+        id: decks[deck] ? decks[deck].id : null,
     }
 }
 

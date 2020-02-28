@@ -3,11 +3,11 @@ import { FlatList, View, Text, StyleSheet, TouchableHighlight, Alert } from 'rea
 import FlashCards from './FlashCards'
 import { getData } from './FlashCards'
 import { connect } from 'react-redux'
-import { SwipeListView, SwipeRow } from 'react-native-swipe-list-view'
+import { SwipeListView } from 'react-native-swipe-list-view'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen'
 import { lightGray, white, teal, red } from '../utils/colors'
 import { FontAwesome, MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons'
-import { removeDeck, visibleModal, inEditMode } from '../actions/deck'
+import { removeDeck, visibleModal, inEditMode, setScreenTitle } from '../actions/deck'
 
 class Decks extends Component {
     state = {
@@ -46,7 +46,8 @@ class Decks extends Component {
         return(
             <SwipeListView
             useFlatList={true}
-            closeOnRowBeginSwipe={true}
+            closeOnRowPress={true}
+            swipeToOpenVelocityContribution={15}
                 data={data}
                 renderItem={({ item }) => (
                     <FlashCards 
@@ -56,43 +57,42 @@ class Decks extends Component {
                      navigation={this.props.navigation}
                      editedTitle={editedTitle}
                      textInput={textInput}
-                    />
-                    )}
+                    />)}
                 keyExtractor={item => item.id}
                 renderHiddenItem={ ({item}) => (
                     <View style={styles.container}>
                         <View style={styles.backContainer}>
-                        <View style={styles.btnContainer}>
-                        <TouchableHighlight 
-                            onPress={() => this.handlePress(item.id)} 
-                            style={[styles.buttons, {backgroundColor: red}]}>
-                                <MaterialIcons name='delete' size={30} style={styles.icons}/>
-                            </TouchableHighlight>
-                            <TouchableHighlight 
+                            <View style={styles.btnContainer}>
+                                <TouchableHighlight 
+                                onPress={() => this.handlePress(item.id)} 
+                                style={[styles.buttons, {backgroundColor: red}]}>
+                                    <MaterialIcons name='delete' size={30} style={styles.icons}/>
+                                </TouchableHighlight>
+                                <TouchableHighlight 
+                                onPress={() => {
+                                    this.setTextInput(item.title)
+                                    this.setEditedItem(item.id)
+                                    dispatch(visibleModal(true))}}
+                                    style={[styles.buttons, styles.buttonEdit]}
+                                    underlayColor={teal}>
+                                    <FontAwesome name='edit' size={30} style={styles.icons}/>
+                                </TouchableHighlight>
+                            </View>
+                            <View style={styles.listBtnContainer}>
+                            <TouchableHighlight
+                            style={[styles.buttons, styles.buttonList]}
                             onPress={() => {
-                                this.setTextInput(item.title)
-                                this.setEditedItem(item.id)
-                                dispatch(visibleModal(true))}}
-                                style={[styles.buttons, styles.buttonEdit]}
-                            underlayColor={teal}>
-                                <FontAwesome name='edit' size={30} style={styles.icons}/>
-                            </TouchableHighlight>
-                        </View>
-                        <View style={styles.listBtnContainer}>
-                        <TouchableHighlight
-                         style={[styles.buttons, styles.buttonList]}
-                         onPress={() => navigation.navigate('DeckDetail', { 
-                            deck: item.id,
-                            })}> 
-                                <MaterialCommunityIcons name='view-list' size={30} style={styles.icons}/>
-                            </TouchableHighlight>
-                        </View>
-                            
+                                dispatch(setScreenTitle(item.title))
+                                navigation.navigate('DeckDetail', { deck: item.id,}) }}> 
+                                    <MaterialCommunityIcons name='view-list' size={30} style={styles.icons}/>
+                                </TouchableHighlight>
+                            </View>
                         </View>
                     </View>
                 )}
                 leftOpenValue={75} 
                 rightOpenValue={-150}
+                
             />
         )
     }

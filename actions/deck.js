@@ -9,6 +9,8 @@ export const CLEAR_RERSULT = 'CLEAR_RERSULT'
 export const DELETE_DECK = 'DELETE_DECK'
 export const EDIT_DECK = 'EDIT_DECK'
 export const VISIBLE_MODAL = 'VISIBLE_MODAL'
+export const SCREEN_TITLE = 'SCREEN_TITLE'
+export const REMOVE_QUESTION = 'REMOVE_QUESTION'
 
 export const addDeckTitle = (did, title) => {
     return{
@@ -26,12 +28,19 @@ export const removeDeck = (did) => {
 }
 
 export const addQuestion = ( did, question, answer ) => {
-    alert(did)
     return{
         type: ADD_QUESTION,
         did,
         question, 
         answer,
+    }
+}
+
+export const removeQuestion = (did, qid) => {
+    return {
+        type: REMOVE_QUESTION,
+        did,
+        qid,
     }
 }
 
@@ -74,6 +83,13 @@ export const editDeck = (did, title) => {
         type: EDIT_DECK,
         did,
         title,
+    }
+}
+
+export const setScreenTitle = (title) => {
+    return {
+        type: SCREEN_TITLE,
+        title
     }
 }
 
