@@ -6,7 +6,8 @@ import { connect } from 'react-redux'
 import { getDailyReminderValue } from '../utils/helpers'
 import { SwipeListView } from 'react-native-swipe-list-view'
 import { Ionicons, FontAwesome, MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons'
-import { removeQuestion, quezModal, onEdit } from '../actions/deck'
+import { removeQuestion } from '../actions/deck'
+import { quezModal, onEdit } from '../actions/extraAction'
 import AddQuestion from './AddQuestion'
 
 class DeckDetail extends Component {
@@ -35,7 +36,7 @@ class DeckDetail extends Component {
     render () {
         const { data, id, dispatch, visibleModal } = this.props
         const { qid, qTextInput, aTextInput } = this.state
-       console.log('it is data: ',data)
+        
         return(
             <Fragment>
                 {visibleModal &&
@@ -49,7 +50,7 @@ class DeckDetail extends Component {
                     closeOnScroll={true}
                     data={data}
                     renderItem={({ item, index }) => (
-                        <View>
+                        <View key={index}>
                              <View style={[styles.container]}>
                                 <View style={styles.deckFont}>
                                     <Text style={{fontSize: 18}}>{item.question}</Text>
@@ -57,7 +58,7 @@ class DeckDetail extends Component {
                             </View>
                         </View>
                     )}
-                    keyExtractor={(item, index) => index}
+                    keyExtractor={({item, index}) => index}
                     renderHiddenItem={ ({item, index}) => (
                         <View style={styles.container}>
                             <View style={styles.deckBack}>
@@ -192,7 +193,7 @@ const styles = StyleSheet.create({
 
 function mapStateToProps({decks, visibleModal, openEdit}, {route}) {
     const { deck } = route.params
-    console.log(openEdit, visibleModal)
+    
     return {
         data: decks[deck] ? decks[deck].questions : null,
         id: decks[deck] ? decks[deck].id : null,

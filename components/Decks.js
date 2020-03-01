@@ -7,7 +7,8 @@ import { SwipeListView } from 'react-native-swipe-list-view'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen'
 import { lightGray, white, teal, red } from '../utils/colors'
 import { FontAwesome, MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons'
-import { removeDeck, visibleModal, inEditMode, setScreenTitle } from '../actions/deck'
+import { removeDeck } from '../actions/deck'
+import { visibleModal, inEditMode, setScreenTitle } from '../actions/extraAction'
 
 class Decks extends Component {
     state = {

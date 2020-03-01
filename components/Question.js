@@ -5,7 +5,7 @@ import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-nativ
 import FlipCard from 'react-native-flip-card'
 import { MaterialCommunityIcons} from '@expo/vector-icons'
 import { connect } from 'react-redux'
-import { currentCard, showResult } from '../actions/deck'
+import { currentCard, showResult } from '../actions/extraAction'
 
 class Question extends Component {
     

@@ -1,20 +1,11 @@
-import { generateQID } from '../utils/helpers'
-
-export const ADD_DECK = 'ADD_DECK'
-export const ADD_QUESTION = 'ADD_QUESTION'
-export const CURRENT_CARD = 'CURRENT_CARD'
-export const RESTART_QUIZ = 'RESTART_QUIZ'
-export const QUESTION_RERSULT = 'QUESTION_RERSULT'
-export const CLEAR_RERSULT = 'CLEAR_RERSULT'
-export const DELETE_DECK = 'DELETE_DECK'
-export const EDIT_DECK = 'EDIT_DECK'
-export const VISIBLE_MODAL = 'VISIBLE_MODAL'
-export const SCREEN_TITLE = 'SCREEN_TITLE'
-export const REMOVE_QUESTION = 'REMOVE_QUESTION'
-export const EDIT_QUESTION = 'EDIT_QUESTION'
-export const EDIT_MODE = 'EDIT_MODE'
-export const ON_EDIT = 'ON_EDIT'
-export const ON_ADD = 'ON_ADD'
+import { 
+    ADD_DECK,
+    ADD_QUESTION,
+    DELETE_DECK,
+    EDIT_DECK,
+    REMOVE_QUESTION,
+    EDIT_QUESTION,
+ } from './action'
 
 export const addDeckTitle = (did, title) => {
     return{
@@ -48,59 +39,11 @@ export const removeQuestion = (did, qid) => {
     }
 }
 
-export const currentCard = () => {
-    return{
-        type: CURRENT_CARD,
-    }
-}
-
-export const restartQuestion = () => {
-    return {
-        type: RESTART_QUIZ
-    }
-}
-
-export const showResult = (question, isTtrue, answer) => {
-    return {
-        type: QUESTION_RERSULT,
-        question,
-        isTtrue,
-        answer,
-    }
-}
-
-export const cleanResult = () => {
-    return {
-        type: CLEAR_RERSULT
-    }
-}
-
-export const visibleModal = (isVisible) => {
-    return {
-        type: VISIBLE_MODAL,
-        isVisible
-    }
-}
-
-export const quezModal = (editable) => {
-    return {
-        type: EDIT_MODE,
-        editable
-    }
-}
-
 export const editDeck = (did, title) => {
     return {
         type: EDIT_DECK,
         did,
         title,
-    }
-}
-
-export const setScreenTitle = (title) => {
-    return {
-        type: SCREEN_TITLE,
-        title
     }
 }
 
@@ -113,18 +56,3 @@ export const editQustion = (did, qid, question, answer) => {
         answer,
     }
 }
-
-export const onEdit = (edit) => {
-    return{
-        type: ON_EDIT,
-        edit,
-    }
-}
-
-export const onAdd = (add) => {
-    return{
-        type: ON_ADD,
-        add,
-    }
-}
-

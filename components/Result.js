@@ -6,7 +6,7 @@ import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-nativ
 import { MaterialCommunityIcons} from '@expo/vector-icons'
 import ResultList from './ResultList'
 import { connect } from 'react-redux'
-import { restartQuestion, cleanResult } from '../actions/deck'
+import { restartQuestion, cleanResult } from '../actions/extraAction'
 import { clearNotification, setLocalNotification } from '../utils/helpers'
 
 class Result extends Component {

@@ -32,7 +32,7 @@ const Stack = createStackNavigator()
 class MyStack extends Component {
     
   render() {
-    const { screenName } = this.props
+    const { title } = this.props
     return (
       <Stack.Navigator
         initialRouteName="Home"
@@ -57,7 +57,7 @@ class MyStack extends Component {
           name='Back'
           component={MyTabs}
           options={{
-            title: screenName,
+            title: title,
             headerShown: false,
           }}
         />
@@ -65,7 +65,7 @@ class MyStack extends Component {
           name="DeckDetail"
           component={DeckDetail}
           options={{
-            title: Platform.OS === 'ios' ? 'Deck Detail' : screenName,
+            title: Platform.OS === 'ios' ? 'Deck Detail' : title,
             headerStyleInterpolator: forFade,
           }}
         />
@@ -77,14 +77,6 @@ class MyStack extends Component {
             headerStyleInterpolator: forFade,
           }}
         />
-        {/*<Stack.Screen
-          name="AddQuestion"
-          component={AddQuestion}
-          options={{
-            title: 'Add Question',
-            headerStyleInterpolator: forFade,
-          }}
-        />*/}
         <Stack.Screen
           name="Result"
           component={Result}
@@ -101,7 +93,7 @@ class MyStack extends Component {
 
 function mapStatToProps({screenName}) {
     return{
-      screenName,
+      title: screenName && screenName,
     }
 }
 

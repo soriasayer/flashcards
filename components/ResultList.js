@@ -19,7 +19,7 @@ class ResultList extends Component {
                         </View>
                         <View style={styles.tableText}>
                             <Text style={{fontSize: 20,}} >
-                               { `${(result.question).substring(0, 30)}...`}
+                               {result.question}
                             </Text>
                         </View>
                         {result.isTtrue 
@@ -38,8 +38,6 @@ class ResultList extends Component {
       )
   }
 }
-
-export default ResultList
 
 const styles = StyleSheet.create({
   tableContainer: {
@@ -85,3 +83,5 @@ const styles = StyleSheet.create({
       marginRight: 20,
   },
 })
+
+export default ResultList

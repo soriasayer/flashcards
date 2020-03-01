@@ -3,7 +3,8 @@ import { StyleSheet, Text, View, Platform, TouchableOpacity, TextInput, Keyboard
 import { white, yellow, green, gray, lightGray, teal } from '../utils/colors'
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen'
 import { connect } from 'react-redux'
-import { addQuestion, quezModal, editQustion } from '../actions/deck'
+import { addQuestion, editQustion } from '../actions/deck'
+import { quezModal } from '../actions/extraAction'
 import { CommonActions } from '@react-navigation/native'
 import { generateUID } from '../utils/helpers'
 import Modal from "react-native-modal"
@@ -33,7 +34,7 @@ class AddQuestion extends Component {
     render () {
         const { question, answer } = this.state
         const { visibleModal, openEdit, qTextInput, aTextInput, dispatch } = this.props
-        console.log('from add',visibleModal)
+        
         return(
             <Modal 
                 onSwipeComplete={() => dispatch(quezModal(false))}
