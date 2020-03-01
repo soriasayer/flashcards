@@ -47,7 +47,6 @@ class Decks extends Component {
             <SwipeListView
             useFlatList={true}
             closeOnRowPress={true}
-            swipeToOpenVelocityContribution={15}
                 data={data}
                 renderItem={({ item }) => (
                     <FlashCards 
@@ -92,7 +91,6 @@ class Decks extends Component {
                 )}
                 leftOpenValue={75} 
                 rightOpenValue={-150}
-                
             />
         )
     }

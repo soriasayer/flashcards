@@ -11,6 +11,8 @@ export const EDIT_DECK = 'EDIT_DECK'
 export const VISIBLE_MODAL = 'VISIBLE_MODAL'
 export const SCREEN_TITLE = 'SCREEN_TITLE'
 export const REMOVE_QUESTION = 'REMOVE_QUESTION'
+export const EDIT_QUESTION = 'EDIT_QUESTION'
+export const EDIT_MODE = 'EDIT_MODE'
 
 export const addDeckTitle = (did, title) => {
     return{
@@ -78,6 +80,13 @@ export const visibleModal = (isVisible) => {
     }
 }
 
+export const quezModal = (editable) => {
+    return {
+        type: EDIT_MODE,
+        editable
+    }
+}
+
 export const editDeck = (did, title) => {
     return {
         type: EDIT_DECK,
@@ -90,6 +99,16 @@ export const setScreenTitle = (title) => {
     return {
         type: SCREEN_TITLE,
         title
+    }
+}
+
+export const editQustion = (did, qid, question, answer) => {
+    return {
+        type: EDIT_QUESTION,
+        did,
+        qid,
+        question,
+        answer,
     }
 }
 

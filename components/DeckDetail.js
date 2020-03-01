@@ -1,14 +1,22 @@
 import React, { Component, Fragment } from 'react'
 import { StyleSheet, Text, View, Platform, TouchableOpacity, Alert } from 'react-native'
 import { white, teal, lightGray, red } from '../utils/colors'
-import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen'
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen'
 import { connect } from 'react-redux'
 import { getDailyReminderValue } from '../utils/helpers'
 import { SwipeListView } from 'react-native-swipe-list-view'
 import { Ionicons, FontAwesome, MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons'
-import { removeQuestion } from '../actions/deck'
+import { removeQuestion, quezModal } from '../actions/deck'
+import AddQuestion from './AddQuestion'
 
 class DeckDetail extends Component {
+    state = {
+        editMode: false,
+        did: 0,
+        qid: 0,
+        qTextInput: '',
+        aTextInput: '',
+    }
 
     onDeletPress = (qid) => {
         const { dispatch, id } = this.props
@@ -27,7 +35,8 @@ class DeckDetail extends Component {
     }
     
     render () {
-        const { data, id } = this.props
+        const { data, id, dispatch, navigation, edit } = this.props
+        const { did, qid, qTextInput, aTextInput } = this.state
        
         return(
             <Fragment>
@@ -35,10 +44,20 @@ class DeckDetail extends Component {
                     closeOnScroll={true}
                     data={data}
                     renderItem={({ item, index }) => (
-                        <View style={[styles.container]}>
-                            <View style={styles.deckFont}>
-                                <Text style={{fontSize: 18}}>{item.question}</Text>
-                            </View>
+                        <View>
+                            {!edit 
+                                ? <View style={[styles.container]}>
+                                    <View style={styles.deckFont}>
+                                        <Text style={{fontSize: 18}}>{item.question}</Text>
+                                    </View>
+                                 </View>
+                                : <AddQuestion 
+                                    // editMode={this.state.editMode}
+                                    did={did}
+                                    qid={qid}
+                                    qTextInput={qTextInput}
+                                    aTextInput={aTextInput}
+                                 />}
                         </View>
                     )}
                     keyExtractor={(item, index) => index}
@@ -51,7 +70,14 @@ class DeckDetail extends Component {
                                     <MaterialIcons name='delete' size={30} style={styles.icons}/>
                                 </TouchableOpacity>
                                 <TouchableOpacity 
-                                    style={[styles.buttons, styles.buttonEdit]}>
+                                    style={[styles.buttons, styles.buttonEdit]}
+                                    onPress={() => {
+                                        dispatch(quezModal(true))
+                                        this.setState({did: id})
+                                        this.setState({qid: index})
+                                        this.setState({qTextInput: item.question})
+                                        this.setState({aTextInput: item.answer})
+                                    }}>
                                     <FontAwesome name='edit' size={30} style={styles.icons}/>
                                 </TouchableOpacity>
                             </View>
@@ -63,7 +89,7 @@ class DeckDetail extends Component {
                 <View style={styles.addBtnContainer}>
                     <TouchableOpacity 
                      style={styles.addBtn}  
-                     onPress={() => this.props.navigation.navigate('AddQuestion', {
+                     onPress={() => navigation.navigate('AddQuestion', {
                         deckId: id,
                      })}>
                         <Ionicons name={Platform.OS === "ios" 
@@ -166,11 +192,12 @@ const styles = StyleSheet.create({
     },
 })
 
-function mapStateToProps({decks}, {route}) {
+function mapStateToProps({decks, edit}, {route}) {
     const { deck } = route.params
     return {
         data: decks[deck] ? decks[deck].questions : null,
         id: decks[deck] ? decks[deck].id : null,
+        edit,
     }
 }
 

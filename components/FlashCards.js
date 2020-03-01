@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react'
-import { StyleSheet, Text, View, Platform, FlatList, TouchableOpacity, TextInput } from 'react-native'
+import { StyleSheet, Text, View, Platform, FlatList, TouchableHighlight, TextInput } from 'react-native'
 import { white, teal, lightteal, lightGray } from '../utils/colors'
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen'
 import { editDeck, visibleModal, setScreenTitle } from '../actions/deck'
@@ -30,12 +30,12 @@ class FlashCards extends Component {
         defaultValue={textInput}
         onChangeText={(text) => this.setState({newTitle: text})} 
         style={styles.input}/>
-        <TouchableOpacity 
+        <TouchableHighlight 
          style={styles.button} 
          onPress={this.handleOnPress} 
          underlayColor={teal}>
           <MaterialCommunityIcons name='check' size={20} style={{color: white}}/>
-        </TouchableOpacity>
+        </TouchableHighlight>
       </View>
     )
   }
@@ -67,7 +67,7 @@ class FlashCards extends Component {
           backdropTransitionOutTiming={1000}>
           {this._renderModalContent()}
         </Modal>
-        <TouchableOpacity 
+        <TouchableHighlight 
           style={[styles.container, {flex: 1}]}
           onPress={() => {dispatch(setScreenTitle(title)); questions.length === 0 
             ? navigation.navigate('DeckDetail', {deck: id,}) 
@@ -82,7 +82,7 @@ class FlashCards extends Component {
               <Text style={styles.cards}>{`${questions.length} ${this.renderCard()}`}</Text>
             </View>
           </View>
-        </TouchableOpacity>
+        </TouchableHighlight>
       </Fragment>
     )
   }

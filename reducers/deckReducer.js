@@ -10,6 +10,8 @@ import {
     VISIBLE_MODAL,
     SCREEN_TITLE,
     REMOVE_QUESTION,
+    EDIT_QUESTION,
+    EDIT_MODE,
  } from '../actions/deck'
 
 export  function decks(state = {}, action){
@@ -67,6 +69,34 @@ export  function decks(state = {}, action){
                     questions: state[action.did].questions.filter((question, id) => id !== action.qid)
                 }
             } 
+        case EDIT_QUESTION : 
+        if(action.question && action.answer !== '') {
+            return {
+                ...state,
+                [action.did]: {
+                    id: action.did,
+                    title: state[action.did].title,
+                    questions: [
+                        {
+                            question: state[action.did].questions.map((question, id) => {
+                                    if(id === action.qid) {
+                                        return state[action.did].questions.question = action.question
+                                    }
+                                }),
+
+                            answer: state[action.did].questions.map((question, id) => {
+                                    if(id === action.qid) {
+                                        return state[action.did].questions.answer = action.answer
+                                    }
+                                }),
+                        }
+                    ]
+                }
+            }
+        } else {
+            return state
+        }
+            
         default: 
             return state
     }
@@ -106,6 +136,15 @@ export function visible(state = false, action) {
     switch(action.type) {
         case VISIBLE_MODAL : 
             return action.isVisible
+        default: 
+            return state
+    }
+}
+
+export function edit(state = false, action) {
+    switch(action.type) {
+        case EDIT_MODE : 
+            return action.editable
         default: 
             return state
     }

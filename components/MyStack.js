@@ -4,67 +4,11 @@ import Decks from './Decks'
 import DeckDetail from './DeckDetail'
 import Question from './Question'
 import AddQuestion from './AddQuestion'
-import AddDeck from './AddDeck';
 import Result from './Result'
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs'
 import { createStackNavigator } from '@react-navigation/stack'
 import { white, teal, gray, statusTeal } from '../utils/colors'
-import { MaterialIcons, Entypo } from '@expo/vector-icons'
 import { connect } from 'react-redux';
-
-const Tab = Platform.OS === 'ios' ? createBottomTabNavigator() : createMaterialTopTabNavigator()
-
-function MyTabs() {
-  return (
-    <Tab.Navigator
-      initialRouteName='Decks'
-      tabBarOptions={{
-        activeTintColor: teal,
-        style: {
-          height: Platform.OS === 'android' ? 56 : 80,
-          backgroundColor: white,
-          shadowColor: 'rgba(0, 0, 0, 0.24)',
-          shadowOffset: {
-            height: 0,
-            width: 3,
-          },
-          shadowRadius: 6,
-          shadowOpacity: 1,
-        },
-        labelStyle: {
-          fontWeight: Platform.OS === 'android' ? '800' : '500',
-          fontSize: Platform.OS === 'android' ? 17 : 10,
-        },
-        indicatorStyle: {
-          backgroundColor: teal,
-          height: 2,
-        },
-      }}
-    >
-      <Tab.Screen
-        name='Decks'
-        component={Decks}
-        options={{
-          tabBarLabel: 'Decks',
-          tabBarIcon: ({ color }) => (
-            <Entypo name='home' size={32} color={color} style={{marginTop: 3}} />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name='AddDeck'
-        component={AddDeck}
-        options={{
-          tabBarLabel: 'Add Deck',
-          tabBarIcon: ({ color }) => (
-            <MaterialIcons name='add-box' size={32} color={color} style={{marginTop: 3}} />
-          ),
-        }}
-      />
-    </Tab.Navigator>
-  );
-}
+import MyTabs from './MyTabs'
 
 const forFade = ({ current, next }) => {
     const opacity = Animated.add(
@@ -84,8 +28,7 @@ const forFade = ({ current, next }) => {
   };
 
   
-const Stack = createStackNavigator();
-
+const Stack = createStackNavigator()
 class MyStack extends Component {
     
   render() {
@@ -134,14 +77,14 @@ class MyStack extends Component {
             headerStyleInterpolator: forFade,
           }}
         />
-        <Stack.Screen
+        {/*<Stack.Screen
           name="AddQuestion"
           component={AddQuestion}
           options={{
             title: 'Add Question',
             headerStyleInterpolator: forFade,
           }}
-        />
+        />*/}
         <Stack.Screen
           name="Result"
           component={Result}
