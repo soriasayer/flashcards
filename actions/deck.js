@@ -13,6 +13,8 @@ export const SCREEN_TITLE = 'SCREEN_TITLE'
 export const REMOVE_QUESTION = 'REMOVE_QUESTION'
 export const EDIT_QUESTION = 'EDIT_QUESTION'
 export const EDIT_MODE = 'EDIT_MODE'
+export const ON_EDIT = 'ON_EDIT'
+export const ON_ADD = 'ON_ADD'
 
 export const addDeckTitle = (did, title) => {
     return{
@@ -109,6 +111,20 @@ export const editQustion = (did, qid, question, answer) => {
         qid,
         question,
         answer,
+    }
+}
+
+export const onEdit = (edit) => {
+    return{
+        type: ON_EDIT,
+        edit,
+    }
+}
+
+export const onAdd = (add) => {
+    return{
+        type: ON_ADD,
+        add,
     }
 }
 

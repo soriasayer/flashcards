@@ -6,13 +6,11 @@ import { connect } from 'react-redux'
 import { getDailyReminderValue } from '../utils/helpers'
 import { SwipeListView } from 'react-native-swipe-list-view'
 import { Ionicons, FontAwesome, MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons'
-import { removeQuestion, quezModal } from '../actions/deck'
+import { removeQuestion, quezModal, onEdit } from '../actions/deck'
 import AddQuestion from './AddQuestion'
 
 class DeckDetail extends Component {
     state = {
-        editMode: false,
-        did: 0,
         qid: 0,
         qTextInput: '',
         aTextInput: '',
@@ -35,29 +33,28 @@ class DeckDetail extends Component {
     }
     
     render () {
-        const { data, id, dispatch, navigation, edit } = this.props
-        const { did, qid, qTextInput, aTextInput } = this.state
-       
+        const { data, id, dispatch, visibleModal } = this.props
+        const { qid, qTextInput, aTextInput } = this.state
+       console.log('it is data: ',data)
         return(
             <Fragment>
+                {visibleModal &&
+                 <AddQuestion 
+                    id={id}
+                    qid={qid}
+                    qTextInput={qTextInput}
+                    aTextInput={aTextInput}
+                />}
                 <SwipeListView 
                     closeOnScroll={true}
                     data={data}
                     renderItem={({ item, index }) => (
                         <View>
-                            {!edit 
-                                ? <View style={[styles.container]}>
-                                    <View style={styles.deckFont}>
-                                        <Text style={{fontSize: 18}}>{item.question}</Text>
-                                    </View>
-                                 </View>
-                                : <AddQuestion 
-                                    // editMode={this.state.editMode}
-                                    did={did}
-                                    qid={qid}
-                                    qTextInput={qTextInput}
-                                    aTextInput={aTextInput}
-                                 />}
+                             <View style={[styles.container]}>
+                                <View style={styles.deckFont}>
+                                    <Text style={{fontSize: 18}}>{item.question}</Text>
+                                </View>
+                            </View>
                         </View>
                     )}
                     keyExtractor={(item, index) => index}
@@ -73,7 +70,7 @@ class DeckDetail extends Component {
                                     style={[styles.buttons, styles.buttonEdit]}
                                     onPress={() => {
                                         dispatch(quezModal(true))
-                                        this.setState({did: id})
+                                        dispatch(onEdit('edit'))
                                         this.setState({qid: index})
                                         this.setState({qTextInput: item.question})
                                         this.setState({aTextInput: item.answer})
@@ -89,9 +86,10 @@ class DeckDetail extends Component {
                 <View style={styles.addBtnContainer}>
                     <TouchableOpacity 
                      style={styles.addBtn}  
-                     onPress={() => navigation.navigate('AddQuestion', {
-                        deckId: id,
-                     })}>
+                     onPress={() => {
+                         dispatch(onEdit('add'))
+                         dispatch(quezModal(true))
+                        }}>
                         <Ionicons name={Platform.OS === "ios" 
                         ? 'ios-add' : 'md-add'} size={50} style={styles.icons}/>
                     </TouchableOpacity>
@@ -192,12 +190,13 @@ const styles = StyleSheet.create({
     },
 })
 
-function mapStateToProps({decks, edit}, {route}) {
+function mapStateToProps({decks, visibleModal, openEdit}, {route}) {
     const { deck } = route.params
+    console.log(openEdit, visibleModal)
     return {
         data: decks[deck] ? decks[deck].questions : null,
         id: decks[deck] ? decks[deck].id : null,
-        edit,
+        visibleModal,
     }
 }
 

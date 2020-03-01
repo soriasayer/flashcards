@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux'
-import {decks, counter, result, visible, screenName, edit } from './deckReducer'
+import {decks, counter, result, visible, screenName, visibleModal, openEdit } from './deckReducer'
 
 export default rootReducer = combineReducers({
     decks,
@@ -7,5 +7,6 @@ export default rootReducer = combineReducers({
     result,
     visible,
     screenName,
-    edit,
+    visibleModal,
+    openEdit,
 })

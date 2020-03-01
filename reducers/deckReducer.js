@@ -12,6 +12,8 @@ import {
     REMOVE_QUESTION,
     EDIT_QUESTION,
     EDIT_MODE,
+    ON_EDIT,
+    ON_ADD,
  } from '../actions/deck'
 
 export  function decks(state = {}, action){
@@ -74,29 +76,19 @@ export  function decks(state = {}, action){
             return {
                 ...state,
                 [action.did]: {
-                    id: action.did,
-                    title: state[action.did].title,
-                    questions: [
-                        {
-                            question: state[action.did].questions.map((question, id) => {
-                                    if(id === action.qid) {
-                                        return state[action.did].questions.question = action.question
-                                    }
-                                }),
-
-                            answer: state[action.did].questions.map((question, id) => {
-                                    if(id === action.qid) {
-                                        return state[action.did].questions.answer = action.answer
-                                    }
-                                }),
+                    questions: state[action.did].questions.map((question, id) => {
+                        if(id === action.qid) {
+                           return {
+                               question: action.question,
+                               answer: action.answer
+                           }
+                        } else {
+                            return question
                         }
-                    ]
+                    })
                 }
             }
-        } else {
-            return state
         }
-            
         default: 
             return state
     }
@@ -141,9 +133,10 @@ export function visible(state = false, action) {
     }
 }
 
-export function edit(state = false, action) {
+export function visibleModal(state = false, action) {
     switch(action.type) {
         case EDIT_MODE : 
+        console.log('from reducer', action.editable)
             return action.editable
         default: 
             return state
@@ -154,6 +147,17 @@ export function screenName(state = '', action) {
     switch(action.type) {
         case SCREEN_TITLE : 
             return action.title
+    default: 
+    return state
+    }
+}
+
+export function openEdit(state= '', action) {
+    switch(action.type) {
+        case ON_EDIT :
+            return action.edit
+        case ON_ADD :
+            return action.add
         default: 
         return state
     }

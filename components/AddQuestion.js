@@ -14,31 +14,31 @@ class AddQuestion extends Component {
         answer: '',
     }
 
-    handlePress = () => {
+    saveAdd = () => {
         const { question, answer } = this.state
-        const { dispatch, navigation, route } = this.props
-        const { deckId } = route.params
+        const { dispatch, id } = this.props
         
-        dispatch(addQuestion(deckId, question, answer))
-        navigation.dispatch(CommonActions.goBack()) 
+        dispatch(addQuestion(id, question, answer))
+        dispatch(quezModal(false)) 
     }
 
     saveEdit = () => {
-        const {dispatch, did, qid } = this.props
+        const {dispatch, id, qid } = this.props
         const { question, answer } = this.state
-
-        dispatch(editQustion(did, qid, question, answer))
+        
+        dispatch(editQustion(id, qid, question, answer))
         dispatch(quezModal(false))
     }
 
     render () {
         const { question, answer } = this.state
-        const { edit, qTextInput, aTextInput, dispatch } = this.props
+        const { visibleModal, openEdit, qTextInput, aTextInput, dispatch } = this.props
+        console.log('from add',visibleModal)
         return(
             <Modal 
                 onSwipeComplete={() => dispatch(quezModal(false))}
                 swipeDirection="left"
-                isVisible={edit}
+                isVisible={visibleModal}
                 backdropOpacity={0.6}
                 animationIn={'zoomInDown'}
                 animationOut={'zoomOutUp'}
@@ -47,8 +47,9 @@ class AddQuestion extends Component {
                 backdropTransitionInTiming={1000}
                 backdropTransitionOutTiming={1000}>
                 <View style={styles.container}>
-                    <View style={styles.inputContainer}>
-                        <Text style={styles.text}>Write a question:</Text>
+                {openEdit === 'edit' 
+                    ? <View style={styles.inputContainer}>
+                        <Text style={styles.text}>Edit the question:</Text>
                         <TextInput style={styles.input} 
                             autoFocus={true}
                             underlineColorAndroid = "transparent"
@@ -56,7 +57,7 @@ class AddQuestion extends Component {
                             defaultValue={qTextInput}
                             onChangeText={(text) => this.setState({question: text})}
                         />
-                        <Text style={[styles.text, {marginTop: 40}]}>Write an answer:</Text>
+                        <Text style={[styles.text, {marginTop: 40}]}>Edit the answer:</Text>
                         <TextInput style={styles.input}
                             autoFocus={true}
                             underlineColorAndroid = "transparent"
@@ -64,10 +65,29 @@ class AddQuestion extends Component {
                             defaultValue={aTextInput}
                             onChangeText={(text) => this.setState({answer: text})}
                         />
-                    </View>
-                        <TouchableOpacity style={styles.submitBtn} onPress={this.saveEdit}>
-                            <Text style={styles.btnText}>Submit</Text>
-                        </TouchableOpacity>
+                     </View>
+                    : <View style={styles.inputContainer}>
+                        <Text style={styles.text}>Add your question:</Text>
+                        <TextInput style={styles.input} 
+                            autoFocus={true}
+                            underlineColorAndroid = "transparent"
+                            placeholder='Term...' 
+                            value={question}
+                            onChangeText={(question) => this.setState({question})}
+                        />
+                        <Text style={[styles.text, {marginTop: 40}]}>Add your answer:</Text>
+                        <TextInput style={styles.input}
+                            autoFocus={true}
+                            underlineColorAndroid = "transparent"
+                            placeholder='Description...' 
+                            value={answer}
+                            onChangeText={(answer) => this.setState({answer})}
+                        />
+                     </View>}
+                    <TouchableOpacity style={styles.submitBtn} 
+                     onPress={openEdit === 'edit' ? this.saveEdit : this.saveAdd}>
+                        <Text style={styles.btnText}>Submit</Text>
+                    </TouchableOpacity>
                 </View>
             </Modal>
         )
@@ -122,9 +142,10 @@ const styles = StyleSheet.create({
     },
 })
 
-function mapStateToProps({edit}) {
+function mapStateToProps({visibleModal, openEdit}) {
     return{
-        edit
+        visibleModal,
+        openEdit
     }
 }
 
