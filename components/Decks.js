@@ -3,11 +3,12 @@ import { FlatList, View, Text, StyleSheet, TouchableHighlight, Alert } from 'rea
 import FlashCards from './FlashCards'
 import { getData } from './FlashCards'
 import { connect } from 'react-redux'
-import { SwipeListView, SwipeRow } from 'react-native-swipe-list-view'
+import { SwipeListView } from 'react-native-swipe-list-view'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen'
 import { lightGray, white, teal, red } from '../utils/colors'
-import { FontAwesome, MaterialIcons } from '@expo/vector-icons'
-import { removeDeck, visibleModal, inEditMode } from '../actions/deck'
+import { FontAwesome, MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons'
+import { removeDeck } from '../actions/deck'
+import { visibleModal, inEditMode, setScreenTitle } from '../actions/extraAction'
 
 class Decks extends Component {
     state = {
@@ -40,13 +41,13 @@ class Decks extends Component {
     }
    
     render () {
-       const {data, dispatch} = this.props
+       const {data, dispatch, navigation} = this.props
        const { editedTitle, textInput } = this.state
        
         return(
             <SwipeListView
             useFlatList={true}
-            closeOnRowBeginSwipe={true}
+            closeOnRowPress={true}
                 data={data}
                 renderItem={({ item }) => (
                     <FlashCards 
@@ -56,30 +57,40 @@ class Decks extends Component {
                      navigation={this.props.navigation}
                      editedTitle={editedTitle}
                      textInput={textInput}
-                    />
-                    )}
+                    />)}
                 keyExtractor={item => item.id}
                 renderHiddenItem={ ({item}) => (
                     <View style={styles.container}>
                         <View style={styles.backContainer}>
-                        <TouchableHighlight 
-                         onPress={() => this.handlePress(item.id)} 
-                         style={[styles.buttons, {backgroundColor: red}]}>
-                            <MaterialIcons name='delete' size={30} style={styles.icons}/>
-                        </TouchableHighlight>
-                        <TouchableHighlight 
-                         onPress={() => {
-                            this.setTextInput(item.title)
-                            this.setEditedItem(item.id)
-                            dispatch(visibleModal(true))}}
-                            style={[styles.buttons, styles.buttonEdit]}
-                         underlayColor={teal}>
-                            <FontAwesome name='edit' size={30} style={styles.icons}/>
-                        </TouchableHighlight>
+                            <View style={styles.btnContainer}>
+                                <TouchableHighlight 
+                                onPress={() => this.handlePress(item.id)} 
+                                style={[styles.buttons, {backgroundColor: red}]}>
+                                    <MaterialIcons name='delete' size={30} style={styles.icons}/>
+                                </TouchableHighlight>
+                                <TouchableHighlight 
+                                onPress={() => {
+                                    this.setTextInput(item.title)
+                                    this.setEditedItem(item.id)
+                                    dispatch(visibleModal(true))}}
+                                    style={[styles.buttons, styles.buttonEdit]}
+                                    underlayColor={teal}>
+                                    <FontAwesome name='edit' size={30} style={styles.icons}/>
+                                </TouchableHighlight>
+                            </View>
+                            <View style={styles.listBtnContainer}>
+                            <TouchableHighlight
+                            style={[styles.buttons, styles.buttonList]}
+                            onPress={() => {
+                                dispatch(setScreenTitle(item.title))
+                                navigation.navigate('QuestionList', { deck: item.id,}) }}> 
+                                    <MaterialCommunityIcons name='view-list' size={30} style={styles.icons}/>
+                                </TouchableHighlight>
+                            </View>
                         </View>
                     </View>
                 )}
-                leftOpenValue={150} 
+                leftOpenValue={75} 
                 rightOpenValue={-150}
             />
         )
@@ -90,12 +101,13 @@ const styles = StyleSheet.create( {
     container: {
     flexDirection: 'column',
     alignItems: 'center',
-    padding: 5,
+    paddingRight: 5,
+    paddingLeft: 5,
+    paddingTop: 10,
     },
     backContainer: {
-        flexDirection: 'row',
-        justifyContent: 'flex-end',
-        alignItems: 'flex-end',
+        flexDirection: 'row-reverse',
+        justifyContent: 'space-between',
         backgroundColor: lightGray,
         width: wp('95%'),
         height: 90,
@@ -110,16 +122,35 @@ const styles = StyleSheet.create( {
         height: 3,
         },
     },
+    btnContainer: {
+        flexDirection: 'row',
+        justifyContent: 'flex-end',
+        alignItems: 'flex-end',
+        width: wp('48%'),
+        height: 90,
+    },
+    listBtnContainer: {
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+        alignItems: 'flex-start',
+        width: wp('46%'),
+        height: 90,
+    },
     buttons: {
-        alignSelf: 'center',
+        alignItems: 'center',
         justifyContent: 'center',
-        width: 70,
+        width: 75,
         height: 90,
     },
     buttonEdit: {
         backgroundColor: teal,
         borderTopRightRadius: 3,
         borderBottomRightRadius: 3
+    },
+    buttonList: {
+        backgroundColor: teal,
+        borderTopLeftRadius: 3,
+        borderBottomLeftRadius: 3
     },
     icons: {
         alignSelf: 'center',

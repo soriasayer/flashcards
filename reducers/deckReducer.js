@@ -1,14 +1,11 @@
 import { 
     ADD_DECK,
     ADD_QUESTION,
-    CURRENT_CARD,
-    RESTART_QUIZ,
-    QUESTION_RERSULT,
-    CLEAR_RERSULT,
     DELETE_DECK,
     EDIT_DECK,
-    VISIBLE_MODAL,
- } from '../actions/deck'
+    REMOVE_QUESTION,
+    EDIT_QUESTION,
+ } from '../actions/action'
 
 export  function decks(state = {}, action){
     switch(action.type) {
@@ -21,6 +18,7 @@ export  function decks(state = {}, action){
                     questions: []
                 }
             }
+
         case ADD_QUESTION : 
             return {
                 ...state,
@@ -29,13 +27,14 @@ export  function decks(state = {}, action){
                     title: state[action.did].title,
                     questions: [
                         ...state[action.did].questions,
-                        {
+                       {
                             question: action.question,
-                            answer: action.answer
+                            answer: action.answer,
                         }
                     ]
                 }
             }
+
         case DELETE_DECK :
             const deckList = Object.keys(state).map(deck => state[deck]).filter(currentDeck => currentDeck.id !== action.did)
             const newDeck = deckList.map(deck => ({[deck.id] : deck}))
@@ -43,6 +42,7 @@ export  function decks(state = {}, action){
             return {
                 ...filteredDeck
             }
+
         case EDIT_DECK :
             if(action.title !== '') {
                 return {
@@ -55,48 +55,48 @@ export  function decks(state = {}, action){
                 } 
             } else {
                 return state
-            } 
-        default: 
-            return state
-    }
-}
+            }
 
-export function counter(state = 0, action){
-    switch(action.type) {
-        case CURRENT_CARD : 
-            return state + 1
-        case RESTART_QUIZ : 
-            return 0
-        default: 
-        return state
-    }
-
-}
-
-export function result(state = [], action) {
-    switch(action.type) {
-        case QUESTION_RERSULT:
-            return [
+        case REMOVE_QUESTION :
+            return {
                 ...state,
-                {
-                    question: action.question,
-                    isTtrue: action.isTtrue,
-                    answer: action.answer,
+                [action.did]: {
+                    id: action.did,
+                    title: state[action.did].title,
+                    questions: state[action.did].questions.filter((question, id) => id !== action.qid)
                 }
-            ]
-        case CLEAR_RERSULT : 
-            return []
-        default:
-            return state
-    }
-}
+            } 
 
-export function visible(state = false, action) {
-    switch(action.type) {
-        case VISIBLE_MODAL : 
-            return action.isVisible
+        case EDIT_QUESTION : 
+            const question = action.question === '' 
+                ? state[action.did].questions[action.qid].question 
+                : action.question
+
+            const answer = action.answer === '' 
+                ? state[action.did].questions[action.qid].answer 
+                : action.answer
+                
+            const questions = state[action.did].questions.map((ques, id) => {
+                    if(id === action.qid) {
+                    return {
+                        question,
+                        answer
+                    }
+                    } else {
+                        return ques
+                    }
+                })
+
+            return {
+                ...state,
+                [action.did]: {
+                    id: action.did,
+                    title: state[action.did].title,
+                    questions
+                }
+            }
+
         default: 
             return state
     }
-}
-     
+}     

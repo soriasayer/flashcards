@@ -1,14 +1,11 @@
-import { generateQID } from '../utils/helpers'
-
-export const ADD_DECK = 'ADD_DECK'
-export const ADD_QUESTION = 'ADD_QUESTION'
-export const CURRENT_CARD = 'CURRENT_CARD'
-export const RESTART_QUIZ = 'RESTART_QUIZ'
-export const QUESTION_RERSULT = 'QUESTION_RERSULT'
-export const CLEAR_RERSULT = 'CLEAR_RERSULT'
-export const DELETE_DECK = 'DELETE_DECK'
-export const EDIT_DECK = 'EDIT_DECK'
-export const VISIBLE_MODAL = 'VISIBLE_MODAL'
+import { 
+    ADD_DECK,
+    ADD_QUESTION,
+    DELETE_DECK,
+    EDIT_DECK,
+    REMOVE_QUESTION,
+    EDIT_QUESTION,
+ } from './action'
 
 export const addDeckTitle = (did, title) => {
     return{
@@ -26,7 +23,6 @@ export const removeDeck = (did) => {
 }
 
 export const addQuestion = ( did, question, answer ) => {
-    alert(did)
     return{
         type: ADD_QUESTION,
         did,
@@ -35,37 +31,11 @@ export const addQuestion = ( did, question, answer ) => {
     }
 }
 
-export const currentCard = () => {
-    return{
-        type: CURRENT_CARD,
-    }
-}
-
-export const restartQuestion = () => {
+export const removeQuestion = (did, qid) => {
     return {
-        type: RESTART_QUIZ
-    }
-}
-
-export const showResult = (question, isTtrue, answer) => {
-    return {
-        type: QUESTION_RERSULT,
-        question,
-        isTtrue,
-        answer,
-    }
-}
-
-export const cleanResult = () => {
-    return {
-        type: CLEAR_RERSULT
-    }
-}
-
-export const visibleModal = (isVisible) => {
-    return {
-        type: VISIBLE_MODAL,
-        isVisible
+        type: REMOVE_QUESTION,
+        did,
+        qid,
     }
 }
 
@@ -77,3 +47,12 @@ export const editDeck = (did, title) => {
     }
 }
 
+export const editQustion = (did, qid, question, answer) => {
+    return {
+        type: EDIT_QUESTION,
+        did,
+        qid,
+        question,
+        answer,
+    }
+}

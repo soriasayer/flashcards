@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 import { StyleSheet, Text, View, Platform, TouchableOpacity } from 'react-native'
-import { white, yellow, green, red, gray, lightGreen } from '../utils/colors'
+import { white, yellow, teal, red, gray, lightteal } from '../utils/colors'
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen'
 import FlipCard from 'react-native-flip-card'
 import { MaterialCommunityIcons} from '@expo/vector-icons'
 import { connect } from 'react-redux'
-import { currentCard, showResult } from '../actions/deck'
+import { currentCard, showResult } from '../actions/extraAction'
 
 class Question extends Component {
     
@@ -39,17 +39,11 @@ class Question extends Component {
                 >
                     <View style={[styles.face, {flex: 1}]}>
                         <Text style={styles.text}>{currentQuestion && currentQuestion.question}</Text>
-                        <TouchableOpacity > 
-                            <Text style={styles.answerBtn}>Answer</Text>
-                        </TouchableOpacity>
                     </View>
                     <View style={[styles.back, {flex: 1}]}>
                         <Text style={styles.text}>
                         {currentQuestion && currentQuestion.answer}
                         </Text>
-                        <TouchableOpacity > 
-                            <Text style={styles.answerBtn}>question</Text>
-                        </TouchableOpacity>
                     </View>
                 </FlipCard>
                 <View style={styles.btnContainer}>
@@ -61,7 +55,7 @@ class Question extends Component {
                         <MaterialCommunityIcons name='close' size={30} style={{color: white}}/>
                     </TouchableOpacity>
                     <TouchableOpacity 
-                     style={[styles.addBtn, {backgroundColor: green}]}  
+                     style={[styles.addBtn, {backgroundColor: teal}]}  
                      onPress={counter === questions.length 
                         ? navigation.navigate('Result', {deck}) 
                         : this.pressCheck}>
@@ -98,7 +92,7 @@ const styles = StyleSheet.create( {
         },
     },
     back: {
-        backgroundColor: lightGreen,
+        backgroundColor: lightteal,
         flexDirection: 'column',
         justifyContent: 'space-between',
         alignItems: 'center',
@@ -118,12 +112,6 @@ const styles = StyleSheet.create( {
     text: {
         color: gray,
         fontSize: hp( '3.5%' ),
-    },
-    answerBtn: {
-        textTransform: 'uppercase',
-        fontWeight: 'bold',
-        fontSize: 25,
-        color: green,
     },
     btnContainer: {
         flexDirection: 'row',
