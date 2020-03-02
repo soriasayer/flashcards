@@ -71,7 +71,7 @@ class FlashCards extends Component {
         <TouchableHighlight 
           style={[styles.container, {flex: 1}]}
           onPress={() => {dispatch(setScreenTitle(title)); questions.length === 0 
-            ? navigation.navigate('DeckDetail', {deck: id,}) 
+            ? navigation.navigate('QuestionList', {deck: id,}) 
             : navigation.navigate('Question', {deck: decks[id] ? decks[id].id : null})}}>
           <View style={styles.deckContainer}>
             <View style={styles.folderContainer}>

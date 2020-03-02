@@ -68,25 +68,33 @@ export  function decks(state = {}, action){
             } 
 
         case EDIT_QUESTION : 
-        if(action.question && action.answer !== '') {
+            const question = action.question === '' 
+                ? state[action.did].questions[action.qid].question 
+                : action.question
+
+            const answer = action.answer === '' 
+                ? state[action.did].questions[action.qid].answer 
+                : action.answer
+                
+            const questions = state[action.did].questions.map((ques, id) => {
+                    if(id === action.qid) {
+                    return {
+                        question,
+                        answer
+                    }
+                    } else {
+                        return ques
+                    }
+                })
+
             return {
                 ...state,
                 [action.did]: {
                     id: action.did,
                     title: state[action.did].title,
-                    questions: state[action.did].questions.map((question, id) => {
-                        if(id === action.qid) {
-                           return {
-                               question: action.question,
-                               answer: action.answer
-                           }
-                        } else {
-                            return question
-                        }
-                    })
+                    questions
                 }
             }
-        }
 
         default: 
             return state

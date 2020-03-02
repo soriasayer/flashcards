@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import { ProgressCircle } from 'react-native-svg-charts'
-import { white, yellow, green, red, gray, lightGreen, lightGray } from '../utils/colors'
+import { white, yellow, teal, red, gray, lightGreen, lightGray } from '../utils/colors'
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen'
 import { MaterialCommunityIcons} from '@expo/vector-icons'
 import ResultList from './ResultList'
@@ -40,14 +40,14 @@ class Result extends Component {
           <ProgressCircle
             style={ { height: 120, marginBottom: 20} }
             progress={ precentage }
-            progressColor={green}
+            progressColor={teal}
             backgroundColor={red}
             strokeWidth={15}
             cornerRadius={1}
           />
           <ResultList results={result} />
           <View style={styles.btnContainer}>
-            <TouchableOpacity style={[styles.addBtn, {backgroundColor: green}]} onPress={this.restartQuiz}>
+            <TouchableOpacity style={[styles.addBtn, {backgroundColor: teal}]} onPress={this.restartQuiz}>
                 <Text style={styles.btnText}>Restart Quiz</Text>
             </TouchableOpacity>
             <TouchableOpacity style={[styles.addBtn, {backgroundColor: red}]}  onPress={this.backToDeck}>

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Text, View, Platform, StatusBar, StyleSheet, Animated, AsyncStorage, Button } from 'react-native'
 import Decks from './Decks'
-import DeckDetail from './DeckDetail'
+import QuestionList from './QuestionList'
 import Question from './Question'
 import AddQuestion from './AddQuestion'
 import Result from './Result'
@@ -62,10 +62,10 @@ class MyStack extends Component {
           }}
         />
         <Stack.Screen
-          name="DeckDetail"
-          component={DeckDetail}
+          name="QuestionList"
+          component={QuestionList}
           options={{
-            title: Platform.OS === 'ios' ? 'Deck Detail' : title,
+            title: Platform.OS === 'ios' ? 'Question List' : title,
             headerStyleInterpolator: forFade,
           }}
         />
@@ -88,8 +88,6 @@ class MyStack extends Component {
     );
   }
 }
-  
-
 
 function mapStatToProps({screenName}) {
     return{

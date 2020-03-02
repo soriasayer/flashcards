@@ -10,9 +10,9 @@ import { removeQuestion } from '../actions/deck'
 import { quezModal, onEdit } from '../actions/extraAction'
 import AddQuestion from './AddQuestion'
 
-class DeckDetail extends Component {
+class QuestionList extends Component {
     state = {
-        qid: 0,
+        qid: null,
         qTextInput: '',
         aTextInput: '',
     }
@@ -47,8 +47,9 @@ class DeckDetail extends Component {
                     aTextInput={aTextInput}
                 />}
                 <SwipeListView 
-                    closeOnScroll={true}
+                    closeOnRowPress
                     data={data}
+                    useFlatList={true}
                     renderItem={({ item, index }) => (
                         <View key={index}>
                              <View style={[styles.container]}>
@@ -81,7 +82,6 @@ class DeckDetail extends Component {
                             </View>
                         </View>
                     )}
-                    leftOpenValue={75} 
                     rightOpenValue={-150}
                 />
                 <View style={styles.addBtnContainer}>
@@ -201,4 +201,4 @@ function mapStateToProps({decks, visibleModal, openEdit}, {route}) {
     }
 }
 
-export default connect(mapStateToProps)(DeckDetail)
+export default connect(mapStateToProps)(QuestionList)

@@ -40,13 +40,7 @@ class AddQuestion extends Component {
                 onSwipeComplete={() => dispatch(quezModal(false))}
                 swipeDirection="left"
                 isVisible={visibleModal}
-                backdropOpacity={0.6}
-                animationIn={'zoomInDown'}
-                animationOut={'zoomOutUp'}
-                animationInTiming={1000}
-                animationOutTiming={1000}
-                backdropTransitionInTiming={1000}
-                backdropTransitionOutTiming={1000}>
+                backdropOpacity={0.6}>
                 <View style={styles.container}>
                 {openEdit === 'edit' 
                     ? <View style={styles.inputContainer}>

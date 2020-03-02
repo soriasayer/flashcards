@@ -83,7 +83,7 @@ class Decks extends Component {
                             style={[styles.buttons, styles.buttonList]}
                             onPress={() => {
                                 dispatch(setScreenTitle(item.title))
-                                navigation.navigate('DeckDetail', { deck: item.id,}) }}> 
+                                navigation.navigate('QuestionList', { deck: item.id,}) }}> 
                                     <MaterialCommunityIcons name='view-list' size={30} style={styles.icons}/>
                                 </TouchableHighlight>
                             </View>
