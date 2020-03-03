@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react'
 import { StyleSheet, Text, View, Platform, TouchableOpacity, Alert } from 'react-native'
-import { white, teal, lightGray, red } from '../utils/colors'
+import { white, teal, lightGray, red, blue } from '../utils/colors'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen'
 import { connect } from 'react-redux'
 import { getDailyReminderValue } from '../utils/helpers'
@@ -9,6 +9,7 @@ import { Ionicons, FontAwesome, MaterialIcons, MaterialCommunityIcons } from '@e
 import { removeQuestion } from '../actions/deck'
 import { quezModal, onEdit } from '../actions/extraAction'
 import AddQuestion from './AddQuestion'
+import ActionButton from 'react-native-action-button';
 
 class QuestionList extends Component {
     state = {
@@ -34,7 +35,7 @@ class QuestionList extends Component {
     }
     
     render () {
-        const { data, id, dispatch, visibleModal } = this.props
+        const { data, id, dispatch, visibleModal, navigation } = this.props
         const { qid, qTextInput, aTextInput } = this.state
         
         return(
@@ -53,7 +54,7 @@ class QuestionList extends Component {
                     renderItem={({ item, index }) => (
                         <View key={index}>
                              <View style={[styles.container]}>
-                                <View style={styles.deckFont}>
+                                <View style={styles.deckFront}>
                                     <Text style={{fontSize: 18}}>{item.question}</Text>
                                 </View>
                             </View>
@@ -85,6 +86,20 @@ class QuestionList extends Component {
                     rightOpenValue={-150}
                 />
                 <View style={styles.addBtnContainer}>
+                    {/* Rest of the app comes ABOVE the action button component !*/}
+                    <ActionButton buttonColor={red}>
+                        <ActionButton.Item buttonColor={blue} title="Paste Questions" onPress={() => {}}>
+                            <MaterialCommunityIcons name="note-multiple" style={styles.actionButtonIcon} />
+                        </ActionButton.Item>
+                        <ActionButton.Item buttonColor={teal} title="Add Question" onPress={() => {
+                            dispatch(onEdit('add'))
+                            dispatch(quezModal(true))
+                        }}>
+                            <MaterialCommunityIcons name='note-plus' style={styles.actionButtonIcon} />
+                        </ActionButton.Item>
+                    </ActionButton>
+                </View>
+                {/*<View style={styles.addBtnContainer}>
                     <TouchableOpacity 
                      style={styles.addBtn}  
                      onPress={() => {
@@ -94,7 +109,7 @@ class QuestionList extends Component {
                         <Ionicons name={Platform.OS === "ios" 
                         ? 'ios-add' : 'md-add'} size={50} style={styles.icons}/>
                     </TouchableOpacity>
-                </View>
+                </View>*/}
             </Fragment>
         )
     }
@@ -107,7 +122,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         padding: 5,
     },
-    deckFont: {
+    deckFront: {
         flexDirection: 'row',
         justifyContent: 'flex-start',
         alignItems: 'flex-start',
@@ -159,11 +174,12 @@ const styles = StyleSheet.create({
         borderTopRightRadius: 3,
         borderBottomRightRadius: 3
     },
+    //it should be remove from here
     addBtnContainer: {
         flexDirection: 'row',
         justifyContent: 'flex-end',
         alignItems: 'flex-start',
-        width: wp('90%'),
+        width: wp('100%'),
         height: 100,
         position: 'relative',
     },
@@ -183,6 +199,11 @@ const styles = StyleSheet.create({
         height: 5,
         },
     },
+    actionButtonIcon: {
+        fontSize: 20,
+        height: 22,
+        color: 'white',
+      },
     icons: {
         fontWeight: 'bold',
         alignSelf: 'center',

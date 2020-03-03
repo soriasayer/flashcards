@@ -6,6 +6,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs'
 import { white, teal, gray, statusTeal } from '../utils/colors'
 import { MaterialIcons, Entypo } from '@expo/vector-icons'
+import CopyPaste from './CopyPaste'
 
 const Tab = Platform.OS === 'ios' 
     ? createBottomTabNavigator() 
@@ -56,6 +57,16 @@ function MyTabs() {
           tabBarLabel: 'Add Deck',
           tabBarIcon: ({ color }) => (
             <MaterialIcons name='add-box' size={32} color={color} style={{marginTop: 3}} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name='AddDecks'
+        component={CopyPaste}
+        options={{
+          tabBarLabel: 'Add Decks',
+          tabBarIcon: ({ color }) => (
+            <MaterialIcons name='add-to-photos' size={32} color={color} style={{marginTop: 3}} />
           ),
         }}
       />

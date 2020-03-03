@@ -78,7 +78,7 @@ const styles = StyleSheet.create( {
         flexDirection: 'column',
         justifyContent: 'space-between',
         alignItems: 'center',
-        borderRadius: Platform.OS === 'ios' ? 10 : 10,
+        borderRadius: 3,
         width: wp( '80%' ),
         padding: 20,
         marginTop: 10,
@@ -92,11 +92,11 @@ const styles = StyleSheet.create( {
         },
     },
     back: {
-        backgroundColor: lightteal,
+        backgroundColor: yellow,
         flexDirection: 'column',
         justifyContent: 'space-between',
         alignItems: 'center',
-        borderRadius: Platform.OS === 'ios' ? 10 : 10,
+        borderRadius: 3,
         width: wp( '80%' ),
         padding: 20,
         marginTop: 10,
@@ -111,7 +111,7 @@ const styles = StyleSheet.create( {
     },
     text: {
         color: gray,
-        fontSize: hp( '3.5%' ),
+        fontSize: 18,
     },
     btnContainer: {
         flexDirection: 'row',

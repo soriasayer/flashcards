@@ -28,6 +28,7 @@ class FlashCards extends Component {
         <TextInput
         autoFocus={true}
         maxLength={200}
+        underlineColorAndroid = "transparent"
         defaultValue={textInput}
         onChangeText={(text) => this.setState({newTitle: text})} 
         style={styles.input}/>
@@ -35,7 +36,7 @@ class FlashCards extends Component {
          style={styles.button} 
          onPress={this.handleOnPress} 
          underlayColor={teal}>
-          <MaterialCommunityIcons name='check' size={20} style={{color: white}}/>
+          <Text style={{fontWeight: 'bold', fontSize: 20, color: white}}>Save</Text>
         </TouchableHighlight>
       </View>
     )
@@ -138,31 +139,31 @@ const styles = StyleSheet.create( {
     alignItems: 'center',
   },
   button: {
-    backgroundColor: teal,
-    padding: 12,
-    margin: 16,
+    width: wp('85%'),
+    height: 40,
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 4,
-    borderColor: 'rgba(0, 0, 0, 0.1)',
+    backgroundColor: teal,
+    padding: 10,
+    borderRadius:  4,
+    marginTop: 40,
   },
   modalContent: {
     backgroundColor: 'white',
-    padding: 22,
-    justifyContent: 'center',
+    padding: 40,
+    justifyContent: 'space-between',
     alignItems: 'center',
     borderRadius: 4,
     borderColor: 'rgba(0, 0, 0, 0.1)',
   },
   input: {
-    width: '85%',
-    height: 40,
-    backgroundColor: white,
-    borderColor: lightGray,
-    borderWidth: 1,
-    borderRadius: 2,
+    width: wp('85%'),
+    height: 50,
+    backgroundColor: '#FAFAFA',
+    borderBottomColor: teal,
+    borderBottomWidth: 2,
     fontSize: 20,
-    padding: 10,
+    padding: 15,
   },
 
 })
