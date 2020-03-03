@@ -52,7 +52,7 @@ class QuestionList extends Component {
                     data={data}
                     useFlatList={true}
                     renderItem={({ item, index }) => (
-                        <View key={index}>
+                        <View>
                              <View style={[styles.container]}>
                                 <View style={styles.deckFront}>
                                     <Text style={{fontSize: 18}}>{item.question}</Text>
@@ -60,7 +60,7 @@ class QuestionList extends Component {
                             </View>
                         </View>
                     )}
-                    keyExtractor={({item, index}) => index}
+                    keyExtractor={(item, index) => index}
                     renderHiddenItem={ ({item, index}) => (
                         <View style={styles.container}>
                             <View style={styles.deckBack}>
@@ -86,30 +86,19 @@ class QuestionList extends Component {
                     rightOpenValue={-150}
                 />
                 <View style={styles.addBtnContainer}>
-                    {/* Rest of the app comes ABOVE the action button component !*/}
                     <ActionButton buttonColor={red}>
-                        <ActionButton.Item buttonColor={blue} title="Paste Questions" onPress={() => {}}>
-                            <MaterialCommunityIcons name="note-multiple" style={styles.actionButtonIcon} />
+                        <ActionButton.Item buttonColor={blue} title="Start Quiz" 
+                            onPress={() => {navigation.navigate('Question', {deck: id})}}>
+                            <FontAwesome name="question" style={styles.actionButtonIcon} />
                         </ActionButton.Item>
                         <ActionButton.Item buttonColor={teal} title="Add Question" onPress={() => {
                             dispatch(onEdit('add'))
                             dispatch(quezModal(true))
                         }}>
-                            <MaterialCommunityIcons name='note-plus' style={styles.actionButtonIcon} />
+                            <MaterialCommunityIcons name='file-question' style={styles.actionButtonIcon} />
                         </ActionButton.Item>
                     </ActionButton>
                 </View>
-                {/*<View style={styles.addBtnContainer}>
-                    <TouchableOpacity 
-                     style={styles.addBtn}  
-                     onPress={() => {
-                         dispatch(onEdit('add'))
-                         dispatch(quezModal(true))
-                        }}>
-                        <Ionicons name={Platform.OS === "ios" 
-                        ? 'ios-add' : 'md-add'} size={50} style={styles.icons}/>
-                    </TouchableOpacity>
-                </View>*/}
             </Fragment>
         )
     }
@@ -173,31 +162,6 @@ const styles = StyleSheet.create({
         backgroundColor: teal,
         borderTopRightRadius: 3,
         borderBottomRightRadius: 3
-    },
-    //it should be remove from here
-    addBtnContainer: {
-        flexDirection: 'row',
-        justifyContent: 'flex-end',
-        alignItems: 'flex-start',
-        width: wp('100%'),
-        height: 100,
-        position: 'relative',
-    },
-    addBtn: {
-        width: 60,
-        height: 60,
-        borderRadius: 50,
-        backgroundColor: teal,
-        justifyContent: 'center',
-        alignItems: 'center',
-        position: 'absolute',
-        shadowRadius: 3,
-        shadowOpacity: 0.8,
-        shadowColor: 'rgba(0,0,0,0.24)',
-        shadowOffset: {
-        width: 0,
-        height: 5,
-        },
     },
     actionButtonIcon: {
         fontSize: 20,

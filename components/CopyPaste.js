@@ -18,7 +18,7 @@ class CopyPaste extends Component {
         const resourceUrl = inputText
         const spreadsheetId = new RegExp("/spreadsheets/d/([a-zA-Z0-9-_]+)").exec(resourceUrl)[1];
         const sheetId = new RegExp("[#&]gid=([0-9]+)").exec(resourceUrl)[1]
-        const fetchParam = `https://spreadsheets.google.com/feeds/cells/${spreadsheetId}/2/public/full?alt=json`
+        const fetchParam = `https://spreadsheets.google.com/feeds/cells/${spreadsheetId}/1/public/full?alt=json`
         
         fetch(fetchParam)
         .then(data => data.json())
@@ -34,11 +34,13 @@ class CopyPaste extends Component {
             } else {
               answers.push(entry.content["$t"]);
             }
-          });
+          })
           questions.forEach((question, index) => {
             dispatch(addQuestion(deckId, question, answers[index]))
           })
         })
+        .catch((e) => {console.warn('Error in import googleshet.',e)})
+        
         this.setState({inputText: ''})
     }
     
