@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import { StyleSheet, Text, View, Platform, TouchableOpacity, TextInput, KeyboardAvoidingView } from 'react-native'
-import { white, yellow, green, gray, lightGray, teal } from '../utils/colors'
+import { StyleSheet, Text, View, Platform, TouchableOpacity, TextInput, KeyboardAvoidingView, Button } from 'react-native'
+import { white, yellow, green, gray, lightGray, teal, red } from '../utils/colors'
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen'
 import { connect } from 'react-redux'
 import { addQuestion, editQustion } from '../actions/deck'
@@ -30,6 +30,7 @@ class AddQuestion extends Component {
         dispatch(editQustion(id, qid, question, answer))
         dispatch(quezModal(false))
     }
+
 
     render () {
         const { question, answer } = this.state
@@ -79,10 +80,13 @@ class AddQuestion extends Component {
                             onChangeText={(answer) => this.setState({answer})}
                         />
                      </View>}
-                    <TouchableOpacity style={styles.submitBtn} 
-                     onPress={openEdit === 'edit' ? this.saveEdit : this.saveAdd}>
-                        <Text style={styles.btnText}>Submit</Text>
-                    </TouchableOpacity>
+                     <View>
+                        <TouchableOpacity style={styles.submitBtn} 
+                        onPress={openEdit === 'edit' ? this.saveEdit : this.saveAdd}>
+                            <Text style={styles.btnText}>Submit</Text>
+                        </TouchableOpacity>
+                        <Button onPress={() => dispatch(quezModal(false))} title='Close'/>
+                     </View>
                 </View>
             </Modal>
         )
@@ -128,7 +132,7 @@ const styles = StyleSheet.create({
         backgroundColor: teal,
         padding: 10,
         borderRadius:  4,
-        marginBottom: 15,
+        marginBottom: 8,
     },
     btnText: {
         fontWeight: 'bold',

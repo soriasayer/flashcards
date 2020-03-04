@@ -11,7 +11,7 @@ import {
 export const addDeckTitle = (title) => {
     return{
         type: ADD_DECK,
-        did: generateUID(), 
+        did: generateUID(),
         title,
     }
 }

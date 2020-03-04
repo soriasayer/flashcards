@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 import { StyleSheet, Text, View, Platform, TouchableOpacity, Alert } from 'react-native'
 import { white, teal, lightGray, red, blue } from '../utils/colors'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen'
@@ -39,7 +39,7 @@ class QuestionList extends Component {
         const { qid, qTextInput, aTextInput } = this.state
         
         return(
-            <Fragment>
+            <View style={ {flex: 1}}>
                 {visibleModal &&
                  <AddQuestion 
                     id={id}
@@ -85,9 +85,9 @@ class QuestionList extends Component {
                     )}
                     rightOpenValue={-150}
                 />
-                <View style={styles.addBtnContainer}>
+                
                     <ActionButton buttonColor={red}>
-                        <ActionButton.Item buttonColor={blue} title="Start Quiz" 
+                        <ActionButton.Item style={{position: 'absolute'}} buttonColor={blue} title="Start Quiz" 
                             onPress={() => {navigation.navigate('Question', {deck: id})}}>
                             <FontAwesome name="question" style={styles.actionButtonIcon} />
                         </ActionButton.Item>
@@ -99,7 +99,7 @@ class QuestionList extends Component {
                         </ActionButton.Item>
                     </ActionButton>
                 </View>
-            </Fragment>
+            
         )
     }
 }

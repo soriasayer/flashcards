@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react'
-import { StyleSheet, Text, View, Platform, FlatList, TouchableHighlight, TextInput } from 'react-native'
-import { white, teal, lightteal, lightGray } from '../utils/colors'
+import { StyleSheet, Text, View, Platform, FlatList, TouchableHighlight, TextInput, Button } from 'react-native'
+import { white, teal, lightteal, lightGray, red } from '../utils/colors'
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen'
 import { editDeck } from '../actions/deck'
 import { visibleModal, setScreenTitle } from '../actions/extraAction'
@@ -22,7 +22,7 @@ class FlashCards extends Component {
   }
 
   _renderModalContent = () => {
-    const { textInput } = this.props
+    const { textInput, dispatch } = this.props
     return(
       <View style={styles.modalContent}>
         <TextInput
@@ -38,6 +38,7 @@ class FlashCards extends Component {
          underlayColor={teal}>
           <Text style={{fontWeight: 'bold', fontSize: 20, color: white}}>Save</Text>
         </TouchableHighlight>
+        <Button onPress={() => dispatch(visibleModal(false))} title='Close'/>
       </View>
     )
   }
@@ -146,11 +147,11 @@ const styles = StyleSheet.create( {
     backgroundColor: teal,
     padding: 10,
     borderRadius:  4,
-    marginTop: 40,
+    margin: 40,
   },
   modalContent: {
     backgroundColor: 'white',
-    padding: 40,
+    padding: 10,
     justifyContent: 'space-between',
     alignItems: 'center',
     borderRadius: 4,
@@ -164,6 +165,7 @@ const styles = StyleSheet.create( {
     borderBottomWidth: 2,
     fontSize: 20,
     padding: 15,
+    margin: 20,
   },
 
 })
