@@ -41,7 +41,7 @@ class Question extends Component {
                         <Text style={styles.text}>{currentQuestion && currentQuestion.question}</Text>
                     </View>
                     <View style={[styles.back, {flex: 1}]}>
-                        <Text style={styles.text}>
+                        <Text style={[styles.text, {color: white}]}>
                         {currentQuestion && currentQuestion.answer}
                         </Text>
                     </View>
@@ -76,7 +76,7 @@ const styles = StyleSheet.create( {
     face: {
         backgroundColor: yellow,
         flexDirection: 'column',
-        justifyContent: 'space-between',
+        justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 3,
         width: wp( '80%' ),
@@ -92,9 +92,9 @@ const styles = StyleSheet.create( {
         },
     },
     back: {
-        backgroundColor: yellow,
+        backgroundColor: teal,
         flexDirection: 'column',
-        justifyContent: 'space-between',
+        justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 3,
         width: wp( '80%' ),
@@ -111,7 +111,7 @@ const styles = StyleSheet.create( {
     },
     text: {
         color: gray,
-        fontSize: 18,
+        fontSize: 25,
     },
     btnContainer: {
         flexDirection: 'row',

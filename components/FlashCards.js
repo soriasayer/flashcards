@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react'
-import { StyleSheet, Text, View, Platform, FlatList, TouchableHighlight, TextInput, Button } from 'react-native'
-import { white, teal, lightteal, lightGray, red } from '../utils/colors'
+import { StyleSheet, Text, View, Platform, FlatList,
+   TouchableHighlight, TextInput, Button, KeyboardAvoidingView } from 'react-native'
+import { white, teal, lightteal, lightGray, red, gray } from '../utils/colors'
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen'
 import { editDeck } from '../actions/deck'
 import { visibleModal, setScreenTitle } from '../actions/extraAction'
@@ -24,22 +25,23 @@ class FlashCards extends Component {
   _renderModalContent = () => {
     const { textInput, dispatch } = this.props
     return(
-      <View style={styles.modalContent}>
-        <TextInput
-        autoFocus={true}
-        maxLength={200}
-        underlineColorAndroid = "transparent"
-        defaultValue={textInput}
-        onChangeText={(text) => this.setState({newTitle: text})} 
-        style={styles.input}/>
-        <TouchableHighlight 
-         style={styles.button} 
-         onPress={this.handleOnPress} 
-         underlayColor={teal}>
-          <Text style={{fontWeight: 'bold', fontSize: 20, color: white}}>Save</Text>
-        </TouchableHighlight>
-        <Button onPress={() => dispatch(visibleModal(false))} title='Close'/>
-      </View>
+        <KeyboardAvoidingView style={styles.modalContent} behavior="padding">
+          <TextInput
+          autoFocus={true}
+          maxLength={20}
+          underlineColorAndroid = "transparent"
+          defaultValue={textInput}
+          onChangeText={(text) => this.setState({newTitle: text})} 
+          style={styles.input}/>
+          <TouchableHighlight 
+          style={styles.button} 
+          onPress={this.handleOnPress} 
+          underlayColor={teal}>
+            <Text style={{fontWeight: 'bold', fontSize: 20, color: white}}>Save</Text>
+          </TouchableHighlight>
+          <Button onPress={() => dispatch(visibleModal(false))} title='Close'/>
+        </KeyboardAvoidingView>
+      
     )
   }
 
@@ -164,8 +166,9 @@ const styles = StyleSheet.create( {
     borderBottomColor: teal,
     borderBottomWidth: 2,
     fontSize: 20,
-    padding: 15,
+    padding: 10,
     margin: 20,
+    color: gray,
   },
 
 })

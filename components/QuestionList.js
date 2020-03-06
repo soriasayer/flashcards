@@ -7,7 +7,7 @@ import { getDailyReminderValue } from '../utils/helpers'
 import { SwipeListView } from 'react-native-swipe-list-view'
 import { Ionicons, FontAwesome, MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons'
 import { removeQuestion } from '../actions/deck'
-import { quezModal, onEdit } from '../actions/extraAction'
+import { quizModal, onEdit } from '../actions/extraAction'
 import AddQuestion from './AddQuestion'
 import ActionButton from 'react-native-action-button';
 
@@ -72,7 +72,7 @@ class QuestionList extends Component {
                                 <TouchableOpacity 
                                     style={[styles.buttons, styles.buttonEdit]}
                                     onPress={() => {
-                                        dispatch(quezModal(true))
+                                        dispatch(quizModal(true))
                                         dispatch(onEdit('edit'))
                                         this.setState({qid: index})
                                         this.setState({qTextInput: item.question})
@@ -93,9 +93,9 @@ class QuestionList extends Component {
                         </ActionButton.Item>
                         <ActionButton.Item buttonColor={teal} title="Add Question" onPress={() => {
                             dispatch(onEdit('add'))
-                            dispatch(quezModal(true))
+                            dispatch(quizModal(true))
                         }}>
-                            <MaterialCommunityIcons name='file-question' style={styles.actionButtonIcon} />
+                            <MaterialIcons name='add' style={styles.actionButtonIcon} />
                         </ActionButton.Item>
                     </ActionButton>
                 </View>

@@ -27,11 +27,14 @@ class AddDeck extends Component {
         return(
             <KeyboardAvoidingView style={[styles.container, {flex: 1}]} behavior="padding" keyboardVerticalOffset={80}>
                 <View style={styles.inputContainer}>
-                    <Text style={styles.text}>What is the title of your new deck?</Text>
-                    <TextInput style={styles.input}
-                    placeholder='Enter the deck title'
-                    value={title}
-                    onChangeText={(title) => this.setState({title})}
+                    <Text style={styles.text}>
+                    What is the title of your new deck?</Text>
+                    <TextInput 
+                        style={styles.input}
+                        maxLength={20}
+                        placeholder='Enter the deck title'
+                        value={title}
+                        onChangeText={(title) => this.setState({title})}
                     />
                 </View>
                 <TouchableOpacity style={styles.submitBtn} onPress={this.handlePress}>
@@ -71,7 +74,7 @@ const styles = StyleSheet.create({
         backgroundColor: white,
         borderColor: gray,
         borderWidth: 1,
-        borderRadius: Platform.OS === 'ios' ? 8 : 4,
+        borderRadius: 4,
         fontSize: 22,
         padding: 15,
     },
