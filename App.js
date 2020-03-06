@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { AppRegistry, Text, View, Platform, StatusBar, StyleSheet, Animated, AsyncStorage, Button } from 'react-native'
+import { AppRegistry, Text, View, Platform, StatusBar, StyleSheet, Animated, AsyncStorage, Button, YellowBox } from 'react-native'
 import { createStore } from 'redux'
 import { Provider } from 'react-redux'
 import rootReducer from './reducers'
@@ -35,6 +35,7 @@ export default class App extends Component {
   }
 
   render() {
+    console.disableYellowBox = true
     return (
       <Provider store={store} >
         <PersistGate persistor={persistedStore} >

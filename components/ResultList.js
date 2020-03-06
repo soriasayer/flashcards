@@ -53,8 +53,7 @@ const styles = StyleSheet.create({
     width: wp('100%'),
     height: 60,
     padding: 10,
-    marginLeft: 10,
-    marginRight: 10,
+    
     borderTopWidth: 1,
     borderBottomWidth: 1,
     borderBottomColor: lightGray,
@@ -80,7 +79,7 @@ const styles = StyleSheet.create({
       alignItems: 'center',
       height: 30,
       width: 30,
-      marginRight: 20,
+      marginRight: 5,
   },
 })
 

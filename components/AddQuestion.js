@@ -4,7 +4,7 @@ import { white, yellow, green, gray, lightGray, teal, red } from '../utils/color
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen'
 import { connect } from 'react-redux'
 import { addQuestion, editQustion } from '../actions/deck'
-import { quezModal } from '../actions/extraAction'
+import { quizModal } from '../actions/extraAction'
 import { CommonActions } from '@react-navigation/native'
 import { generateUID } from '../utils/helpers'
 import Modal from "react-native-modal"
@@ -20,7 +20,7 @@ class AddQuestion extends Component {
         const { dispatch, id } = this.props
         
         dispatch(addQuestion(id, question, answer))
-        dispatch(quezModal(false)) 
+        dispatch(quizModal(false)) 
     }
 
     saveEdit = () => {
@@ -28,7 +28,7 @@ class AddQuestion extends Component {
         const { question, answer } = this.state
         
         dispatch(editQustion(id, qid, question, answer))
-        dispatch(quezModal(false))
+        dispatch(quizModal(false))
     }
 
 
@@ -37,69 +37,70 @@ class AddQuestion extends Component {
         const { visibleModal, openEdit, qTextInput, aTextInput, dispatch } = this.props
         
         return(
+            <KeyboardAvoidingView behavior="padding">
             <Modal 
-                onSwipeComplete={() => dispatch(quezModal(false))}
+                onSwipeComplete={() => dispatch(quizModal(false))}
                 swipeDirection="left"
                 isVisible={visibleModal}
                 backdropOpacity={0.6}>
                 <View style={styles.container}>
-                {openEdit === 'edit' 
-                    ? <View style={styles.inputContainer}>
-                        <Text style={styles.text}>Edit the question:</Text>
-                        <TextInput style={styles.input} 
-                            autoFocus={true}
-                            underlineColorAndroid = "transparent"
-                            placeholder='Term...' 
-                            defaultValue={qTextInput}
-                            onChangeText={(text) => this.setState({question: text})}
-                        />
-                        <Text style={[styles.text, {marginTop: 40}]}>Edit the answer:</Text>
-                        <TextInput style={styles.input}
-                            autoFocus={true}
-                            underlineColorAndroid = "transparent"
-                            placeholder='Description...' 
-                            defaultValue={aTextInput}
-                            onChangeText={(text) => this.setState({answer: text})}
-                        />
-                     </View>
-                    : <View style={styles.inputContainer}>
-                        <Text style={styles.text}>Add your question:</Text>
-                        <TextInput style={styles.input} 
-                            autoFocus={true}
-                            underlineColorAndroid = "transparent"
-                            placeholder='Term...' 
-                            value={question}
-                            onChangeText={(question) => this.setState({question})}
-                        />
-                        <Text style={[styles.text, {marginTop: 40}]}>Add your answer:</Text>
-                        <TextInput style={styles.input}
-                            autoFocus={true}
-                            underlineColorAndroid = "transparent"
-                            placeholder='Description...' 
-                            value={answer}
-                            onChangeText={(answer) => this.setState({answer})}
-                        />
-                     </View>}
+                    {openEdit === 'edit' 
+                        ? <View style={styles.inputContainer}>
+                            <Text style={styles.text}>Edit the question:</Text>
+                            <TextInput style={styles.input} 
+                                autoFocus={true}
+                                underlineColorAndroid = "transparent"
+                                placeholder='Term...' 
+                                defaultValue={qTextInput}
+                                onChangeText={(text) => this.setState({question: text})}
+                            />
+                            <Text style={[styles.text, {marginTop: 40}]}>Edit the answer:</Text>
+                            <TextInput style={styles.input}
+                                autoFocus={true}
+                                underlineColorAndroid = "transparent"
+                                placeholder='Description...' 
+                                defaultValue={aTextInput}
+                                onChangeText={(text) => this.setState({answer: text})}
+                            />
+                        </View>
+                        : <View style={styles.inputContainer}>
+                            <Text style={styles.text}>Add your question:</Text>
+                            <TextInput style={styles.input} 
+                                autoFocus={true}
+                                placeholder='Term...' 
+                                value={question}
+                                onChangeText={(question) => this.setState({question})}
+                            />
+                            <Text style={[styles.text, {marginTop: 40}]}>Add your answer:</Text>
+                            <TextInput style={styles.input}
+                                autoFocus={true}
+                                placeholder='Description...' 
+                                value={answer}
+                                onChangeText={(answer) => this.setState({answer})}
+                            />
+                        </View>}
                      <View>
                         <TouchableOpacity style={styles.submitBtn} 
                         onPress={openEdit === 'edit' ? this.saveEdit : this.saveAdd}>
                             <Text style={styles.btnText}>Submit</Text>
                         </TouchableOpacity>
-                        <Button onPress={() => dispatch(quezModal(false))} title='Close'/>
+                        <Button onPress={() => dispatch(quizModal(false))} title='Close'/>
                      </View>
                 </View>
             </Modal>
+            </KeyboardAvoidingView>
+            
         )
     }
 }
 
 const styles = StyleSheet.create({
     container: {
-        height: hp('60%'),
+        height: Platform.OS === 'android' ? hp('70%') : hp('60%'),
         flexDirection: 'column',
-        justifyContent: 'space-between',
+        justifyContent: 'space-around',
         alignItems: 'center',
-        padding: 10,
+        padding: 20,
         backgroundColor: white,
         borderRadius: 4,
     },
@@ -123,6 +124,7 @@ const styles = StyleSheet.create({
         borderBottomWidth: 2,
         fontSize: 20,
         padding: 15,
+        color: gray,
     },
     submitBtn: {
         width: wp('85%'),
@@ -132,7 +134,8 @@ const styles = StyleSheet.create({
         backgroundColor: teal,
         padding: 10,
         borderRadius:  4,
-        marginBottom: 8,
+        marginBottom: 10,
+        marginTop: 20,
     },
     btnText: {
         fontWeight: 'bold',

@@ -44,7 +44,7 @@ export const visibleModal = (isVisible) => {
     }
 }
 
-export const quezModal = (editable) => {
+export const quizModal = (editable) => {
     return {
         type: EDIT_MODE,
         editable

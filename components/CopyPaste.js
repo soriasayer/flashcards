@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { StyleSheet, View, Text, TextInput, TouchableOpacity, Platform } from 'react-native';
+import { StyleSheet, View, Text, TextInput, TouchableOpacity, Platform, KeyboardAvoidingView, Alert, YellowBox } from 'react-native';
 import { teal, gray, lightGray, white } from '../utils/colors'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen'
 import { connect } from 'react-redux'
@@ -13,49 +13,65 @@ class CopyPaste extends Component {
     }
 
     handleOnPress = () => {
-        const { dispatch } = this.props
+        const { dispatch, navigation } = this.props
         const { inputText } = this.state
 
-        
-
-        const resourceUrl = inputText
-        const spreadsheetId = new RegExp("/spreadsheets/d/([a-zA-Z0-9-_]+)").exec(resourceUrl)[1];
-        const sheetId = new RegExp("[#&]gid=([0-9]+)").exec(resourceUrl)[1]
-        
-        for (let step = 1; step < 11; step++) {
-           const fetchParam = `https://spreadsheets.google.com/feeds/cells/${spreadsheetId}/${step}/public/full?alt=json`
+        try {
+            const resourceUrl = inputText
+            const spreadsheetId = new RegExp("/spreadsheets/d/([a-zA-Z0-9-_]+)").exec(resourceUrl)[1]
+            const sheetId = new RegExp("[#&]gid=([0-9]+)").exec(resourceUrl)[1]
             
-        fetch(fetchParam)
-        .then(data => data.json())
-        .then(json => {
-          let deckTitle = addDeckTitle(json.feed.title["$t"])
-           let deckId = deckTitle.did
-          dispatch(deckTitle)
-          let questions = []
-          let answers = []
-          json.feed.entry.map((entry, index) => {
-            if (index % 2 === 0) {
-              questions.push(entry.content["$t"]);
-            } else {
-              answers.push(entry.content["$t"]);
+            for (let step = 1; step < 11; step++) {
+                const fetchParam = `https://spreadsheets.google.com/feeds/cells/${spreadsheetId}/${step}/public/full?alt=json`
+                    
+                fetch(fetchParam)
+                .then(data => data.json())
+                .then(json => {
+                let deckTitle = addDeckTitle(json.feed.title["$t"])
+                let deckId = deckTitle.did
+                dispatch(deckTitle)
+                let questions = []
+                let answers = []
+                json.feed.entry.map((entry, index) => {
+                        if (index % 2 === 0) {
+                        questions.push(entry.content["$t"]);
+                        } else {
+                        answers.push(entry.content["$t"]);
+                        }
+                    })
+                    questions.forEach((question, index) => {
+                        dispatch(addQuestion(deckId, question, answers[index]))
+                    })
+                })
+            
             }
-          })
-          questions.forEach((question, index) => {
-            dispatch(addQuestion(deckId, question, answers[index]))
-          })
-        })
-        .catch((e) => {console.warn('Error in import googleshet.',e)})
-    }
-        
-        this.setState({inputText: ''})
+
+            navigation.navigate('Decks')
+            this.setState({inputText: ''})
+            console.disableYellowBox = true
+
+        } catch (e) {
+            Alert.alert(
+                'Error!',
+                'Import was not successull! Please paste the URL here or send an email to soriasayer@gmail.com for solving this problem.',
+                [
+                    {
+                    text: 'Cancel',
+                    style: 'cancel',
+                    },
+                    {text: 'OK', onPress: () => this.setState({inputText: ''})},
+                ],
+                {cancelable: false},
+            )}
+            
     }
     
     render() {
-        const data = textArray()
+        const data = textArray
       
         return(
-            <View style={[styles.container, {flex: 1}]}>
-            <Text style={{fontWeight: 'bold', fontSize: 22, color: gray}}>Swipe for Import Instruction</Text>
+            <KeyboardAvoidingView style={[styles.container, {flex: 1}]} behavior="padding" >
+            <Text style={{fontWeight: 'bold', fontSize: 20, color: gray}}>Please read the following instructions carefully</Text>
                 <Carousel
                     enableSnap={true}
                     layout={'tinder'}
@@ -64,7 +80,7 @@ class CopyPaste extends Component {
                     data={data}
                     renderItem={({item, index}) => (
                         <View key={index} style={styles.carouselContainer}>
-                        <Text style={{fontWeight: 'bold', fontSize: 22, color: white}}>
+                        <Text style={[styles.text, {fontWeight: 'bold'}]}>
                             {item.info}
                         </Text>
                             <Text style={[styles.text, {fontWeight: 'bold'}]}>{item.step}</Text>
@@ -72,8 +88,8 @@ class CopyPaste extends Component {
                             
                         </View>
                     )}
-                    sliderWidth={Platform.OS === 'ios' ? 350 : 305}
-                    itemWidth={Platform.OS === 'ios' ? 340 : 300}
+                    sliderWidth={305}
+                    itemWidth={305}
                 />
                 <TextInput
                     style={styles.input}
@@ -88,7 +104,7 @@ class CopyPaste extends Component {
                     onPress={this.handleOnPress}>
                     <Text style={{fontWeight: 'bold', fontSize: 18, color: white}}>Import</Text>
                 </TouchableOpacity>
-          </View>
+          </KeyboardAvoidingView>
         )
     }
 }
@@ -97,7 +113,7 @@ const styles = StyleSheet.create({
     container: {
         flexDirection: 'column',
         alignItems: 'center',
-        padding: Platform.OS === 'android' ? 15 : 40,
+        padding:  20,
     },
     text: {
         color: white,
@@ -126,8 +142,8 @@ const styles = StyleSheet.create({
         borderBottomColor: teal,
         borderBottomWidth: 2,
         fontSize: 18,
-        padding: 10,
-        margin: Platform.OS === 'ios' ? 20 : 10,
+        padding: 8,
+        margin: 10,
     },
     button: {
         width: wp('85%'),
@@ -136,7 +152,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: teal,
         borderRadius:  5,
-        margin: Platform.OS === 'ios' ? 20 : 10,
+        margin: 30,
       },
   })
 
