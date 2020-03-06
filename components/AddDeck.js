@@ -4,7 +4,6 @@ import { white, gray, lightGray } from '../utils/colors'
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen'
 import { connect } from 'react-redux'
 import { addDeckTitle } from '../actions/deck'
-import { generateUID } from '../utils/helpers'
 
 class AddDeck extends Component {
     state = {
@@ -15,8 +14,8 @@ class AddDeck extends Component {
     handlePress = () => {
         const { title } = this.state
         const { dispatch, navigation } = this.props
-        dispatch(addDeckTitle(generateUID(), title))
-
+        
+        dispatch(addDeckTitle(title))
         navigation.navigate('Decks')
         this.setState({title: ''})
     }

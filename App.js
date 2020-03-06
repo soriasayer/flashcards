@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, Platform, StatusBar, StyleSheet, Animated, AsyncStorage, Button } from 'react-native'
+import { AppRegistry, Text, View, Platform, StatusBar, StyleSheet, Animated, AsyncStorage, Button } from 'react-native'
 import { createStore } from 'redux'
 import { Provider } from 'react-redux'
 import rootReducer from './reducers'
@@ -42,7 +42,7 @@ export default class App extends Component {
               <AppStatusBar backgroundColor={statusTeal} barStyle="light-content" />
               <NavigationContainer>
                 <MyStack />
-            </NavigationContainer>
+              </NavigationContainer>
             </View>
         </PersistGate>
       </Provider>

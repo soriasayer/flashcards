@@ -1,6 +1,6 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 import { StyleSheet, Text, View, Platform, TouchableOpacity, Alert } from 'react-native'
-import { white, teal, lightGray, red } from '../utils/colors'
+import { white, teal, lightGray, red, blue } from '../utils/colors'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen'
 import { connect } from 'react-redux'
 import { getDailyReminderValue } from '../utils/helpers'
@@ -9,6 +9,7 @@ import { Ionicons, FontAwesome, MaterialIcons, MaterialCommunityIcons } from '@e
 import { removeQuestion } from '../actions/deck'
 import { quezModal, onEdit } from '../actions/extraAction'
 import AddQuestion from './AddQuestion'
+import ActionButton from 'react-native-action-button';
 
 class QuestionList extends Component {
     state = {
@@ -34,11 +35,11 @@ class QuestionList extends Component {
     }
     
     render () {
-        const { data, id, dispatch, visibleModal } = this.props
+        const { data, id, dispatch, visibleModal, navigation } = this.props
         const { qid, qTextInput, aTextInput } = this.state
         
         return(
-            <Fragment>
+            <View style={ {flex: 1}}>
                 {visibleModal &&
                  <AddQuestion 
                     id={id}
@@ -51,15 +52,15 @@ class QuestionList extends Component {
                     data={data}
                     useFlatList={true}
                     renderItem={({ item, index }) => (
-                        <View key={index}>
+                        <View>
                              <View style={[styles.container]}>
-                                <View style={styles.deckFont}>
+                                <View style={styles.deckFront}>
                                     <Text style={{fontSize: 18}}>{item.question}</Text>
                                 </View>
                             </View>
                         </View>
                     )}
-                    keyExtractor={({item, index}) => index}
+                    keyExtractor={(item, index) => index}
                     renderHiddenItem={ ({item, index}) => (
                         <View style={styles.container}>
                             <View style={styles.deckBack}>
@@ -84,18 +85,21 @@ class QuestionList extends Component {
                     )}
                     rightOpenValue={-150}
                 />
-                <View style={styles.addBtnContainer}>
-                    <TouchableOpacity 
-                     style={styles.addBtn}  
-                     onPress={() => {
-                         dispatch(onEdit('add'))
-                         dispatch(quezModal(true))
+                
+                    <ActionButton buttonColor={red}>
+                        <ActionButton.Item style={{position: 'absolute'}} buttonColor={blue} title="Start Quiz" 
+                            onPress={() => {navigation.navigate('Question', {deck: id})}}>
+                            <FontAwesome name="question" style={styles.actionButtonIcon} />
+                        </ActionButton.Item>
+                        <ActionButton.Item buttonColor={teal} title="Add Question" onPress={() => {
+                            dispatch(onEdit('add'))
+                            dispatch(quezModal(true))
                         }}>
-                        <Ionicons name={Platform.OS === "ios" 
-                        ? 'ios-add' : 'md-add'} size={50} style={styles.icons}/>
-                    </TouchableOpacity>
+                            <MaterialCommunityIcons name='file-question' style={styles.actionButtonIcon} />
+                        </ActionButton.Item>
+                    </ActionButton>
                 </View>
-            </Fragment>
+            
         )
     }
 }
@@ -107,7 +111,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         padding: 5,
     },
-    deckFont: {
+    deckFront: {
         flexDirection: 'row',
         justifyContent: 'flex-start',
         alignItems: 'flex-start',
@@ -159,30 +163,11 @@ const styles = StyleSheet.create({
         borderTopRightRadius: 3,
         borderBottomRightRadius: 3
     },
-    addBtnContainer: {
-        flexDirection: 'row',
-        justifyContent: 'flex-end',
-        alignItems: 'flex-start',
-        width: wp('90%'),
-        height: 100,
-        position: 'relative',
-    },
-    addBtn: {
-        width: 60,
-        height: 60,
-        borderRadius: 50,
-        backgroundColor: teal,
-        justifyContent: 'center',
-        alignItems: 'center',
-        position: 'absolute',
-        shadowRadius: 3,
-        shadowOpacity: 0.8,
-        shadowColor: 'rgba(0,0,0,0.24)',
-        shadowOffset: {
-        width: 0,
-        height: 5,
-        },
-    },
+    actionButtonIcon: {
+        fontSize: 20,
+        height: 22,
+        color: 'white',
+      },
     icons: {
         fontWeight: 'bold',
         alignSelf: 'center',

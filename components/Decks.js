@@ -159,9 +159,15 @@ const styles = StyleSheet.create( {
 } )
 
 function mapStateToProps({decks}) {
-    const data = Object.keys(decks).map(deck => decks[deck])
+    const newData = Object.keys(decks).map(deck => decks[deck])
+    const data = newData.sort((a, b) => {
+        if(a.title < b.title) { return -1; }
+        if(a.title >  b.title) { return 1; }
+        return 0;
+    })
+    
     return {
-        data,  
+        data,
     }
 }
 

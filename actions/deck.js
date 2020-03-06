@@ -1,3 +1,4 @@
+import { generateUID } from '../utils/helpers'
 import { 
     ADD_DECK,
     ADD_QUESTION,
@@ -7,10 +8,10 @@ import {
     EDIT_QUESTION,
  } from './action'
 
-export const addDeckTitle = (did, title) => {
+export const addDeckTitle = (title) => {
     return{
         type: ADD_DECK,
-        did,
+        did: generateUID(),
         title,
     }
 }
