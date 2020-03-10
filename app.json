@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Flashcards",
-    "slug": "Flashcards",
+    "name": "Flashcards-Wazha",
+    "slug": "Flashcards-Wazha",
     "privacy": "public",
     "sdkVersion": "36.0.0",
     "platforms": [
@@ -9,7 +9,7 @@
       "android",
       "web"
     ],
-    "version": "1.0.0",
+    "version": "1.0.2",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
@@ -25,6 +25,11 @@
     ],
     "ios": {
       "supportsTablet": true
+    },
+    "android": {
+      "permissions": [],
+      "package": "com.flashcards.expo",
+      "versionCode": 2
     }
   }
 }

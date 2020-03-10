@@ -48,7 +48,7 @@ class QuestionList extends Component {
                     aTextInput={aTextInput}
                 />}
                 <SwipeListView 
-                    closeOnRowPress
+                    closeOnRowBeginSwipe={true}
                     data={data}
                     useFlatList={true}
                     renderItem={({ item, index }) => (

@@ -33,13 +33,15 @@ class FlashCards extends Component {
           defaultValue={textInput}
           onChangeText={(text) => this.setState({newTitle: text})} 
           style={styles.input}/>
-          <TouchableHighlight 
-          style={styles.button} 
-          onPress={this.handleOnPress} 
-          underlayColor={teal}>
-            <Text style={{fontWeight: 'bold', fontSize: 20, color: white}}>Save</Text>
-          </TouchableHighlight>
-          <Button onPress={() => dispatch(visibleModal(false))} title='Close'/>
+          <View style={{marginBottom: 10}}>
+            <TouchableHighlight 
+            style={styles.submitBtn} 
+            onPress={this.handleOnPress} 
+            underlayColor={teal}>
+              <Text style={{fontWeight: '700', fontSize: 18, color: white}}>Save</Text>
+            </TouchableHighlight>
+            <Button onPress={() => dispatch(visibleModal(false))} title='Close'/>
+          </View>
         </KeyboardAvoidingView>
       
     )
@@ -63,13 +65,7 @@ class FlashCards extends Component {
           onSwipeComplete={() => dispatch(visibleModal(false))}
           swipeDirection="left"
           isVisible={visible}
-          backdropOpacity={0.6}
-          animationIn={'zoomInDown'}
-          animationOut={'zoomOutUp'}
-          animationInTiming={1000}
-          animationOutTiming={1000}
-          backdropTransitionInTiming={1000}
-          backdropTransitionOutTiming={1000}>
+          backdropOpacity={0.3}>
           {this._renderModalContent()}
         </Modal>
         <TouchableHighlight 
@@ -141,23 +137,25 @@ const styles = StyleSheet.create( {
     justifyContent: 'center',
     alignItems: 'center',
   },
-  button: {
+  submitBtn: {
     width: wp('85%'),
-    height: 40,
+    height: 38,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: teal,
     padding: 10,
     borderRadius:  4,
-    margin: 40,
-  },
+    marginBottom: 15,
+    marginTop: Platform.OS === 'android' ? 20 : 0,
+},
   modalContent: {
     backgroundColor: 'white',
     padding: 10,
-    justifyContent: 'space-between',
+    justifyContent: 'space-around',
     alignItems: 'center',
     borderRadius: 4,
     borderColor: 'rgba(0, 0, 0, 0.1)',
+    height: hp('35%'),
   },
   input: {
     width: wp('85%'),

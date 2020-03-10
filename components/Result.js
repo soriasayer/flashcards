@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity, BackHandler } from 'react-native'
 import ProgressCircle from 'react-native-progress-circle'
 import { white, yellow, teal, red, gray, lightGreen, lightGray, lightteal } from '../utils/colors'
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen'
@@ -7,7 +7,6 @@ import { MaterialCommunityIcons} from '@expo/vector-icons'
 import ResultList from './ResultList'
 import { connect } from 'react-redux'
 import { restartQuestion, cleanResult } from '../actions/extraAction'
-import { clearNotification, setLocalNotification } from '../utils/helpers'
 
 class Result extends Component {
   restartQuiz = () => {
@@ -26,13 +25,22 @@ class Result extends Component {
     navigation.navigate('Decks')
   }
 
+  componentDidMount() {
+    const { navigation } = this.props
+    this.backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
+      navigation.navigate('Decks')
+      return true;
+    });
+  }
+
+  componentWillUnmount() {
+    this.backHandler.remove();
+  }
+
   render() {
     const { result } = this.props
     const totalCorrect = result.filter(correct => correct.isTtrue)
     const precentage = (totalCorrect.length/result.length) * 100
-
-    clearNotification()
-      .then(setLocalNotification)
     
       return (
         <View style={[styles.container, {flex: 1}]}>
