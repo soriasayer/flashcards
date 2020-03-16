@@ -7,7 +7,6 @@ import { MaterialCommunityIcons} from '@expo/vector-icons'
 import ResultList from './ResultList'
 import { connect } from 'react-redux'
 import { restartQuestion, cleanResult } from '../actions/extraAction'
-import { clearNotification, setLocalNotification } from '../utils/helpers'
 
 class Result extends Component {
   restartQuiz = () => {
@@ -30,9 +29,6 @@ class Result extends Component {
     const { result } = this.props
     const totalCorrect = result.filter(correct => correct.isTtrue)
     const precentage = (totalCorrect.length/result.length) * 100
-
-    clearNotification()
-      .then(setLocalNotification)
     
       return (
         <View style={[styles.container, {flex: 1}]}>

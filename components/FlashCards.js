@@ -4,7 +4,7 @@ import { StyleSheet, Text, View, Platform, FlatList,
 import { white, teal, lightteal, lightGray, red, gray } from '../utils/colors'
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen'
 import { editDeck } from '../actions/deck'
-import { visibleModal, setScreenTitle } from '../actions/extraAction'
+import { visibleModal, setScreenTitle, restartQuestion } from '../actions/extraAction'
 import { MaterialCommunityIcons, Ionicons} from '@expo/vector-icons'
 import { connect } from 'react-redux'
 import Modal from "react-native-modal"
@@ -74,9 +74,11 @@ class FlashCards extends Component {
         </Modal>
         <TouchableHighlight 
           style={[styles.container, {flex: 1}]}
-          onPress={() => {dispatch(setScreenTitle(title)); questions.length === 0 
-            ? navigation.navigate('QuestionList', {deck: id,}) 
-            : navigation.navigate('Question', {deck: decks[id] ? decks[id].id : null})}}>
+          onPress={() => {dispatch(setScreenTitle(title));
+            dispatch(restartQuestion());
+             questions.length === 0 
+              ? navigation.navigate('QuestionList', {deck: id,}) 
+              : navigation.navigate('Question', {deck: decks[id] ? decks[id].id : null})}}>
           <View style={styles.deckContainer}>
             <View style={styles.folderContainer}>
               <Ionicons name={Platform.OS === "ios" 

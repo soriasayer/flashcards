@@ -1,6 +1,5 @@
 import { AsyncStorage } from 'react-native'
 import { Notifications } from 'expo'
-import * as Permissions from 'expo-permissions'
 
 export function generateUID () {
   return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)
@@ -11,23 +10,6 @@ const NOTIFICATION_KEY = 'flashcards:notifications'
 export function clearNotification() {
   return AsyncStorage.removeItem(NOTIFICATION_KEY)
     .then(Notifications.cancelAllScheduledNotificationsAsync)
-}
-
-export function createNotification() {
-  return{
-    title: 'Log your status!',
-    body: "👋 don't forget to log your status for today!",
-    ios: {
-      sound: true,
-      _displayInForeground: true
-    },
-    android: {
-      sound: true,
-      priority: 'high',
-      sticky: false,
-      vibrate: true,
-    }
-  }
 }
 
 export function setLocalNotification() {
@@ -70,7 +52,7 @@ export const textArray = [
       },
       {
         step: 'Step 2', 
-        text: 'Create a new sheet.',
+        text: 'Create a new google sheet.',
       },
       {
         step: 'Step 3', 
@@ -82,15 +64,15 @@ export const textArray = [
       },
       {
         step: 'Step 5', 
-        text: 'After finishing the questions and answers, click on "File" on minue bar.',
+        text: 'After finishing the questions and answers, click on "File" on menu bar.',
       },
       {
         step: 'Step 6', 
-        text: 'On file mineu click on "Publich to the web" option',
+        text: 'On file menu click on "Publish to the web" option.',
       },
       {
         step: 'Step 7', 
-        text: 'In the opned window click on "Start Publishing" button then "Ok" and close the window.',
+        text: 'In the open window click on "Start Publishing" button then "Ok" and close the window.',
       },
       {
         step: 'Step 8', 
