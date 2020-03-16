@@ -55,7 +55,8 @@ class QuestionList extends Component {
                         <View>
                              <View style={[styles.container]}>
                                 <View style={styles.deckFront}>
-                                    <Text style={{fontSize: 18}}>{item.question}</Text>
+                                    <Text style={{fontSize: 18}}>
+                                    {`${item.question.length >= 71 ? item.question.substring(0, 70) + '...' : item.question}`}</Text>
                                 </View>
                             </View>
                         </View>
