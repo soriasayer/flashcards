@@ -6,7 +6,6 @@ import rootReducer from './reducers'
 import Constants from 'expo-constants'
 import { persistStore, persistReducer } from 'redux-persist'
 import { PersistGate } from 'redux-persist/es/integration/react'
-import { setLocalNotification } from './utils/helpers'
 import { NavigationContainer } from '@react-navigation/native'
 import MyStack from './components/MyStack'
 import { statusTeal } from './utils/colors'
@@ -30,9 +29,6 @@ const store = createStore(persistedReducer)
 const persistedStore = persistStore(store)
 
 export default class App extends Component {
-  componentDidMount () {
-    setLocalNotification()
-  }
 
   render() {
     console.disableYellowBox = true

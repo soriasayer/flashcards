@@ -56,7 +56,6 @@ class AddQuestion extends Component {
                             />
                             <Text style={[styles.text, {marginTop: 40}]}>Edit the answer:</Text>
                             <TextInput style={styles.input}
-                                autoFocus={true}
                                 underlineColorAndroid = "transparent"
                                 placeholder='Description...' 
                                 defaultValue={aTextInput}
@@ -73,7 +72,6 @@ class AddQuestion extends Component {
                             />
                             <Text style={[styles.text, {marginTop: 40}]}>Add your answer:</Text>
                             <TextInput style={styles.input}
-                                autoFocus={true}
                                 placeholder='Description...' 
                                 value={answer}
                                 onChangeText={(answer) => this.setState({answer})}
@@ -96,29 +94,30 @@ class AddQuestion extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        height: Platform.OS === 'android' ? hp('70%') : hp('60%'),
+        height: hp('56%'),
         flexDirection: 'column',
-        justifyContent: 'space-around',
+        justifyContent: 'space-between',
         alignItems: 'center',
-        padding: 20,
+        padding: 10,
         backgroundColor: white,
         borderRadius: 4,
     },
     inputContainer: {
-        height: hp('35%'),
+        height: 220,
         flexDirection: 'column',
         justifyContent: 'space-around',
         alignItems: 'center',
+        marginBottom: 10
     },
     text: {
         color: gray,
-        fontSize: 23,
+        fontSize: 22,
         fontWeight: '500',
         alignSelf: 'flex-start',
     },
     input: {
         width: wp('85%'),
-        height: 60,
+        height: 50,
         backgroundColor: '#FAFAFA',
         borderBottomColor: teal,
         borderBottomWidth: 2,
@@ -128,19 +127,19 @@ const styles = StyleSheet.create({
     },
     submitBtn: {
         width: wp('85%'),
-        height: 50,
+        height: 38,
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: teal,
         padding: 10,
         borderRadius:  4,
         marginBottom: 10,
-        marginTop: 20,
+        marginTop: Platform.OS === 'android' ? 20 : 0,
     },
     btnText: {
-        fontWeight: 'bold',
+        fontWeight: '800',
         color: white,
-        fontSize: 23,
+        fontSize: 20,
     },
 })
 

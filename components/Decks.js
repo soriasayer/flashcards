@@ -47,7 +47,7 @@ class Decks extends Component {
         return(
             <SwipeListView
             useFlatList={true}
-            closeOnRowPress={true}
+            closeOnRowBeginSwipe={true}
                 data={data}
                 renderItem={({ item }) => (
                     <FlashCards 

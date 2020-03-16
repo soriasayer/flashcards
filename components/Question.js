@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { StyleSheet, Text, View, Platform, TouchableOpacity } from 'react-native'
+import { StyleSheet, Text, View, Platform, TouchableOpacity, ScrollView, Dimensions } from 'react-native'
 import { white, yellow, teal, red, gray, lightteal } from '../utils/colors'
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen'
 import FlipCard from 'react-native-flip-card'
@@ -7,7 +7,12 @@ import { MaterialCommunityIcons} from '@expo/vector-icons'
 import { connect } from 'react-redux'
 import { currentCard, showResult } from '../actions/extraAction'
 
+const {height} = Dimensions.get('window')
+
 class Question extends Component {
+    state = {
+        contentHeight: 0
+    }
     
     pressCheck = () => {
         const { dispatch, currentQuestion } = this.props
@@ -26,26 +31,31 @@ class Question extends Component {
         dispatch(showResult(question, false, answer))
     }
 
+    onContentSizeChange = (contentHeight, contentWith) => {
+        this.setState({screenHeight: contentHeight})
+    }
+
     render () {
         const { questions, currentQuestion, counter, navigation, deck } = this.props
+        const scrollEnabled = this.state.screenHeight > height
 
         return(
             <View style={[styles.container, {flex: 1}]}>
-                <Text style={{fontSize: 24}}>{`${counter+1}/${questions.length}`}</Text>
+                <Text style={{fontSize: 24, marginBottom: 8,}}>{`${counter+1}/${questions.length}`}</Text>
                 <FlipCard 
                     flipHorizontal={true}
                     flipVertical={false}
                     clickable={true}
-                >
-                    <View style={[styles.face, {flex: 1}]}>
-                        <Text style={styles.text}>{currentQuestion && currentQuestion.question}</Text>
-                    </View>
-                    <View style={[styles.back, {flex: 1}]}>
-                        <Text style={[styles.text, {color: white}]}>
-                        {currentQuestion && currentQuestion.answer}
-                        </Text>
-                    </View>
-                </FlipCard>
+                    alignHeight={true}>
+                        <View style={[styles.face, {flex: 1}]}>
+                            <Text style={styles.text}>{currentQuestion && currentQuestion.question}</Text>
+                        </View>
+                        <View style={[styles.back, {flex: 1}]}>
+                            <Text style={[styles.text, {color: white}]}>
+                            {currentQuestion && currentQuestion.answer}
+                            </Text>
+                        </View>
+                    </FlipCard>
                 <View style={styles.btnContainer}>
                     <TouchableOpacity 
                     style={[styles.addBtn, {backgroundColor: red}]} 
@@ -80,9 +90,7 @@ const styles = StyleSheet.create( {
         alignItems: 'center',
         borderRadius: 3,
         width: wp( '80%' ),
-        padding: 20,
-        marginTop: 10,
-        marginBottom: 40,
+        padding: 15,
         shadowRadius: 3,
         shadowOpacity: 0.8,
         shadowColor: 'rgba(0,0,0,0.24)',
@@ -97,10 +105,8 @@ const styles = StyleSheet.create( {
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 3,
-        width: wp( '80%' ),
-        padding: 20,
-        marginTop: 10,
-        marginBottom: 40,
+        width: wp('80%'),
+        padding: 15,
         shadowRadius: 3,
         shadowOpacity: 0.8,
         shadowColor: 'rgba(0,0,0,0.24)',
@@ -111,7 +117,7 @@ const styles = StyleSheet.create( {
     },
     text: {
         color: gray,
-        fontSize: 25,
+        fontSize: 20,
     },
     btnContainer: {
         flexDirection: 'row',

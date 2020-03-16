@@ -4,7 +4,7 @@ import { StyleSheet, Text, View, Platform, FlatList,
 import { white, teal, lightteal, lightGray, red, gray } from '../utils/colors'
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen'
 import { editDeck } from '../actions/deck'
-import { visibleModal, setScreenTitle } from '../actions/extraAction'
+import { visibleModal, setScreenTitle, restartQuestion } from '../actions/extraAction'
 import { MaterialCommunityIcons, Ionicons} from '@expo/vector-icons'
 import { connect } from 'react-redux'
 import Modal from "react-native-modal"
@@ -33,13 +33,15 @@ class FlashCards extends Component {
           defaultValue={textInput}
           onChangeText={(text) => this.setState({newTitle: text})} 
           style={styles.input}/>
-          <TouchableHighlight 
-          style={styles.button} 
-          onPress={this.handleOnPress} 
-          underlayColor={teal}>
-            <Text style={{fontWeight: 'bold', fontSize: 20, color: white}}>Save</Text>
-          </TouchableHighlight>
-          <Button onPress={() => dispatch(visibleModal(false))} title='Close'/>
+          <View style={{marginBottom: 10}}>
+            <TouchableHighlight 
+            style={styles.submitBtn} 
+            onPress={this.handleOnPress} 
+            underlayColor={teal}>
+              <Text style={{fontWeight: '700', fontSize: 18, color: white}}>Save</Text>
+            </TouchableHighlight>
+            <Button onPress={() => dispatch(visibleModal(false))} title='Close'/>
+          </View>
         </KeyboardAvoidingView>
       
     )
@@ -63,20 +65,16 @@ class FlashCards extends Component {
           onSwipeComplete={() => dispatch(visibleModal(false))}
           swipeDirection="left"
           isVisible={visible}
-          backdropOpacity={0.6}
-          animationIn={'zoomInDown'}
-          animationOut={'zoomOutUp'}
-          animationInTiming={1000}
-          animationOutTiming={1000}
-          backdropTransitionInTiming={1000}
-          backdropTransitionOutTiming={1000}>
+          backdropOpacity={0.3}>
           {this._renderModalContent()}
         </Modal>
         <TouchableHighlight 
           style={[styles.container, {flex: 1}]}
-          onPress={() => {dispatch(setScreenTitle(title)); questions.length === 0 
-            ? navigation.navigate('QuestionList', {deck: id,}) 
-            : navigation.navigate('Question', {deck: decks[id] ? decks[id].id : null})}}>
+          onPress={() => {dispatch(setScreenTitle(title));
+            dispatch(restartQuestion());
+             questions.length === 0 
+              ? navigation.navigate('QuestionList', {deck: id,}) 
+              : navigation.navigate('Question', {deck: decks[id] ? decks[id].id : null})}}>
           <View style={styles.deckContainer}>
             <View style={styles.folderContainer}>
               <Ionicons name={Platform.OS === "ios" 
@@ -141,23 +139,25 @@ const styles = StyleSheet.create( {
     justifyContent: 'center',
     alignItems: 'center',
   },
-  button: {
+  submitBtn: {
     width: wp('85%'),
-    height: 40,
+    height: 38,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: teal,
     padding: 10,
     borderRadius:  4,
-    margin: 40,
-  },
+    marginBottom: 15,
+    marginTop: Platform.OS === 'android' ? 20 : 0,
+},
   modalContent: {
     backgroundColor: 'white',
     padding: 10,
-    justifyContent: 'space-between',
+    justifyContent: 'space-around',
     alignItems: 'center',
     borderRadius: 4,
     borderColor: 'rgba(0, 0, 0, 0.1)',
+    height: hp('35%'),
   },
   input: {
     width: wp('85%'),

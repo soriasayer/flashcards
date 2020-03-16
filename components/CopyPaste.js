@@ -70,8 +70,10 @@ class CopyPaste extends Component {
         const data = textArray
       
         return(
-            <KeyboardAvoidingView style={[styles.container, {flex: 1}]} behavior="padding" >
-            <Text style={{fontWeight: 'bold', fontSize: 20, color: gray}}>Please read the following instructions carefully</Text>
+            <View style={[styles.container, {flex: 1}]}>
+                <Text style={styles.title}>
+                    Please read the following instructions carefully.
+                </Text>
                 <Carousel
                     enableSnap={true}
                     layout={'tinder'}
@@ -91,20 +93,22 @@ class CopyPaste extends Component {
                     sliderWidth={305}
                     itemWidth={305}
                 />
-                <TextInput
-                    style={styles.input}
-                    value={this.state.inputText}
-                    placeholder='Paste URL'
-                    onChangeText={(text) => {
-                        this.setState({inputText: text})
-                    }}
-                />
-                <TouchableOpacity 
-                    style={styles.button}
-                    onPress={this.handleOnPress}>
-                    <Text style={{fontWeight: 'bold', fontSize: 18, color: white}}>Import</Text>
-                </TouchableOpacity>
-          </KeyboardAvoidingView>
+                <KeyboardAvoidingView style={{justifyContent: 'center', alignItems: 'center'}} behavior="padding">
+                    <TextInput
+                        style={styles.input}
+                        value={this.state.inputText}
+                        placeholder='Paste URL'
+                        onChangeText={(text) => {
+                            this.setState({inputText: text})
+                        }}
+                    />
+                    <TouchableOpacity 
+                        style={styles.button}
+                        onPress={this.handleOnPress}>
+                        <Text style={{fontWeight: 'bold', fontSize: 18, color: white}}>Import</Text>
+                    </TouchableOpacity>
+                </KeyboardAvoidingView>
+          </View>
         )
     }
 }
@@ -112,21 +116,22 @@ class CopyPaste extends Component {
 const styles = StyleSheet.create({
     container: {
         flexDirection: 'column',
+        justifyContent: 'center',
         alignItems: 'center',
         padding:  20,
     },
     text: {
         color: white,
-        fontSize: 20,
-        padding: 10,
+        fontSize: 18,
+        padding: 5,
     },
     carouselContainer: {
         flexDirection: 'column',
-        justifyContent: 'center',
+        justifyContent: 'flex-start',
         alignItems: 'center',
         backgroundColor: teal,
         borderRadius: 3,
-        height: 300,
+        height: wp('70%'),
         shadowRadius: 5,
         shadowOpacity: 0.8,
         shadowColor: 'rgba(0,0,0,0.24)',
@@ -134,6 +139,14 @@ const styles = StyleSheet.create({
         width: 0,
         height: 3,
         },
+    },
+    title: {
+        fontWeight: '700',
+        fontSize: 18,
+        color: gray,
+        textAlign: 'center',
+        width: 300,
+        height: 60,
     },
     input: {
         width: wp('85%'),
