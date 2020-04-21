@@ -10,9 +10,6 @@ import { currentCard, showResult } from '../actions/extraAction'
 const {height} = Dimensions.get('window')
 
 class Question extends Component {
-    state = {
-        contentHeight: 0
-    }
     
     pressCheck = () => {
         const { dispatch, currentQuestion } = this.props
@@ -31,31 +28,30 @@ class Question extends Component {
         dispatch(showResult(question, false, answer))
     }
 
-    onContentSizeChange = (contentHeight, contentWith) => {
-        this.setState({screenHeight: contentHeight})
-    }
-
     render () {
         const { questions, currentQuestion, counter, navigation, deck } = this.props
-        const scrollEnabled = this.state.screenHeight > height
 
         return(
             <View style={[styles.container, {flex: 1}]}>
                 <Text style={{fontSize: 24, marginBottom: 8,}}>{`${counter+1}/${questions.length}`}</Text>
+                
                 <FlipCard 
                     flipHorizontal={true}
                     flipVertical={false}
                     clickable={true}
-                    alignHeight={true}>
+                    alignHeight={true}
+                    style={{height: hp('100%')}}>
                         <View style={[styles.face, {flex: 1}]}>
-                            <Text style={styles.text}>{currentQuestion && currentQuestion.question}</Text>
+                            <Text style={styles.text}>
+                            {`${currentQuestion && currentQuestion.question.length >= 360 ? currentQuestion && currentQuestion.question.substring(0, 360) + '...' : currentQuestion && currentQuestion.question}`}</Text>
                         </View>
                         <View style={[styles.back, {flex: 1}]}>
                             <Text style={[styles.text, {color: white}]}>
-                            {currentQuestion && currentQuestion.answer}
+                            {`${currentQuestion && currentQuestion.answer.length >= 360 ? currentQuestion && currentQuestion.answer.substring(0, 360) + '...' : currentQuestion && currentQuestion.answer}`}
                             </Text>
                         </View>
                     </FlipCard>
+                
                 <View style={styles.btnContainer}>
                     <TouchableOpacity 
                     style={[styles.addBtn, {backgroundColor: red}]} 
